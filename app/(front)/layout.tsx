@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { CustomNavigationMenu } from "@/components/NavigationMenu";
 import { Toaster } from "@/components/ui/toaster";
 import { ReactElement } from "react";
@@ -29,15 +29,12 @@ export default function RootLayout({ children }: { children: ReactElement }) {
   return (
     <html lang={"en"}>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        {routesWithOutNaVbAR.some((route: string) =>
+          route.includes(headerUrl)
+        ) && false}
+        <CustomNavigationMenu />
+        {children}
+        <Toaster />
       </body>
     </html>
   );
