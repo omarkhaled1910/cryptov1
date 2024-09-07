@@ -13,6 +13,7 @@ export type UpdateProductDto = {
   name: string;
   description: string;
   price: number;
+  category?: string;
 };
 
 export async function GET(
@@ -47,15 +48,13 @@ export async function PUT(
     const product = await Product.findById(params.id);
     if (product) {
       const body: UpdateProductDto = await req.json();
-      if (body.name) {
-        product.name = body.name;
-      }
-      if (body.price) {
-        product.price = body.price;
-      }
-      if (body.description) {
-        product.description = body.description;
-      }
+
+      Object.entries(body).map(([key, val]) => {
+        console.log(key);
+        product[key] = val;
+      });
+      product.category = body.category;
+      console.log(product, "right before save", body);
       product.save();
       return NextResponse.json({ product });
     }
@@ -78,14 +77,19 @@ export async function DELETE(
   try {
     await connectMongo();
     const product = await Product.findById(params.id);
+    console.log(product, "server before db delete");
     if (product) {
       await Product.findByIdAndDelete(product._id);
       return NextResponse.json({
         message: `Product ${params.id} has been deleted`,
+        status: HttpStatusCode.Ok,
       });
     }
     return NextResponse.json(
-      { message: `Product ${params.id} not found` },
+      {
+        message: `Product ${params.id} not found`,
+        status: HttpStatusCode.NotFound,
+      },
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {

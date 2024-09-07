@@ -9,6 +9,10 @@ import { ReactElement } from "react";
 import { SidebarDemo } from "@/components/SideBar";
 import { setStaticParamsLocale } from "next-international/server";
 import { BreadcrumbResponsive } from "@/components/CustomBreadCrumb";
+import { ModeToggle } from "@/components/ui/mood-switcher";
+import { AuthProvider } from "@/providers/auth-provider";
+import { GuardsProvider } from "@/providers/guards-provider";
+import UserAvatar from "@/components/UserAvatar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,10 +32,19 @@ export default function layout({
     <section>
       {/* <CustomNavigationMenu /> */}
       <SidebarDemo />
-      <div className=" bg-primary-foreground h-20 flex items-center  mb-4">
+      <div className=" bg-primary-foreground h-20 flex items-center px-8   md:px-20  justify-between mb-4">
         <BreadcrumbResponsive />
+        <div className="flex gap-4">
+          <UserAvatar />
+          <ModeToggle />
+        </div>
       </div>
-      {children}
+      <div className="px-8   md:px-20 ">
+        {" "}
+        <GuardsProvider>
+          <> {children} </>
+        </GuardsProvider>
+      </div>
       <Toaster />
     </section>
   );

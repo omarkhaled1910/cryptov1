@@ -4,7 +4,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: ["assets.aceternity.com", "images.unsplash.com"],
+    remotePatterns: [
+      "assets.aceternity.com",
+      "images.unsplash.com",
+      "firebasestorage.googleapis.com",
+    ],
   },
   images: {
     remotePatterns: [
@@ -15,6 +19,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
       },
     ],
   },

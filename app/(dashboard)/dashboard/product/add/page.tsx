@@ -1,52 +1,61 @@
 "use client";
 import { addProduct } from "@/app/actions/product";
-import { HeroHighlightDemo } from "@/components/Hero";
-import { InfiniteMovingCardsDemo } from "@/components/MovingCards";
-import Image from "next/image";
 import ProductForm from "./ProductForm";
-import { getFormData } from "@/lib/utils";
-import { toast, useToast } from "@/components/ui/use-toast";
-import { useFormState } from "react-dom";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { Loader } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { toastColors } from "@/constants";
+import { useUploadImages } from "@/hooks/useUploadImages";
+import { uploadImageToStorage } from "@/lib/utils";
+import DotsLoader from "@/components/ui/dost-loader";
 
 export default function AddProduct() {
-  const toast = useToast();
+  const { toast } = useToast();
+  const { push } = useRouter();
+  const [loading, setLoading] = useState(false);
+  const imageUploadUtilities = useUploadImages();
 
+  const submitAdd = async (data: FormData) => {
+    const images: any = [];
+    await Promise.all(
+      imageUploadUtilities.files?.map((file: Blob) =>
+        uploadImageToStorage(file, (url) => images.push(url))
+      )
+    );
+
+    const res = await addProduct(data, images);
+    setLoading(false);
+
+    if (res) {
+      toast({
+        title: "Product Added Succesfully",
+        style: { backgroundColor: toastColors.SUCESS },
+      });
+      push("/dashboard/products");
+    } else {
+      toast({
+        title: "Check Your Connection",
+        style: { backgroundColor: toastColors.FAIL },
+      });
+    }
+  };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between ">
-      <div className="w-full h-full bg-gray-100 dark:bg-gray-900">
-        <div className="mx-auto">
-          <div className="flex justify-center px-6 py-12">
-            <div className="w-full xl:w-3/4 lg:w-11/12 flex">
-              <div
-                className="w-full h-auto bg-gray-200 dark:bg-gray-800 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-                style={{
-                  backgroundImage:
-                    'url("https://source.unsplash.com/Mv9hjnEUHR4/600x800") ',
-                }}
-              ></div>
-              <div className="w-full lg:w-7/12 bg-white dark:bg-gray-700 p-5 rounded-lg lg:rounded-l-none">
-                <h3 className="py-4 text-2xl text-center text-gray-800 dark:text-white">
-                  Add product
-                </h3>
-                <form
-                  action={addProduct}
-                  className="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-800 rounded"
-                >
-                  <ProductForm />
-                  <div className="mb-6 text-center">
-                    <button
-                      className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 dark:bg-blue-700 dark:text-white dark:hover:bg-blue-900 focus:outline-none focus:shadow-outline"
-                      type="submit"
-                    >
-                      Add Product
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+    <main className="mx-auto my-auto">
+      <form action={submitAdd} className="px-8 pt-16 pb-8 mb-4    ">
+        <ProductForm imageUploadUtilities={{ ...imageUploadUtilities }} />
+        <div className="flex items-center  mt-4">
+          <Button
+            className="w-full   md:max-w-80  mx-auto "
+            variant={"secondary"}
+            type="submit"
+            onClick={() => setLoading(true)}
+          >
+            {loading ? <DotsLoader /> : "Add Product"}
+          </Button>
         </div>
-      </div>
+      </form>
     </main>
   );
 }

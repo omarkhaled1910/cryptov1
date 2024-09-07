@@ -6,6 +6,9 @@ export interface IProduct {
   status: "inStock" | "outStock";
   description: string;
   count: number;
+  category?: string;
+  images?: string[];
+  colors?: string[];
   oldPrice?: number;
 }
 const ProductSchema = new Schema<IProduct>(
@@ -16,6 +19,9 @@ const ProductSchema = new Schema<IProduct>(
     status: String,
     count: Number,
     oldPrice: Number,
+    category: String,
+    images: [{ type: String }],
+    colors: [{ type: String }],
   },
   {
     timestamps: true,

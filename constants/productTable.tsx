@@ -21,18 +21,7 @@
 //   // ...
 // ];
 
-export type Product = {
-  id: string;
-  price: number;
-  name: string;
-  status: "inStock" | "outStock";
-  count: number;
-  oldPrice?: number;
-
-  description: string;
-  createdAt?: string;
-  updatedAt?: string;
-};
+"use client";
 
 export const products: Product[] = [
   {
@@ -53,23 +42,377 @@ export const products: Product[] = [
     count: 20,
     description: "",
   },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
+  {
+    id: "728ed52f",
+    price: 100,
+    status: "inStock",
+    name: "m@example.com",
+    count: 20,
+    description: "",
+
+    createdAt: "",
+  },
+  {
+    id: "489e1d42",
+    price: 125,
+    status: "outStock",
+    name: "example@gmail.com",
+    count: 20,
+    description: "",
+  },
   // ...
 ];
-
 import { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
+
+export type Product = {
+  id: string;
+  price: number;
+  name: string;
+  status: "inStock" | "outStock";
+  count: number;
+  oldPrice?: number;
+  category?: string;
+  description: string;
+  createdAt?: string;
+  updatedAt?: string;
+  colors?: string[];
+};
 
 export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ getValue, row }: any) => {
+      const count = row.original.count;
+      return (
+        <Link
+          href={`/dashboard/product/edit/${row.original.id}`}
+          className=" rounded-lg w-fit"
+        >
+          {getValue()}
+        </Link>
+      );
+    },
   },
   {
     accessorKey: "status",
     header: "Status",
-  },
-  {
-    accessorKey: "email",
-    header: "Email",
+    cell: ({ getValue, row }: any) => {
+      const count = row.original.count;
+      const status = count ? "In Stock" : "Out Of Stock";
+      let color: string;
+
+      if (count > 10) {
+        color = "green";
+      } else if (count > 0) {
+        color = "yellow";
+      } else {
+        color = "red";
+      }
+
+      return (
+        <div
+          style={{
+            color: color,
+            padding: "4px",
+            backgroundColor:
+              color === "red" ? "#fdd" : color === "yellow" ? "#ffdd" : "#ddf",
+          }}
+          className=" rounded-lg w-max"
+        >
+          {status}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "price",
@@ -78,6 +421,10 @@ export const columns: ColumnDef<Product>[] = [
   {
     accessorKey: "count",
     header: "Count",
+    cell: ({ getValue, row }: any) => {
+      const count = row.original.count;
+      return <div className=" rounded-lg w-fit">{count || 0}</div>;
+    },
   },
   {
     accessorKey: "createdAt",

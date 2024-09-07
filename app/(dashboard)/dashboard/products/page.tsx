@@ -1,7 +1,13 @@
 import { getProducts } from "@/app/actions/product";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
-import { PlusSquare } from "lucide-react";
+import { Plus, PlusSquare } from "lucide-react";
 import React, { ReactElement } from "react";
+import { columns } from "@/constants/productTable";
+import { DataTable } from "@/components/ProductTable";
+import { ROWS_PER_PAGE } from "@/constants";
+import SearchBar from "@/components/SearchBar";
+import ProductsWrpper from "./ProductsWrpper";
+import { Button } from "@/components/ui/button";
 
 const Products = async ({
   children,
@@ -12,27 +18,19 @@ const Products = async ({
   params: { locale: string };
   searchParams: any;
 }) => {
-  const data = await getProducts();
-  console.log(searchParams, "searchparams");
+  const data = await getProducts(`limit=${ROWS_PER_PAGE}`);
   return (
-    <main className="flex min-h-screen flex-col   px-20 ">
+    <main className="flex  flex-col py-4   ">
       <div className="flex justify-between w-full ">
         <h2 className=" text-xl text-center">Our Products</h2>
         <a href="product/add">
-          <PlusSquare className=" h-9 w-9 cursor-pointer" />
+          <Button variant={"outline"}>
+            <Plus />
+          </Button>
         </a>
       </div>
       <br />
-      <div className=" rounded-md   bg-zinc-100 dark:bg-zinc-900 space-x-4">
-        <HoverEffect
-          className="p-4 py-24"
-          items={data?.product?.map((item: any) => ({
-            title: item.name,
-            description: item.name,
-            link: `/dashboard/product/${item.id}`,
-          }))}
-        />
-      </div>
+      <ProductsWrpper initialData={data} />
     </main>
   );
 };

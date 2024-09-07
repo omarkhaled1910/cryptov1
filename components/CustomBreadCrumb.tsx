@@ -3,7 +3,6 @@
 import * as React from "react";
 import Link from "next/link";
 
-import { useMediaQuery } from "@uidotdev/usehooks";
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -43,10 +42,9 @@ const ITEMS_TO_DISPLAY = 3;
 
 export function BreadcrumbResponsive() {
   const [open, setOpen] = React.useState(false);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-
+  const isDesktop = true;
   return (
-    <Breadcrumb>
+    <Breadcrumb className="w-max">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href={items[0].href}>{items[0].label}</BreadcrumbLink>
@@ -109,23 +107,27 @@ export function BreadcrumbResponsive() {
           </>
         ) : null}
         {items.slice(-ITEMS_TO_DISPLAY + 1).map((item, index) => (
-          <BreadcrumbItem key={index}>
+          <>
             {item.href ? (
               <>
-                <BreadcrumbLink
-                  asChild
-                  className="max-w-20 truncate md:max-w-none"
-                >
-                  <Link href={item.href}>{item.label}</Link>
-                </BreadcrumbLink>
+                <BreadcrumbItem key={index}>
+                  <BreadcrumbLink
+                    asChild
+                    className="max-w-20 truncate md:max-w-none"
+                  >
+                    <Link href={item.href}>{item.label}</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
                 <BreadcrumbSeparator />
               </>
             ) : (
-              <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
-                {item.label}
-              </BreadcrumbPage>
+              <BreadcrumbItem key={index}>
+                <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
+                  {item.label}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
             )}
-          </BreadcrumbItem>
+          </>
         ))}
       </BreadcrumbList>
     </Breadcrumb>

@@ -8,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ReactElement } from "react";
 import { headers } from "next/headers";
 import { routesWithOutNaVbAR } from "@/constants";
+import { AuthProvider } from "@/providers/auth-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactElement }) {
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>{children}</AuthProvider>
           <Toaster />
         </ThemeProvider>
       </body>
