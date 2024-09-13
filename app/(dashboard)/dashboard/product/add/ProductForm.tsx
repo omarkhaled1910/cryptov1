@@ -3,6 +3,7 @@ import ImageSortableView from "@/components/ImageSortableView";
 import ImageUploader from "@/components/ImageUploader";
 import MultiSelectDropdown from "@/components/MultiSelect";
 import RadioButtons from "@/components/RadioButtons";
+import ReactColorsMultiSelect from "@/components/ReactColorsMultiSelect";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -98,12 +99,16 @@ const ProductForm = ({
           <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
             Colors
           </label>
-
-          <MultiSelectDropdown
+          {/* <MultiSelectDropdown
             isColors
             formFieldName={"colors"}
             options={majorColors}
             defualtValues={initialVlaues?.colors}
+          /> */}
+          <ReactColorsMultiSelect
+            name="colors"
+            defualtValues={initialVlaues?.colors}
+            onChange={(e) => console.log(e)}
           />
         </div>
         <div className="mb-4 md:flex md:justify-between">

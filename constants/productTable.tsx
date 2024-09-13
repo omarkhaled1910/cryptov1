@@ -426,6 +426,11 @@ export const columns: ColumnDef<Product>[] = [
       return <div className=" rounded-lg w-fit">{count || 0}</div>;
     },
   },
+
+  {
+    accessorKey: "createdBy",
+    header: "Created By",
+  },
   {
     accessorKey: "createdAt",
     header: "Created At",

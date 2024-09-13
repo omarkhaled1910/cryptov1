@@ -24,23 +24,30 @@ export default function AddProduct() {
         uploadImageToStorage(file, (url) => images.push(url))
       )
     );
+    try {
+      const res = await addProduct(data, images);
+      console.log(data.getAll("colors"), "handle add", res);
 
-    const res = await addProduct(data, images);
-    setLoading(false);
-
-    if (res) {
-      toast({
-        title: "Product Added Succesfully",
-        style: { backgroundColor: toastColors.SUCESS },
-      });
-      push("/dashboard/products");
-    } else {
-      toast({
-        title: "Check Your Connection",
-        style: { backgroundColor: toastColors.FAIL },
-      });
+      if (res) {
+        toast({
+          title: "Product Added Succesfully",
+          style: { backgroundColor: toastColors.SUCESS },
+        });
+        push("/dashboard/products");
+      } else {
+        toast({
+          title: "Check Your Connection",
+          style: { backgroundColor: toastColors.FAIL },
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
-  };
+
+    setLoading(false);
+  }
+  
+
   return (
     <main className="mx-auto my-auto">
       <form action={submitAdd} className="px-8 pt-16 pb-8 mb-4    ">

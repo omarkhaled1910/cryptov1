@@ -46,7 +46,12 @@ export async function POST(req: NextRequest) {
         id: full_user._doc._id,
       };
       return NextResponse.json(
-        { user, access_token, message: "Your User has been created" },
+        {
+          user,
+          access_token,
+          message: "Your User has been created",
+          status: HttpStatusCode.Created,
+        },
         { status: HttpStatusCode.Created }
       );
     }

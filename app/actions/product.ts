@@ -1,69 +1,63 @@
 "use server";
 import { getFormData } from "@/lib/utils";
+import { api } from "./axios";
 import { cookies } from "next/headers";
-import { redirect, RedirectType } from "next/navigation";
 
-const auth = cookies().get("auth")?.value || "";
 export const addProduct = async (data: any, images: string[] = []) => {
   try {
     const formData = getFormData(data);
-
+    const auth = cookies().get("auth")?.value || "";
     // Append each item in the array to FormData
 
-    console.log({ ...formData, images }, images, " before post ");
-    const response = await fetch(`${process.env.BASE_URL}/api/product`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authrization: auth,
-      },
-      body: JSON.stringify({ ...formData, images }),
-    });
+    const response = await api.post(
+      `/api/product`,
+      { ...formData, images },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth}`,
+        },
+      }
+    );
 
-    // if (!response.ok) {
-    //   throw new Error("Network response was not ok");
-    // }
-    const res = await response.json();
-    console.log(res);
-    // Do something with the response data
-    return res;
-  } catch (error) {
-    console.error("Fetch error:", error);
+    return response.data;
+  } catch (error: any) {
+    if (error.status === "403") {
+      console.error("Forribeden:", error?.response?.status);
+    } else {
+      console.error("Fetch error:", error?.response?.status);
+    }
     return undefined;
   }
-  console.log("server action berfor redirect");
-  // redirect("/dashboard/products");
 };
 
 export const editProduct = async (data: any, id: string, images: string[]) => {
   try {
     const payload = getFormData(data);
+    const auth = cookies().get("auth")?.value || "";
 
-    const response = await fetch(`${process.env.BASE_URL}/api/product/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        authrization: auth,
-      },
-      body: JSON.stringify({ ...payload, images }),
-    });
+    const response = await api.put(
+      `/api/product/${id}`,
+      { ...payload, images },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth}`,
+        },
+      }
+    );
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const res = await response.json();
-    console.log(res); // Do something with the response data
-    return res;
-  } catch (error) {
+    return response.data;
+  } catch (error: any) {
     console.error("Fetch error:", error);
     return;
   }
-  // redirect("/dashboard/products");
 };
 
 export const getProducts = async (query = "") => {
-  console.log("get ", query, cookies().get("auth"));
+  console.log("get action", query, cookies().get("auth"));
+  const auth = cookies().get("auth")?.value || "";
+
   try {
     const response = await fetch(
       `${process.env.BASE_URL}/api/product?${query}`,
@@ -93,6 +87,8 @@ export const getProducts = async (query = "") => {
 
 export const getProduct = async (id: string) => {
   try {
+    const auth = cookies().get("auth")?.value || "";
+
     const response = await fetch(`${process.env.BASE_URL}/api/product/${id}`, {
       method: "GET",
       headers: {
@@ -118,6 +114,8 @@ export const getProduct = async (id: string) => {
 
 export const deleteProduct = async (id: string) => {
   try {
+    const auth = cookies().get("auth")?.value || "";
+
     const response = await fetch(`${process.env.BASE_URL}/api/product/${id}`, {
       method: "DELETE",
       headers: {

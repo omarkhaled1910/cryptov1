@@ -31,9 +31,9 @@ const userReducer = (state: any, action: any) => {
       const newState = {
         user_id: user?.id || user?._id,
         access_token: access_token,
-        phone_number: user.phone_number || "",
-        email: user.email || "",
-        name: user.name || "",
+        phone_number: user?.phone_number || "",
+        email: user?.email || "",
+        name: user?.name || "",
       };
 
       setUserToLocalStorage(newState);

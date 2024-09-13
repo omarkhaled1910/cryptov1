@@ -70,6 +70,7 @@
 
 body {
    scrollbar-width: thin;
+       overflow-x: hidden;
 }
 /* The Overlay (background) */
 .overlay {

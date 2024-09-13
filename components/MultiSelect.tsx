@@ -85,8 +85,6 @@ export default function MultiSelectDropdown({
   const isSelectAllEnabled = selectedOptions.length < options.length;
 
   const handleSelectAllClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
     const optionsInputs = optionsListRef.current?.querySelectorAll("input");
     optionsInputs?.forEach((input) => {
       (input as HTMLInputElement).checked = true;
@@ -99,8 +97,6 @@ export default function MultiSelectDropdown({
   const isClearSelectionEnabled = selectedOptions.length > 0;
 
   const handleClearSelectionClick = (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
     const optionsInputs = optionsListRef.current?.querySelectorAll("input");
     optionsInputs?.forEach((input) => {
       (input as HTMLInputElement).checked = false;

@@ -12,6 +12,6 @@ export const GuardsProvider = ({
 
   console.log(state, !state?.access_token);
 
-  if (!state?.access_token && window) redirect("/login");
+  // if (!state?.access_token && window) redirect("/login");
   return children;
 };

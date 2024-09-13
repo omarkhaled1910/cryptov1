@@ -32,11 +32,12 @@ const BreadcrumbItem = React.forwardRef<
   React.ComponentPropsWithoutRef<"li">
 >(({ className, ...props }, ref) => (
   <li
+    key={props.key}
     ref={ref}
     className={cn("inline-flex items-center gap-1.5", className)}
     {...props}
   />
-))
+));
 BreadcrumbItem.displayName = "BreadcrumbItem"
 
 const BreadcrumbLink = React.forwardRef<

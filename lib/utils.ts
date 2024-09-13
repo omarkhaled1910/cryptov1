@@ -32,7 +32,7 @@ export function getFormData(data: FormData) {
 
     payload[key] = value;
   });
-  console.log(data, "get form data output");
+  console.log(data, "get form data output", payload);
   return payload;
 }
 
@@ -88,6 +88,12 @@ export const setUserToLocalStorage = (state: any) => {
   if (typeof window !== "undefined")
     localStorage.setItem(userStorageAcessKey, JSON.stringify(state));
 };
+export const getAcessTokenLocalStoarage = () => {
+  if (typeof window !== "undefined")
+   return  JSON.parse(localStorage.getItem(userStorageAcessKey) || "")?.access_token;
+  return ""
+};
+;
 export const getUserFromLocalStorage = () => {
   if (typeof window !== "undefined")
     return (

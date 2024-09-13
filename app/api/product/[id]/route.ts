@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { HttpStatusCode } from "axios";
 import connectMongo from "../../db";
 import Product from "@/models/product";
+import { decodeToken } from "@/lib/server-utils";
 
 export type CreateProductDto = {
   name: string;
@@ -44,6 +45,15 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    const token = req.headers.get("Authorization") || "";
+    console.log(req.headers, "put headers");
+    const { isValid, user } = decodeToken(token);
+    if (!isValid) {
+      return NextResponse.json(
+        { message: "Not A Valid Token" },
+        { status: HttpStatusCode.Forbidden }
+      );
+    }
     await connectMongo();
     const product = await Product.findById(params.id);
     if (product) {
@@ -54,6 +64,8 @@ export async function PUT(
         product[key] = val;
       });
       product.category = body.category;
+      product.lastModifiedBy = user.email;
+
       console.log(product, "right before save", body);
       product.save();
       return NextResponse.json({ product });
@@ -71,10 +83,19 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _: NextRequest,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const token = req.headers.get("Authorization") || "";
+
+    const { isValid, user } = decodeToken(token);
+    if (!isValid) {
+      return NextResponse.json(
+        { message: "Not A Valid Token" },
+        { status: HttpStatusCode.Forbidden }
+      );
+    }
     await connectMongo();
     const product = await Product.findById(params.id);
     console.log(product, "server before db delete");

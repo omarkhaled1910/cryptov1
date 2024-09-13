@@ -9,7 +9,8 @@ export const decodeToken = (
   if (!token) return { isValid: false, user: undefined };
   try {
     // Verify the token and decode the payload
-    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const decoded = jwt.verify(token.split(" ")[1], JWT_SECRET);
     console.error("Token verification sucess:", decoded);
 
     return { isValid: true, user: decoded };

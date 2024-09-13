@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { HttpStatusCode } from "axios";
 import connectMongo from "../db";
 import Product from "@/models/product";
+import { decodeToken } from "@/lib/server-utils";
 
 export type CreateProductDto = {
   name: string;
@@ -17,7 +18,6 @@ export type UpdateProductDto = {
 
 export async function GET(req: NextRequest) {
   try {
-    console.log(req.headers.get("authrization"), "auth headers");
     const query = req.nextUrl.searchParams; // Default page and limit
     await connectMongo();
     const searchQuery = query.get("search");
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
       productsCount = await Product.countDocuments({
         name: searchRegex,
       }).exec();
-      console.log(product, " searchQuery", searchQuery);
+      // console.log(product, " searchQuery", searchQuery);
     } else {
       product = await Product.find({}, null, paginationObj);
       productsCount = await Product.countDocuments({});
@@ -61,13 +61,29 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    await connectMongo();
-    const body: CreateProductDto = await req.json();
-    console.log(body, "boddyy", req.body);
-    if (body.name) {
-      const product = await Product.create(body);
+    const token = req.headers.get("Authorization") || "";
+    console.log(req.headers, "pest req headers");
+    const { isValid, user } = decodeToken(token);
+    console.log(token, user);
+    if (!isValid) {
       return NextResponse.json(
-        { product, message: "Your product has been created" },
+        { message: "Not A Valid Token" },
+        { status: HttpStatusCode.Forbidden }
+      );
+    }
+    await connectMongo();
+
+    const body: CreateProductDto = await req.json();
+
+    if (body.name) {
+      const product = await Product.create({
+        ...body,
+        createdBy: user.email,
+        // lastModifiedBy: user.email,
+      });
+      console.log(product, "product after create");
+      return NextResponse.json(
+        { message: "Your product has been created" },
         { status: HttpStatusCode.Created }
       );
     }

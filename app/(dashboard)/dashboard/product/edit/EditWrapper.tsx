@@ -27,7 +27,7 @@ const EditWrapper = ({ id = "", product }: any) => {
       data.getAll("colors")
     );
     const images: any = imageUploadUtilities.items.filter(
-      (item: string) => !item.includes("blob:http://localhost:3000/")
+      (item: string) => !item.includes("blob:http://localhost")
     );
     await Promise.all(
       imageUploadUtilities.files?.map((file: Blob) =>
@@ -40,7 +40,7 @@ const EditWrapper = ({ id = "", product }: any) => {
 
     if (res) {
       toast({
-        title: "Product Added Succesfully",
+        title: "Product Edited Succesfully",
         style: { backgroundColor: toastColors.SUCESS },
       });
       push("/dashboard/products");

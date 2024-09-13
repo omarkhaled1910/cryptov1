@@ -15,6 +15,7 @@ import { register } from "@/app/actions/auth";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/providers/auth-provider";
 import DotsLoader from "@/components/ui/dost-loader";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const { toast } = useToast();
@@ -22,22 +23,22 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const { state, dispatch } = useAuthContext();
 
-  useEffect(() => {
-    if (state.access_token) {
-      replace("/");
-    }
-  }, [state]);
+  // useEffect(() => {
+  //   if (state.access_token) {
+  //     replace("/");
+  //   }
+  // }, [state]);
   const handleSubmit = async (e: FormData) => {
-    console.log("Form submitted", e);
-
     const res = await register(e);
     setLoading(false);
+    console.log("Form submitted", e, res);
+
     dispatch({
       type: "LOG_IN",
       payload: { user: res.user, access_token: res.access_token },
     });
 
-    if (res) {
+    if (res.status == 201) {
       toast({
         title: "User Registered Succesfully",
         style: { backgroundColor: toastColors.SUCESS },
@@ -98,6 +99,17 @@ export default function RegisterPage() {
           <BottomGradient />
           {loading && <DotsLoader />}
         </button>
+        <div className=" text-center  my-4">or</div>
+        <Link href={"/login"}>
+          <button
+            className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+            type="submit"
+          >
+            Log In
+            <BottomGradient />
+            {loading && <DotsLoader />}
+          </button>
+        </Link>
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
 

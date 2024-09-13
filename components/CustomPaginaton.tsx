@@ -43,9 +43,12 @@ export default function CustomPaginaton({
           Next
         </Button>
       </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+      <div
+        style={{ maxWidth: "100%", overflowX: "auto" }}
+        className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between gap-2"
+      >
         <div>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 w-max">
             Showing Page{" "}
             <span className="font-medium">{Math.ceil(currentPage + 1)}</span> of{" "}
             <span className="font-medium">{Math.ceil(numberPages)}</span> Pages

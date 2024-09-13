@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn, getAcessTokenLocalStoarage } from "@/lib/utils";
 import {
   IconBrandGithub,
   IconBrandGoogle,
@@ -44,11 +44,7 @@ export default function LoginPage() {
       });
     }
   };
-  useEffect(() => {
-    if (state.access_token) {
-      replace("/");
-    }
-  }, [state]);
+
 
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-8 md:p-8 shadow-input bg-primary-foreground mt-4 shadow-2xl mb-20 ">

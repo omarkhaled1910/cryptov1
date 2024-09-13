@@ -29,7 +29,6 @@ export const register = async (data: any) => {
     console.log(res, " after register ");
     // Do something with the response data
     cookieStore.set("auth", res.access_token);
-
     return res;
   } catch (error) {
     console.error("Register Error", error);
@@ -63,6 +62,7 @@ export const login = async (data: any) => {
     const res = await response.json();
     cookieStore.set("auth", res.access_token);
     console.log(res, " after login ");
+
     // Do something with the response data
     return res;
   } catch (error) {
