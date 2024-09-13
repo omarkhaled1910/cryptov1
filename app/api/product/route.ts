@@ -3,11 +3,13 @@ import { HttpStatusCode } from "axios";
 import connectMongo from "../db";
 import Product from "@/models/product";
 import { decodeToken } from "@/lib/server-utils";
+import Tags from "@/models/tags";
 
 export type CreateProductDto = {
   name: string;
   description: string;
   price: number;
+  tags: string[];
 };
 
 export type UpdateProductDto = {
@@ -81,6 +83,11 @@ export async function POST(req: NextRequest) {
         createdBy: user.email,
         // lastModifiedBy: user.email,
       });
+      await Tags.updateOne(
+        { _id: "66e48de8385d5fa3e9086f26" },
+        { $addToSet: { tags: { $each: body.tags } } },
+        { upsert: true }
+      );
       console.log(product, "product after create");
       return NextResponse.json(
         { message: "Your product has been created" },

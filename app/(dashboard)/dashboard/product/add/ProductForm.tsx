@@ -4,6 +4,7 @@ import ImageUploader from "@/components/ImageUploader";
 import MultiSelectDropdown from "@/components/MultiSelect";
 import RadioButtons from "@/components/RadioButtons";
 import ReactColorsMultiSelect from "@/components/ReactColorsMultiSelect";
+import ReactCreatableMultiSelect from "@/components/ReactCreatableMultiSelect";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -31,11 +32,21 @@ const className =
 const ProductForm = ({
   imageUploadUtilities,
   initialVlaues,
+  tags,
 }: {
   initialVlaues?: Product;
   imageUploadUtilities: UseUploadImagesResult;
+  tags: string[];
 }) => {
-  console.log(imageUploadUtilities, "product form", initialVlaues);
+  console.log(
+    imageUploadUtilities,
+    "product form",
+    initialVlaues,
+    tags,
+    "tagsss"
+  );
+  const slectablaTags = tags.map((tag) => ({ label: tag, value: tag }));
+
   return (
     <div className="md:flex-row  flex-col-reverse flex  md:space-x-16">
       <div className=" flex flex-col w-full md:w-2/3  bg-gray-200 dark:bg-gray-800   bg-cover rounded-lg">
@@ -74,7 +85,7 @@ const ProductForm = ({
             className={className}
             id="desc"
             placeholder="Desc..."
-            rows={6}
+            rows={4}
             name="description"
             defaultValue={initialVlaues?.description}
           />
@@ -95,6 +106,13 @@ const ProductForm = ({
             </SelectContent>
           </Select>
         </div>
+        <div className=" mb-2 relative">
+          <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
+            Tags
+          </label>
+          <ReactCreatableMultiSelect options={slectablaTags} name="tags" />
+        </div>
+
         <div className=" mb-2 relative w-full">
           <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
             Colors

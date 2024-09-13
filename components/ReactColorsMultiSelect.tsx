@@ -7,7 +7,7 @@ import { mapStringToValue } from "@/lib/react-select-utils";
 export type ColourOption = {
   readonly value: string;
   readonly label: string;
-  readonly color: string;
+  readonly color?: string;
 };
 
 // Define the options array
@@ -45,7 +45,7 @@ const colourStyles: StylesConfig<ColourOption, true> = {
     },
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    const color = chroma(data.color);
+    const color = chroma(data.color || "fff");
     return {
       ...styles,
       backgroundColor: isDisabled
@@ -74,7 +74,7 @@ const colourStyles: StylesConfig<ColourOption, true> = {
     };
   },
   multiValue: (styles, { data }) => {
-    const color = chroma(data.color);
+    const color = chroma(data.color || "#fff");
     return {
       ...styles,
       backgroundColor: color.alpha(0.1).css(),

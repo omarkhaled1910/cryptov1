@@ -13,7 +13,7 @@ import DotsLoader from "@/components/ui/dost-loader";
 import Link from "next/link";
 import { HttpStatusCode } from "axios";
 
-const EditWrapper = ({ id = "", product }: any) => {
+const EditWrapper = ({ id = "", product, tags }: any) => {
   const { toast } = useToast();
   const { push } = useRouter();
   const [loading, setLoading] = useState(false);
@@ -91,6 +91,7 @@ const EditWrapper = ({ id = "", product }: any) => {
         <ProductForm
           initialVlaues={{ ...product }}
           imageUploadUtilities={{ ...imageUploadUtilities }}
+          tags={tags}
         />
         <div className="flex items-center  mt-4">
           <Button

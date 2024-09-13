@@ -12,20 +12,23 @@ export interface IProduct {
   images?: string[];
   colors?: string[];
   oldPrice?: number;
+  tags?: string[]; // Added tags field
 }
+
 const ProductSchema = new Schema<IProduct>(
   {
-    name: String,
-    description: String,
-    price: Number,
-    status: String,
-    createdBy: String,
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    price: { type: Number, required: true },
+    status: { type: String, enum: ["inStock", "outStock"], required: true },
+    createdBy: { type: String, required: true },
     lastModifiedBy: String,
-    count: Number,
+    count: { type: Number, required: true },
     oldPrice: Number,
     category: String,
     images: [{ type: String }],
     colors: [{ type: String }],
+    tags: [{ type: String }], // Added tags field
   },
   {
     timestamps: true,
@@ -38,5 +41,6 @@ const ProductSchema = new Schema<IProduct>(
     },
   }
 );
+
 const Product = models.Product || model("Product", ProductSchema);
 export default Product;
