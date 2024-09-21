@@ -37,6 +37,13 @@ export function SidebarDemo() {
       ),
     },
     {
+      label: "Discount Codes",
+      href: "/dashboard/codes",
+      icon: (
+        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
       label: "Client",
       href: "/",
       icon: (

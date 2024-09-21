@@ -16,6 +16,6 @@ export const mapStringToValue = <
     // Find the first element in fullData that matches the value
     const matchedElement = fullData.find((item) => item.value === value);
     // Return the matched element, or null if no match is found
-    return matchedElement || null;
+    return matchedElement || { label: value, value };
   });
 };

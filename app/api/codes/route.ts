@@ -1,22 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { HttpStatusCode } from "axios";
-import connectMongo from "../db";
-import Product from "@/models/product";
 import { decodeToken } from "@/lib/server-utils";
-import Tags from "@/models/tags";
-
-export type CreateProductDto = {
-  name: string;
-  description: string;
-  price: number;
-  tags: string[];
-};
-
-export type UpdateProductDto = {
-  name: string;
-  description: string;
-  price: number;
-};
+import connectMongo from "../db";
+import DiscountCode, { IDiscountCode } from "@/models/discount-codes";
+import { HttpStatusCode } from "axios";
 
 export async function GET(req: NextRequest) {
   try {
@@ -28,26 +14,26 @@ export async function GET(req: NextRequest) {
       skip: Number(query.get("skip")),
       sort: { createdAt: -1 }, // Sorts by createdAt field in descending order
     };
-    let product, productsCount;
+    let discountCodes, discountCodesCount;
     if (searchQuery) {
       const searchRegex = searchQuery ? new RegExp(searchQuery, "i") : null; // Create a regex for case-insensitive search
 
-      product = await Product.find(
+      discountCodes = await DiscountCode.find(
         { name: searchRegex },
         null,
         paginationObj
       ).exec();
-      productsCount = await Product.countDocuments({
+      discountCodesCount = await DiscountCode.countDocuments({
         name: searchRegex,
       }).exec();
-      // console.log(product, " searchQuery", searchQuery);
+      // console.log(discountCode, " searchQuery", searchQuery);
     } else {
-      product = await Product.find({}, null, paginationObj);
-      productsCount = await Product.countDocuments({});
+      discountCodes = await DiscountCode.find({}, null, paginationObj);
+      discountCodesCount = await DiscountCode.countDocuments({});
     }
 
-    if (product) {
-      return NextResponse.json({ product, productsCount });
+    if (discountCodes) {
+      return NextResponse.json({ discountCodes, discountCodesCount });
     }
     return NextResponse.json(
       { message: `Error` },
@@ -60,49 +46,48 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+// Adjust the import based on your structure
 
 export async function POST(req: NextRequest) {
   try {
     const token = req.headers.get("Authorization") || "";
-    console.log(req.headers, "pest req headers");
+    console.log(req.headers, "post req headers");
     const { isValid, user } = decodeToken(token);
     console.log(token, user);
+
     if (!isValid) {
       return NextResponse.json(
         { message: "Not A Valid Token" },
         { status: HttpStatusCode.Forbidden }
       );
     }
+
     await connectMongo();
 
-    const body: CreateProductDto = await req.json();
-console.log(body, "boddy right before posgt");
-if (body.name) {
-  const product = await Product.create({
-    ...body,
-    createdBy: user.email,
-    tags: body.tags,
-    // lastModifiedBy: user.email,
-  });
-  await Tags.updateOne(
-    { _id: "66e48de8385d5fa3e9086f26" },
-    { $addToSet: { tags: { $each: body.tags } } },
-    { upsert: true }
-  );
-  console.log(product, "product after create");
-  return NextResponse.json(
-    { message: "Your product has been created" },
-    { status: HttpStatusCode.Created }
-  );
-}
+    const body: IDiscountCode = await req.json();
+    console.log(body, "body right before post");
+
+    if (body.code) {
+      const discountCode = await DiscountCode.create({
+        ...body,
+        createdBy: user.email, // Assuming you want to track who created the discount code
+      });
+      console.log(discountCode, "discount code after create");
+
+      return NextResponse.json(
+        { message: "Your discount code has been created", discountCode },
+        { status: HttpStatusCode.Created }
+      );
+    }
+
     return NextResponse.json(
-      { message: "Product name is missing" },
+      { message: "Discount code is missing" },
       { status: HttpStatusCode.BadRequest }
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
-      { message: error },
+      { message: error instanceof Error ? error.message : "An error occurred" },
       { status: HttpStatusCode.BadRequest }
     );
   }

@@ -18,12 +18,12 @@ export interface IProduct {
 const ProductSchema = new Schema<IProduct>(
   {
     name: { type: String, required: true },
-    description: { type: String, required: true },
+    description: { type: String },
     price: { type: Number, required: true },
-    status: { type: String, enum: ["inStock", "outStock"], required: true },
-    createdBy: { type: String, required: true },
+    status: { type: String, enum: ["inStock", "outStock"] },
+    createdBy: { type: String },
     lastModifiedBy: String,
-    count: { type: Number, required: true },
+    count: { type: Number },
     oldPrice: Number,
     category: String,
     images: [{ type: String }],

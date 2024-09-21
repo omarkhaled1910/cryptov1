@@ -102,9 +102,9 @@ const ProductSearchWrapper = ({ data }: any) => {
       </div>
       <InfiniteViewer
         fetchFn={getProducts}
-        initialData={currentItems.product}
+        initialData={currentItems?.product}
         loadMoreCount={10}
-        totalCount={currentItems.productsCount}
+        totalCount={currentItems?.productsCount}
         searchSlug={slug}
       />
     </>

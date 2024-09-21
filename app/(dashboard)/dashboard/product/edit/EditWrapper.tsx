@@ -2,16 +2,16 @@
 import React, { useState } from "react";
 import ProductForm from "../add/ProductForm";
 import { Button } from "@/components/ui/button";
-import { EyeIcon, Loader, TrashIcon } from "lucide-react";
+import { EyeIcon, TrashIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useUploadImages } from "@/hooks/useUploadImages";
 import { deleteProduct, editProduct } from "@/app/actions/product";
 import { uploadImageToStorage } from "@/lib/utils";
 import { toastColors } from "@/constants";
-import DotsLoader from "@/components/ui/dost-loader";
 import Link from "next/link";
 import { HttpStatusCode } from "axios";
+import CircularProgress from "@/components/ui/circular-progress";
 
 const EditWrapper = ({ id = "", product, tags }: any) => {
   const { toast } = useToast();
@@ -100,7 +100,7 @@ const EditWrapper = ({ id = "", product, tags }: any) => {
             type="submit"
             onClick={() => setLoading(true)}
           >
-            {loading ? <DotsLoader classNames="h-16" /> : "Edit Product"}
+            {loading ? <CircularProgress /> : "Edit Product"}
           </Button>
         </div>
       </form>

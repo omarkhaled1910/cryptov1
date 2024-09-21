@@ -24,6 +24,7 @@ import {
 import { majorColors } from "@/constants";
 import { Product } from "@/constants/productTable";
 import { UseUploadImagesResult } from "@/hooks/useUploadImages";
+import { mapStringToValue } from "@/lib/react-select-utils";
 import { cn } from "@/lib/utils";
 
 import React from "react";
@@ -46,7 +47,16 @@ const ProductForm = ({
     "tagsss"
   );
   const slectablaTags = tags.map((tag) => ({ label: tag, value: tag }));
-
+  const tagsDeafultValues = mapStringToValue(
+    initialVlaues?.tags || [],
+    slectablaTags
+  );
+  console.log(
+    initialVlaues,
+    initialVlaues?.tags,
+    tagsDeafultValues,
+    slectablaTags
+  );
   return (
     <div className="md:flex-row  flex-col-reverse flex  md:space-x-16">
       <div className=" flex flex-col w-full md:w-2/3  bg-gray-200 dark:bg-gray-800   bg-cover rounded-lg">
@@ -110,7 +120,11 @@ const ProductForm = ({
           <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
             Tags
           </label>
-          <ReactCreatableMultiSelect options={slectablaTags} name="tags" />
+          <ReactCreatableMultiSelect
+            defaultValue={tagsDeafultValues}
+            options={slectablaTags}
+            name="tags"
+          />
         </div>
 
         <div className=" mb-2 relative w-full">

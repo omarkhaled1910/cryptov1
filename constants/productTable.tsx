@@ -365,6 +365,8 @@ export type Product = {
   createdAt?: string;
   updatedAt?: string;
   colors?: string[];
+  tags?: string[];
+  images?: string[];
 };
 
 export const columns: ColumnDef<Product>[] = [
