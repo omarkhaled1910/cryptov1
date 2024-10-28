@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
     await connectMongo();
     const body: CreateUserDto = await req.json();
     console.log(body, "boddyy", req.body);
-
+    if (!body.password) {
+    }
     if (body.name && body.password) {
       // Hash the password before saving the user
       const hashedPassword = await bcrypt.hash(body.password, 10);
@@ -27,6 +28,7 @@ export async function POST(req: NextRequest) {
       const full_user = await User.create({
         ...body,
         password: hashedPassword,
+        is_Admin: true,
       });
 
       // Generate a JWT token
@@ -40,14 +42,10 @@ export async function POST(req: NextRequest) {
         JWT_SECRET || "", // Secret key
         { expiresIn: "30d" } // Token expiration time
       );
-      const user = {
-        name: full_user._doc.name,
-        email: full_user._doc.email,
-        id: full_user._doc._id,
-      };
+
       return NextResponse.json(
         {
-          user,
+          user: full_user._doc,
           access_token,
           message: "Your User has been created",
           status: HttpStatusCode.Created,

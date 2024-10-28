@@ -2,7 +2,6 @@
 
 import { emptyUser } from "@/constants";
 import { getUserFromLocalStorage, setUserToLocalStorage } from "@/lib/utils";
-import { redirect } from "next/navigation";
 import {
   createContext,
   Dispatch,
@@ -25,19 +24,33 @@ const userReducer = (state: any, action: any) => {
       //check if the action id exists in the users
       console.log(action, "user reducer");
 
-      let { user, access_token } = action.payload;
+      let {
+        user = {},
+        access_token = "",
+        client_access_token = "",
+      } = action.payload;
 
       console.log(user, access_token, "user reducer");
       const newState = {
         user_id: user?.id || user?._id,
         access_token: access_token,
+        client_access_token: client_access_token,
+
         phone_number: user?.phone_number || "",
         email: user?.email || "",
         name: user?.name || "",
+        is_Verfied: user?.is_Verfied || false,
+        is_Admin: user?.is_Admin || false,
+        shippingDetails: user?.shipping_Details || [],
       };
 
       setUserToLocalStorage(newState);
       return newState;
+    }
+    case "UPDATE_SHIPPING_DETAILS": {
+      const newUser = { ...state, shippingDetails: action.payload };
+      setUserToLocalStorage(newUser);
+      return newUser;
     }
 
     case "LOG_OUT": {

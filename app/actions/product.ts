@@ -59,79 +59,54 @@ export const getProducts = async (query = "") => {
   const auth = cookies().get("auth")?.value || "";
 
   try {
-    const response = await fetch(
-      `${process.env.BASE_URL}/api/product?${query}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authrization: auth,
-        },
-        next: { revalidate: 1 },
-      }
-    );
+    const response = await api.get(`/api/product?${query}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth}`,
+      },
+      // Axios does not have a built-in revalidate option; consider handling this with caching strategies if needed.
+    });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const res = await response.json();
-    // console.log(res); // Do something with the response data
-    return res;
+    return response.data;
   } catch (error) {
     console.error("Fetch error:", error);
     return;
   }
-  //   redirect("/dashboard/products");
 };
 
 export const getProduct = async (id: string) => {
   try {
     const auth = cookies().get("auth")?.value || "";
 
-    const response = await fetch(`${process.env.BASE_URL}/api/product/${id}`, {
-      method: "GET",
+    const response = await api.get(`/api/product/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        authrization: auth,
+        Authorization: `Bearer ${auth}`,
       },
-      next: { revalidate: 1 },
     });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const res = await response.json();
-    console.log(res); // Do something with the response data
-    return res;
+    return response.data;
   } catch (error) {
     console.error("Fetch error:", error);
     return;
   }
-  //   redirect("/dashboard/products");
 };
 
 export const deleteProduct = async (id: string) => {
   try {
     const auth = cookies().get("auth")?.value || "";
+    console.log(auth, "auth in action");
 
-    const response = await fetch(`${process.env.BASE_URL}/api/product/${id}`, {
-      method: "DELETE",
+    const response = await api.delete(`/api/product/${id}`, {
       headers: {
         "Content-Type": "application/json",
-        authrization: auth,
+        Authorization: `Bearer ${auth}`,
       },
     });
-    console.log(response); // Do something with the response data
 
-    const res = await response.json();
-    console.log(res); // Do something with the response data
-
-    return res;
+    return response.data;
   } catch (error) {
     console.error("Fetch error:", error);
     return;
   }
-  //   redirect("/dashboard/products");
 };

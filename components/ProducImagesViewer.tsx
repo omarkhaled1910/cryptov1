@@ -26,6 +26,7 @@ const ProducImagesViewer = ({ images }: { images?: string[] }) => {
       <div className="flex gap-4 py-4 justify-center overflow-x-auto">
         {currentImages.map((url) => (
           <img
+            key={url}
             src={url}
             alt="Thumbnail 1"
             className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"

@@ -1,34 +1,30 @@
-import { NextRequest, NextResponse } from "next/server";
-import { HttpStatusCode } from "axios";
-import connectMongo from "../../db";
-import Product from "@/models/product";
 import { decodeToken } from "@/lib/server-utils";
-
-export type CreateProductDto = {
-  name: string;
-  description: string;
-  price: number;
-};
-
-export type UpdateProductDto = {
-  name: string;
-  description: string;
-  price: number;
-  category?: string;
-};
+import { HttpStatusCode } from "axios";
+import { NextRequest, NextResponse } from "next/server";
+import connectMongo from "../../db";
+import Client from "@/models/client";
 
 export async function GET(
-  _: NextRequest,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
+    const token = req.headers.get("Authorization") || "";
+    console.log(req.headers, "put headers");
+    const { isValid, user } = decodeToken(token);
+    if (!isValid && user.id !== params.id) {
+      return NextResponse.json(
+        { message: "Not A Valid Token" },
+        { status: HttpStatusCode.Forbidden }
+      );
+    }
     await connectMongo();
-    const product = await Product.findById(params.id);
-    if (product) {
-      return NextResponse.json({ product });
+    const client = await Client.findById(params.id);
+    if (Client) {
+      return NextResponse.json({ client });
     }
     return NextResponse.json(
-      { message: `Product ${params.id} not found` },
+      { message: `Client ${params.id} not found` },
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
@@ -46,8 +42,9 @@ export async function PUT(
 ) {
   try {
     const token = req.headers.get("Authorization") || "";
-    console.log(req.headers, "put headers");
     const { isValid, user } = decodeToken(token);
+    console.log(req.headers, "put headers", user);
+
     if (!isValid) {
       return NextResponse.json(
         { message: "Not A Valid Token" },
@@ -55,23 +52,22 @@ export async function PUT(
       );
     }
     await connectMongo();
-    const product = await Product.findById(params.id);
-    if (product) {
-      const body: UpdateProductDto = await req.json();
+    const client = await Client.findById(params.id);
+    if (client) {
+      console.log(client, "client saved", params.id);
+      const body = await req.json();
 
       Object.entries(body).map(([key, val]) => {
         console.log(key);
-        product[key] = val;
+        client[key] = val;
       });
-      product.category = body.category;
-      product.lastModifiedBy = user.email;
 
-      console.log(product, "right before save", body);
-      product.save();
-      return NextResponse.json({ product });
+      console.log(client, "right before save", body);
+      client.save();
+      return NextResponse.json({ client });
     }
     return NextResponse.json(
-      { message: `Product ${params.id} not found` },
+      { message: `Client ${params.id} not found` },
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
@@ -100,10 +96,10 @@ export async function DELETE(
       );
     }
     await connectMongo();
-    const product = await Product.findById(params.id);
-    console.log(product, "server before db delete");
-    if (product) {
-      await Product.findByIdAndDelete(product._id);
+    const client = await Client.findById(params.id);
+    console.log(client, "server before db delete");
+    if (client) {
+      await Client.findByIdAndDelete(client._id);
       return NextResponse.json({
         message: `Product ${params.id} has been deleted`,
         status: HttpStatusCode.Ok,

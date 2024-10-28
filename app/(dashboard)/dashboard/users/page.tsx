@@ -7,7 +7,7 @@ import UsersWrapper from "./UsersWrapper";
 import { Button } from "@/components/ui/button";
 import { getUsers } from "@/app/actions/users";
 
-const Products = async ({
+const Users = async ({
   children,
   params: { locale },
   searchParams,
@@ -33,4 +33,4 @@ const Products = async ({
   );
 };
 
-export default Products;
+export default Users;

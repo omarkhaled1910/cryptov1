@@ -26,7 +26,7 @@ function ImageUploader({ files, setFiles, onChange }: any) {
       <div {...getRootProps({ className: "dropzone" })}>
         <input {...getInputProps()} />
         <div className=" flex !flex-col items-center justify-center gap-3">
-          <div>Drag 'n' drop some Images here, or click to select files </div>
+          <div>Drag and drop some Images here, or click to select files </div>
           <UploadCloudIcon width={64} height={64} style={{ width: "100px" }} />
         </div>
       </div>

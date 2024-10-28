@@ -80,7 +80,7 @@ const OrderSummary = () => {
             or{" "}
           </span>
           <Link
-            href="/"
+            href="/products"
             title=""
             className="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
           >

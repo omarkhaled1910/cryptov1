@@ -70,6 +70,10 @@ const config = {
       },
 
       keyframes: {
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
         scroll: {
           to: {
             transform: "translate(calc(-50% - 0.5rem))",
@@ -94,6 +98,8 @@ const config = {
       },
 
       animation: {
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
+
         "meteor-effect": "meteor 5s linear infinite",
 
         scroll:

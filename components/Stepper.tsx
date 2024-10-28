@@ -5,9 +5,11 @@ import { Button } from "./ui/button";
 const Stepper = ({
   steps,
   stepsLabels,
+  disableNext,
 }: {
   steps: Record<number, JSX.Element>;
   stepsLabels: Record<number, string>;
+  disableNext?: boolean;
 }) => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const totalSteps = Object.entries(steps).length; // Adjust if you have more steps
@@ -109,17 +111,18 @@ const Stepper = ({
             </Button>
             {currentIndex !== totalSteps && (
               <Button
+                disabled={disableNext}
                 variant={"default"}
                 type="button"
                 className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white"
                 onClick={handleNext}
-                disabled={currentIndex === totalSteps}
               >
                 Next
               </Button>
             )}
             {currentIndex === totalSteps && (
               <Button
+                disabled={disableNext}
                 variant={"default"}
                 type="button"
                 className="py-2 px-3 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white"

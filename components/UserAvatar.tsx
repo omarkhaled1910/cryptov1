@@ -6,22 +6,21 @@ import useClickAway from "@/hooks/useClickAway";
 import Link from "next/link";
 import { useAuthContext } from "@/providers/auth-provider";
 import { useRouter } from "next/navigation";
-import { logout } from "@/app/actions/auth";
+import { clientLogout, logout } from "@/app/actions/auth";
 
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useAuthContext();
   const { push } = useRouter();
-  console.log(open, state);
 
   const ref = useClickAway<HTMLDivElement>(() => setOpen(false));
 
   const handleLogOut = async () => {
-    logout();
+    state?.client_access_token ? await clientLogout() : await logout();
     dispatch({ type: "LOG_OUT" });
     push("/");
   };
-  if (!state?.access_token) return <></>;
+  if (!state?.access_token && !state?.client_access_token) return <></>;
 
   return (
     <div ref={ref} className=" relative">

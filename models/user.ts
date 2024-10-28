@@ -5,6 +5,7 @@ export interface IUser {
   email: string;
   password: string;
   phone_Number?: string;
+  is_Admin: boolean;
 }
 const UserSchema = new Schema<IUser>(
   {
@@ -12,6 +13,7 @@ const UserSchema = new Schema<IUser>(
     phone_Number: String,
     password: String,
     email: String,
+    is_Admin: Boolean,
   },
   {
     timestamps: true,

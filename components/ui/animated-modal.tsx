@@ -63,9 +63,11 @@ export const ModalTrigger = ({
 export const ModalBody = ({
   children,
   className,
+  showClose = true,
 }: {
   children: ReactNode;
   className?: string;
+  showClose?: boolean;
 }) => {
   const { open } = useModal();
 
@@ -79,7 +81,7 @@ export const ModalBody = ({
 
   const modalRef = useRef(null);
   const { setOpen } = useModal();
-  useOutsideClick(modalRef, () => setOpen(false));
+  useOutsideClick(modalRef, () => setOpen(showClose ? false : true));
 
   return (
     <AnimatePresence>
@@ -129,7 +131,7 @@ export const ModalBody = ({
               damping: 15,
             }}
           >
-            <CloseIcon />
+            {showClose && <CloseIcon />}
             {children}
           </motion.div>
         </motion.div>
@@ -146,7 +148,12 @@ export const ModalContent = ({
   className?: string;
 }) => {
   return (
-    <div className={cn("flex flex-col flex-1 p-8 md:p-10", className)}>
+    <div
+      className={cn(
+        "flex flex-col flex-1 p-8 md:p-10 justify-center",
+        className
+      )}
+    >
       {children}
     </div>
   );

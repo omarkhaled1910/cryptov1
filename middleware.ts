@@ -19,6 +19,11 @@ export function middleware(request: NextRequest) {
   //     { status: 403 }
   //   );
   // }
+  console.log(
+    cookies().get("clientAuth"),
+    "client auththththht",
+    cookies().get("auth")
+  );
   if (pathname.startsWith("/dashboard") && !auth) {
     return NextResponse.redirect(new URL("/login", request.url));
   }

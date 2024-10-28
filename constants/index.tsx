@@ -53,6 +53,10 @@ export const emptyUser = {
   phone_number: "",
   email: "",
   name: "",
+  is_Verfied: false,
+  is_Admin: false,
+  client_access_token: "",
+  shippingDetails: [],
 };
 
 export const cartLocalStorageAcessKey = "cartDetails";

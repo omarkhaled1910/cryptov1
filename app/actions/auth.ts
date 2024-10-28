@@ -76,3 +76,9 @@ export const logout = async () => {
 
   cookieStore.delete("auth");
 };
+
+export const clientLogout = async () => {
+  const cookieStore = cookies();
+
+  cookieStore.delete("clientAuth");
+};

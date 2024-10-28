@@ -18,7 +18,6 @@ import {
 const CartIcon = () => {
   const [open, setOpen] = useState(false);
   const { state } = useCartContext();
-  console.log(state?.cart);
   return (
     <>
       <Drawer open={open}>
@@ -27,7 +26,7 @@ const CartIcon = () => {
           className=" border p-2 rounded-md relative"
         >
           <ShoppingCart className=" text-slate-600  dark:text-slate-200 " />
-          {state?.totalCount && (
+          {!!state?.totalCount && (
             <span className="absolute dark:bg-red-950 bg-rose-300  w-5 p-1 text-center rounded-full text-xs  bottom-[-12px] left-0 flex flex-col">
               {state?.totalCount}
             </span>
@@ -38,9 +37,12 @@ const CartIcon = () => {
             <DrawerTitle>Your Items So Far</DrawerTitle>
           </DrawerHeader>
           <div className=" flex flex-col items-center  gap-8 max-h-[50vh] overflow-auto ">
-            {state?.cart.length &&
+            {!!state?.cart.length &&
               state?.cart.map((item: any) => (
-                <div className="flex gap-4 bg-secondary  px-4 py-6 rounded-md  shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)]">
+                <div
+                  key={item?.id}
+                  className="flex gap-4 bg-secondary  px-4 py-6 rounded-md  shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)]"
+                >
                   <div className="flex gap-4">
                     <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0">
                       <img

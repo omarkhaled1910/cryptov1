@@ -44,6 +44,7 @@ const ProductItem = ({ product }: { product: Product }) => {
           <span className="sr-only">Colors available</span>
           {product.colors?.map((color) => (
             <button
+              key={color}
               style={{ backgroundColor: color }}
               className="p-3 border rounded-full"
             ></button>

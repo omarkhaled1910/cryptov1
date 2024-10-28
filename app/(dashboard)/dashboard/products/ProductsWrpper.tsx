@@ -37,9 +37,9 @@ const ProductsWrpper = ({ initialData }: { initialData: any }) => {
         <DataTable
           fetcher={getProducts}
           accssKey={"product"}
-          count={products.productsCount}
+          count={products?.productsCount}
           columns={columns}
-          data={products.product}
+          data={products?.product}
           searchQuery={searchQuery}
           classNames="dark:bg-[#000012]  rounded-lg"
         />

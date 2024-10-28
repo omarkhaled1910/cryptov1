@@ -13,6 +13,7 @@ import {
   emptyUser,
   userStorageAcessKey,
 } from "@/constants";
+import crypto from "crypto";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -21,7 +22,7 @@ export function cn(...inputs: ClassValue[]) {
 const productFields = ["name", "desc", "price", "category", ""];
 export function getFormData(data: FormData) {
   const payload: any = {};
-  data.forEach((value, key) => {
+  data?.forEach((value, key) => {
     if (payload[key]) {
       payload[key] = Array.isArray(payload[key])
         ? [...payload[key], value]
@@ -90,10 +91,10 @@ export const setUserToLocalStorage = (state: any) => {
 };
 export const getAcessTokenLocalStoarage = () => {
   if (typeof window !== "undefined")
-   return  JSON.parse(localStorage.getItem(userStorageAcessKey) || "")?.access_token;
-  return ""
+    return JSON.parse(localStorage.getItem(userStorageAcessKey) || "")
+      ?.access_token;
+  return "";
 };
-;
 export const getUserFromLocalStorage = () => {
   if (typeof window !== "undefined")
     return (
@@ -102,4 +103,9 @@ export const getUserFromLocalStorage = () => {
           JSON.stringify(emptyUser)
       ) || emptyUser
     );
+};
+
+// Function to generate a unique ID
+export const generateUniqueId = (length = 16) => {
+  return crypto.randomBytes(length).toString("hex"); // Generates a hex string
 };

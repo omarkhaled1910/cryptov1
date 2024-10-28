@@ -96,6 +96,7 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
             <div className="flex space-x-2">
               {product?.colors?.map((color) => (
                 <button
+                  key={color}
                   style={{ backgroundColor: color }}
                   className="w-8 h-8 rounded-full  "
                 ></button>
@@ -114,7 +115,9 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
             <h3 className="text-lg font-semibold mb-2">Key Tags:</h3>
             <ul className="list-disc list-inside text-gray-700">
               {product?.tags?.map((tag) => (
-                <li>{tag || "Industry-leading noise cancellation"}</li>
+                <li key={tag}>
+                  {tag || "Industry-leading noise cancellation"}
+                </li>
               ))}
             </ul>
           </div>

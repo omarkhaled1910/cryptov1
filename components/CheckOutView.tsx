@@ -1,56 +1,67 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import OrderSummary from "./OrderSummary";
 import DiscountCodeHandler from "./DiscountCodeHandler";
 import DeliveryDetails from "./DeliveryDetails";
 import Stepper from "./Stepper";
 
-const CheckOutView = () => {
+import CheckOutAuth from "./CheckOutAuth";
+
+const CheckOutView = ({ shippingDetails }: any) => {
+  const [ddDetails, setDdDetails] = useState({});
+  console.log(ddDetails);
   return (
-    <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-      <form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-        <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
-          <div className="min-w-0 flex-1 space-y-8">
-            <Stepper
-              steps={{
-                1: <DeliveryDetails />,
-                2: <PaymentsMethods />,
-                3: <DeliveryMethods />,
-              }}
-              stepsLabels={{
-                1: "Delivery Details",
-                2: "Payments Methods",
-                3: "Delivery Methods",
-              }}
-            />
-          </div>
+    <section className="bg-white px-8 py-8 antialiased dark:bg-gray-900 md:py-16 md:px-16">
+      <CheckOutAuth />
+      <form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0"></form>
 
-          <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
-            <OrderSummary />
-            <DiscountCodeHandler />
+      <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
+        <div className="min-w-0 flex-1 space-y-8">
+          <Stepper
+            steps={{
+              1: (
+                <DeliveryDetails
+                  currentShippingAdress={ddDetails}
+                  handleChooseShippingAdress={setDdDetails}
+                />
+              ),
+              2: <PaymentsMethods />,
+              3: <DeliveryMethods />,
+            }}
+            stepsLabels={{
+              1: "Delivery Details",
+              2: "Payments Methods",
+              3: "Delivery Methods",
+            }}
+          />
+        </div>
 
-            <div className="space-y-3">
-              <button
-                type="submit"
-                className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+        <div className="mt-6 w-full space-y-6 sm:mt-8 lg:mt-0 lg:max-w-xs xl:max-w-md">
+          <OrderSummary />
+          <DiscountCodeHandler />
+
+          <div className="space-y-3">
+            <button
+              type="submit"
+              className="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            >
+              Proceed to Payment
+            </button>
+
+            <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
+              One or more items in your cart require an account.{" "}
+              <a
+                href="#"
+                title=""
+                className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
               >
-                Proceed to Payment
-              </button>
-
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                One or more items in your cart require an account.{" "}
-                <a
-                  href="#"
-                  title=""
-                  className="font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
-                >
-                  Sign in or create an account now.
-                </a>
-                .
-              </p>
-            </div>
+                Sign in or create an account now.
+              </a>
+              .
+            </p>
           </div>
         </div>
-      </form>
+      </div>
     </section>
   );
 };
