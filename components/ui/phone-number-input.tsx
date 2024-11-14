@@ -50,6 +50,7 @@ const PhoneNumberInput = ({ onChange, name, onNumberChange }: any) => {
             >
               {countries.map((country, index) => (
                 <li
+                  key={index}
                   onClick={() => {
                     onChange(countries[index]);
                     setPrefix(index);
