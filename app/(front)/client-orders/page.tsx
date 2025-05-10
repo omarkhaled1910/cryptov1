@@ -118,7 +118,7 @@ const ClientOrders = () => {
       {orders.length === 0 ? (
         <div className="rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800">
           <p className="text-gray-500 dark:text-gray-400">
-            You haven't placed any orders yet.
+            You havent placed any orders yet.
           </p>
           <Button className="mt-4" variant="default">
             Start Shopping

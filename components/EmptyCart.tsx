@@ -37,7 +37,7 @@ const EmptyCart = ({
 
       {/* Description */}
       <p className="text-lg text-gray-600 max-w-md mb-8">
-        Looks like you haven't added anything to your cart yet. Let's get you
+        Looks like you havent added anything to your cart yet. Lets get you
         started!
       </p>
 

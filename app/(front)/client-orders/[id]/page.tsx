@@ -179,7 +179,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
       <div className="container mx-auto px-4 py-8">
         <div className="rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-gray-700 dark:bg-gray-800">
           <p className="text-gray-500 dark:text-gray-400">
-            Order not found or you don't have permission to view this order.
+            Order not found or you dont have permission to view this order.
           </p>
         </div>
       </div>
