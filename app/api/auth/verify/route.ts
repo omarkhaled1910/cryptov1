@@ -6,13 +6,14 @@ import connectMongo from "../../db";
 import Client from "@/models/client";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { ADMIN_AUTH_KEY, CLIENT_AUTH_KEY } from "@/constants";
 
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const serviceId = process.env.TWILIO_SERVICE_ID || "";
 const verifyServiceId = process.env.TWILIO_VERIFY_SERVICE_ID || "";
 
-const twilioClient = twilio(accountSid, authToken);
+// const twilioClient = twilio(accountSid, authToken);
 
 const JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET || "your-secret-key"; // Replace with your secret key
 
@@ -84,8 +85,8 @@ export async function PUT(req: NextRequest) {
         { new: true } // return the updated document
       );
       const cookieStore = cookies();
-      cookieStore.set("clientAuth", client_access_token);
-      cookieStore.set("auth", "");
+      cookieStore.set(CLIENT_AUTH_KEY, client_access_token);
+      cookieStore.set(ADMIN_AUTH_KEY, "");
       return NextResponse.json({
         message: "Verification code Verfied",
         status: verificationCheck.status,
@@ -110,8 +111,8 @@ export async function PUT(req: NextRequest) {
         { expiresIn: "90d" } // Token expiration time
       );
       const cookieStore = cookies();
-      cookieStore.set("clientAuth", client_access_token);
-      cookieStore.set("auth", "");
+      cookieStore.set(CLIENT_AUTH_KEY, client_access_token);
+      cookieStore.set(ADMIN_AUTH_KEY, "");
 
       return NextResponse.json({
         message: "Verification code Verfied",

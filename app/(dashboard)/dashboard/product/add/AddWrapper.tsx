@@ -51,7 +51,11 @@ export default function AddWrapper({ tags }: { tags: string[] }) {
 
   return (
     <main className="mx-auto my-auto">
-      <form action={submitAdd} className="px-8 pt-16 pb-8 mb-4    ">
+      <form
+        id="product-form"
+        action={submitAdd}
+        className="px-8 pt-16 pb-8 mb-4    "
+      >
         <ProductForm
           tags={tags}
           imageUploadUtilities={{ ...imageUploadUtilities }}

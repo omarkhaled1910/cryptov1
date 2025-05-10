@@ -29,7 +29,7 @@ const colourStyles: StylesConfig<ColourOption, true> = {
     },
     // Dark mode styling
     "@media (prefers-color-scheme: dark)": {
-      backgroundColor: "black !important", // Tailwind dark:bg-gray-700
+      backgroundColor: "bg-gray-700 !important", // Tailwind dark:bg-gray-700
       borderColor: "#4b5563", // Equivalent to dark:border-gray-600
       color: "#f9fafb", // Equivalent to dark:text-white
       boxShadow: isFocused ? "0 0 0 3px rgba(59, 130, 246, 0.3)" : undefined,
@@ -92,6 +92,7 @@ const ReactCreatableMultiSelect = ({
       name={name}
       closeMenuOnSelect={false}
       defaultValue={defaultValue}
+      className=" bg-white rounded-xl"
     />
   );
 };

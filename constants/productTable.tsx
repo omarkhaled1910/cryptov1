@@ -350,6 +350,7 @@ export const products: Product[] = [
   },
   // ...
 ];
+import { IComment } from "@/models/product";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
@@ -367,6 +368,7 @@ export type Product = {
   colors?: string[];
   tags?: string[];
   images?: string[];
+  comments?: IComment[];
 };
 
 export const columns: ColumnDef<Product>[] = [
@@ -391,12 +393,13 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ getValue, row }: any) => {
       const count = row.original.count;
       const status = count ? "In Stock" : "Out Of Stock";
+
       let color: string;
 
       if (count > 10) {
         color = "green";
       } else if (count > 0) {
-        color = "yellow";
+        color = "black";
       } else {
         color = "red";
       }
@@ -407,7 +410,7 @@ export const columns: ColumnDef<Product>[] = [
             color: color,
             padding: "4px",
             backgroundColor:
-              color === "red" ? "#fdd" : color === "yellow" ? "#ffdd" : "#ddf",
+              color === "red" ? "#fdd" : color === "black" ? "gray" : "#ddf",
           }}
           className=" rounded-lg w-max"
         >

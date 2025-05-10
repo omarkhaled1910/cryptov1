@@ -6,10 +6,15 @@ import "../globals.css";
 import { CustomNavigationMenu } from "@/components/NavigationMenu";
 import { Toaster } from "@/components/ui/toaster";
 import { ReactElement } from "react";
-import { headers } from "next/headers";
-import { routesWithOutNaVbAR } from "@/constants";
+import { cookies, headers } from "next/headers";
+import {
+  ADMIN_AUTH_KEY,
+  CLIENT_AUTH_KEY,
+  routesWithOutNaVbAR,
+} from "@/constants";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/providers/cart-provider";
+import { GuardsProvider } from "@/providers/guards-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,16 +33,20 @@ export default function Layout({ children }: { children: ReactElement }) {
     headersList.get("referer"),
     routesWithOutNaVbAR.some((route: string) => route.includes(headerUrl))
   );
+  const cookieToken = cookies().get(ADMIN_AUTH_KEY)?.value;
+  const clientCookieToken = cookies().get(CLIENT_AUTH_KEY)?.value;
   return (
     <section>
-      <CartProvider>
-        <>
-          <CustomNavigationMenu />
-          {children}
-          <Toaster />
-          <Footer />
-        </>
-      </CartProvider>
+      <GuardsProvider cookieToken={cookieToken || clientCookieToken}>
+        <CartProvider>
+          <>
+            <CustomNavigationMenu />
+            {children}
+            <Toaster />
+            <Footer />
+          </>
+        </CartProvider>
+      </GuardsProvider>
     </section>
   );
 }

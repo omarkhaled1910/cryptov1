@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
               id: user._id,
               email: user.email,
               phone_number: user.phoneNumber,
+              is_Admin: user.is_Admin,
             }, // Payload
             JWT_SECRET, // Secret key
             { expiresIn: "30d" } // Token expiration time

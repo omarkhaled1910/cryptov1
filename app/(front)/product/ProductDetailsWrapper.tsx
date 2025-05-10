@@ -3,9 +3,15 @@ import ProducImagesViewer from "@/components/ProducImagesViewer";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/constants/productTable";
 import React from "react";
+import Comments from "@/components/Comments";
+import RatingStars from "@/components/RatingStars";
+import RelatedProducts from "@/components/RelatedProducts";
 
 const ProductDetailsWrapper = ({ product }: { product: Product }) => {
-  console.log(product);
+  const generateRandomRating = () => {
+    return Math.floor(Math.random() * 4) + 3;
+  };
+  console.log(product, "product");
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-wrap -mx-4">
@@ -13,82 +19,21 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
 
         <div className="w-full md:w-1/2 px-4">
           <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
-          <p className="text-gray-600 mb-4">SKU: WH1000XM4</p>
+          <p className="text-gray-600 mb-4">Category: {product.category}</p>
           <div className="mb-4">
             <span className="text-2xl font-bold mr-2">
-              {product.price || "$39.99"}
+              {product.price || "$39.99"} EGPs
             </span>
             <span className="text-gray-500 line-through">
-              {product.oldPrice || "$399.99"}
+              {product.oldPrice || "$399.99"} EGP
             </span>
           </div>
-          <div className="flex items-center mb-4">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 text-yellow-500"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 text-yellow-500"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 text-yellow-500"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 text-yellow-500"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 text-yellow-500"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            <span className="ml-2 text-gray-600">4.5 (120 reviews)</span>
+          <div className="mb-4">
+            <RatingStars rating={generateRandomRating()} />
           </div>
           <p className="text-gray-700 mb-6">
-            Experience premium sound quality and industry-leading noise
-            cancellation with these wireless headphones. Perfect for music
-            lovers and frequent travelers.
+            {product.description ||
+              " Experience premium sound quality and industry-leading noisecancellation with these wireless headphones. Perfect for musiclovers and frequent travelers."}
           </p>
 
           <div className="mb-6">
@@ -123,6 +68,11 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
           </div>
         </div>
       </div>
+      <RelatedProducts
+        tags={product.tags || []}
+        currentProductId={product.id}
+      />
+      <Comments productId={product.id} comments={product?.comments || []} />
     </div>
   );
 };

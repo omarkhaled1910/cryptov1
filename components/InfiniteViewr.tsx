@@ -20,12 +20,16 @@ const InfiniteViewer = ({
   loadMoreCount = 20,
   fetchFn,
   searchSlug,
+  categories,
+  priceRange,
 }: {
   initialData: any[];
   totalCount: number;
   loadMoreCount?: number;
   fetchFn: (query: string) => Promise<any>;
   searchSlug?: string;
+  categories?: string[];
+  priceRange?: [number, number];
 }) => {
   const [items, setItems] = useState<Array<any>>(initialData);
   const [totalItemsCount, setTotalItemsCount] = useState(totalCount);
@@ -43,13 +47,15 @@ const InfiniteViewer = ({
 
     setTimeout(() => {
       setItems((prevItems) => prevItems.concat(moreData.product));
-    }, 500);
+    }, 100);
   };
   useEffect(() => {
     if (!searchSlug) return;
     const handleSearch = async () => {
       const moreData = await fetchFn(
-        `skip=${0}&limit=${loadMoreCount}&search=${searchSlug}`
+        `skip=${0}&limit=${loadMoreCount}&search=${searchSlug}&categories=${categories}&minPrice=${
+          priceRange?.[0]
+        }&maxPrice=${priceRange?.[1]}`
       );
       console.log(moreData, " useefect search");
       const newItems = [...items, ...moreData.product];

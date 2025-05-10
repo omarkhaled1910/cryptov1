@@ -77,7 +77,11 @@ const EditWrapper = ({ id = "", product, tags }: any) => {
   };
   return (
     <main className="mx-auto my-auto">
-      <form action={handleDelete} className="flex flex-row-reverse py-4  gap-3">
+      <form
+        id="product-form"
+        action={handleDelete}
+        className="flex flex-row-reverse py-4  gap-3"
+      >
         <Button type="submit" variant={"destructive"}>
           <TrashIcon />
         </Button>

@@ -91,7 +91,12 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border w-full">
-      <Table className={classNames}>
+      <Table
+        style={{
+          scrollbarWidth: "none",
+        }}
+        className={classNames}
+      >
         <TableHeader>
           {table?.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>

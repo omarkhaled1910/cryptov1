@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { ADMIN_AUTH_KEY, CLIENT_AUTH_KEY } from "./constants";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const auth = cookies().get("auth")?.value;
-  console.log("midduleare auth", cookies().get("auth"), auth, pathname);
+  const auth = cookies().get(ADMIN_AUTH_KEY)?.value;
+  console.log("midduleare auth", cookies().get(ADMIN_AUTH_KEY), auth, pathname);
   // if (pathname.includes("/login") || pathname.includes("/register")) {
   //   if (auth) return NextResponse.redirect(new URL("/", request.url));
 
@@ -20,9 +21,9 @@ export function middleware(request: NextRequest) {
   //   );
   // }
   console.log(
-    cookies().get("clientAuth"),
+    cookies().get(CLIENT_AUTH_KEY),
     "client auththththht",
-    cookies().get("auth")
+    cookies().get(ADMIN_AUTH_KEY)
   );
   if (pathname.startsWith("/dashboard") && !auth) {
     return NextResponse.redirect(new URL("/login", request.url));

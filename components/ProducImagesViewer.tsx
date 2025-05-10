@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React, { useMemo, useState } from "react";
 
 const defaultImageUrls = [
@@ -10,6 +11,7 @@ const defaultImageUrls = [
 ];
 
 const ProducImagesViewer = ({ images }: { images?: string[] }) => {
+  console.log(images, "images");
   const currentImages = useMemo(
     () => (images?.length ? images : defaultImageUrls),
     [images]
@@ -17,20 +19,24 @@ const ProducImagesViewer = ({ images }: { images?: string[] }) => {
   const [currentImage, setcurrentImage] = useState(currentImages[0]);
   return (
     <div className="w-full md:w-1/2 px-4 mb-8">
-      <img
+      <Image
         src={currentImage}
         alt="Product"
         className="w-full h-auto rounded-lg shadow-md mb-4"
         id="mainImage"
+        width={100}
+        height={100}
       />
       <div className="flex gap-4 py-4 justify-center overflow-x-auto">
         {currentImages.map((url) => (
-          <img
+          <Image
             key={url}
             src={url}
-            alt="Thumbnail 1"
+            alt={url}
             className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
             onClick={() => setcurrentImage(url)}
+            width={100}
+            height={100}
           />
         ))}
       </div>

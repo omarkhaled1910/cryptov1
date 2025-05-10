@@ -14,14 +14,36 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import EmptyCart from "./EmptyCart";
+import { useRouter } from "next/navigation";
 const CartIcon = () => {
   const [open, setOpen] = useState(false);
-  const { state } = useCartContext();
+  const { state, dispatch } = useCartContext();
+  const handleRemoveItem = (item: any) =>
+    dispatch({ type: "REMOVE_All_SINGLE_ITEM", payload: item });
+
+  const handleIncrement = (item: any) =>
+    dispatch({ type: "ADD_ITEM", payload: item });
+  const handleDecrement = (item: any) =>
+    dispatch({ type: "REMOVE_ITEM", payload: item });
+
+  const isEmpty = state?.cart.length === 0;
+  const router = useRouter();
+
   return (
     <>
-      <Drawer open={open}>
-        <DrawerTrigger
+      <Sheet onOpenChange={setOpen} open={open}>
+        <SheetTrigger
           onClick={() => setOpen(true)}
           className=" border p-2 rounded-md relative"
         >
@@ -31,19 +53,21 @@ const CartIcon = () => {
               {state?.totalCount}
             </span>
           )}
-        </DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>Your Items So Far</DrawerTitle>
-          </DrawerHeader>
+        </SheetTrigger>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle className="text-center">Your Items So Far</SheetTitle>
+          </SheetHeader>
           <div className=" flex flex-col items-center  gap-8 max-h-[50vh] overflow-auto ">
-            {!!state?.cart.length &&
+            {isEmpty ? (
+              <></>
+            ) : (
               state?.cart.map((item: any) => (
                 <div
                   key={item?.id}
-                  className="flex gap-4 bg-secondary  px-4 py-6 rounded-md  shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)]"
+                  className="flex gap-4 bg-secondary  px-4 py-6 rounded-md w-full max-w-80  shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)]"
                 >
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 items-center">
                     <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0">
                       <img
                         src={
@@ -67,17 +91,17 @@ const CartIcon = () => {
                         </p>
                         <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
                           Price:{" "}
-                          <span
-                            style={{ backgroundColor: item?.colors?.[0] }}
-                            className="inline-block w-5 h-5 rounded-md "
-                          >
+                          <span className="inline-block w-5 h-5 rounded-md ">
                             {item.price}$
                           </span>
                         </p>
                       </div>
 
                       <div className="mt-auto flex items-center gap-3">
-                        <div className="flex items-center justify-center w-5 h-5 bg-gray-400 outline-none rounded-full">
+                        <div
+                          onClick={() => handleDecrement(item)}
+                          className="flex items-center justify-center w-5 h-5 bg-gray-400 outline-none rounded-full"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-2 fill-white"
@@ -92,7 +116,10 @@ const CartIcon = () => {
                         <span className="font-bold text-sm leading-[18px]">
                           {item.count}
                         </span>
-                        <div className="flex items-center justify-center w-5 h-5 bg-gray-400 outline-none rounded-full">
+                        <div
+                          onClick={() => handleIncrement(item)}
+                          className="flex items-center justify-center w-5 h-5 bg-gray-400 outline-none rounded-full"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-2 fill-white"
@@ -108,28 +135,73 @@ const CartIcon = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+            )}
           </div>
-          <DrawerFooter className=" flex flex-col items-center justify-center">
-            {state?.cart.length && (
+          {!isEmpty ? (
+            <>
+              <div className="flex flex-col items-center justify-center">
+                <h2 className="text-lg font-bold text-gray-800 ">
+                  Total: {state?.total}$
+                </h2>
+                <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
+                  TotalItems: {state?.totalCount}
+                </p>
+              </div>
+              <br />
+
+              <SheetFooter className=" flex !flex-col items-center justify-center gap-3">
+                {/* {state?.cart.length && (
               <Link onClick={() => setOpen(false)} href={"/cart"}>
                 <Button className=" w-80 max-w-80" variant="default">
                   View Full cart
                 </Button>
               </Link>
-            )}
-            <DrawerClose>
-              <Button
-                onClick={() => setOpen(false)}
-                className="  w-80   max-w-96 "
-                variant="secondary"
-              >
-                Cancel
-              </Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+            )} */}
+                <Link onClick={() => setOpen(false)} href={"/checkout"}>
+                  <Button className=" w-80 max-w-80" variant="secondary">
+                    Checkout
+                  </Button>
+                </Link>
+                <SheetClose>
+                  <Button
+                    onClick={() => setOpen(false)}
+                    className="  w-80   max-w-96 "
+                    variant="outline"
+                  >
+                    Cancel
+                  </Button>
+                </SheetClose>
+              </SheetFooter>
+            </>
+          ) : (
+            <>
+              <EmptyCart
+                renderCustomButton={() => (
+                  <>
+                    <Button
+                      onClick={() => {
+                        router.push("/products");
+                        setOpen(false);
+                      }}
+                    >
+                      Continue Shopping
+                    </Button>
+
+                    <Button
+                      onClick={() => setOpen(false)}
+                      className="  w-80   max-w-96 "
+                      variant="outline"
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                )}
+              />
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
     </>
   );
 };

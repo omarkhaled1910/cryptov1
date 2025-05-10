@@ -8,11 +8,17 @@ import ProductSearchWrapper from "./ProductSearchWrapper";
 const Products = async ({
   children,
   params: { locale },
+  searchParams,
 }: {
   children: ReactElement;
   params: { locale: string };
+  searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const data = await getProducts(`limit=${10}`);
+  const data = await getProducts(
+    `limit=${10}&minPrice=${searchParams?.minPrice}&categories=${
+      searchParams?.categories
+    }&maxPrice=${searchParams?.maxPrice}`
+  );
 
   return (
     <main className="   p-4  ">

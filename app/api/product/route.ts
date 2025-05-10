@@ -23,6 +23,10 @@ export async function GET(req: NextRequest) {
     const query = req.nextUrl.searchParams; // Default page and limit
     await connectMongo();
     const searchQuery = query.get("search");
+    const categories = query.get("categories");
+    const priceRange = query.get("priceRange");
+    console.log(categories, "categories");
+    console.log(priceRange, "priceRange", query);
     const paginationObj = {
       limit: Number(query.get("limit")),
       skip: Number(query.get("skip")),
@@ -54,6 +58,8 @@ export async function GET(req: NextRequest) {
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
+    console.error("Fetch error:", error);
+
     return NextResponse.json(
       { message: error },
       { status: HttpStatusCode.BadRequest }
@@ -77,24 +83,25 @@ export async function POST(req: NextRequest) {
 
     const body: CreateProductDto = await req.json();
 console.log(body, "boddy right before posgt");
-if (body.name) {
-  const product = await Product.create({
-    ...body,
-    createdBy: user.email,
-    tags: body.tags,
-    // lastModifiedBy: user.email,
-  });
-  await Tags.updateOne(
-    { _id: "66e48de8385d5fa3e9086f26" },
-    { $addToSet: { tags: { $each: body.tags } } },
-    { upsert: true }
-  );
-  console.log(product, "product after create");
-  return NextResponse.json(
-    { message: "Your product has been created" },
-    { status: HttpStatusCode.Created }
-  );
-}
+    if (body.name) {
+      const newTags = Array.isArray(body.tags) ? body.tags : [body.tags];
+      const product = await Product.create({
+        ...body,
+        createdBy: user.email,
+        tags: newTags,
+        lastModifiedBy: user.email,
+      });
+      await Tags.updateOne(
+        { _id: "66e48de8385d5fa3e9086f26" },
+        { $addToSet: { tags: { $each: newTags } } },
+        { upsert: true }
+      );
+      console.log(product, "product after create");
+      return NextResponse.json(
+        { message: "Your product has been created" },
+        { status: HttpStatusCode.Created }
+      );
+    }
     return NextResponse.json(
       { message: "Product name is missing" },
       { status: HttpStatusCode.BadRequest }

@@ -10,7 +10,7 @@ import React from "react";
 import DiscountCodeHandler from "./DiscountCodeHandler";
 import OrderSummary from "./OrderSummary";
 import { useCartContext } from "@/providers/cart-provider";
-
+import EmptyCart from "./EmptyCart";
 const CartView = () => {
   const { state, dispatch } = useCartContext();
   const handleRemoveItem = (item: any) =>
@@ -30,7 +30,7 @@ const CartView = () => {
         <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
           <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
             <div className="space-y-6">
-              {state?.cart.length &&
+              {state?.cart.length ? (
                 state?.cart.map((item: any) => (
                   <div
                     key={item?.id}
@@ -76,7 +76,7 @@ const CartView = () => {
                               <path
                                 stroke="currentColor"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinejoin="round"
                                 stroke-width="2"
                                 d="M1 1h16"
                               />
@@ -106,7 +106,7 @@ const CartView = () => {
                               <path
                                 stroke="currentColor"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinejoin="round"
                                 stroke-width="2"
                                 d="M9 1v16M1 9h16"
                               />
@@ -145,7 +145,7 @@ const CartView = () => {
                               <path
                                 stroke="currentColor"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinejoin="round"
                                 stroke-width="2"
                                 d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
                               />
@@ -170,7 +170,7 @@ const CartView = () => {
                               <path
                                 stroke="currentColor"
                                 stroke-linecap="round"
-                                stroke-linejoin="round"
+                                strokeLinejoin="round"
                                 stroke-width="2"
                                 d="M6 18 17.94 6M18 18 6.06 6"
                               />
@@ -181,7 +181,10 @@ const CartView = () => {
                       </div>
                     </div>
                   </div>
-                ))}
+                ))
+              ) : (
+                <EmptyCart />
+              )}
             </div>
             <div className="hidden xl:mt-8 xl:block">
               <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
@@ -236,7 +239,7 @@ const CartView = () => {
                         <path
                           stroke="currentColor"
                           stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinejoin="round"
                           stroke-width="2"
                           d="M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z"
                         ></path>
@@ -264,7 +267,7 @@ const CartView = () => {
           </div>
 
           <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full">
-            <OrderSummary />
+            {/* <OrderSummary /> */}
           </div>
         </div>
       </div>

@@ -6,6 +6,10 @@ import {
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
+  IconShoppingCart,
+  IconPackageExport,
+  IconUserDollar,
+  IconAdjustmentsExclamation,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -23,24 +27,31 @@ export function SidebarDemo() {
       ),
     },
     {
-      label: "Users",
+      label: "Admins",
       href: "/dashboard/users",
       icon: (
-        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconAdjustmentsExclamation className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Clients",
       href: "/dashboard/client-users",
       icon: (
-        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconUserDollar className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Products",
       href: "/dashboard/products",
       icon: (
-        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconPackageExport className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Orders",
+      href: "/dashboard/orders",
+      icon: (
+        <IconShoppingCart className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {

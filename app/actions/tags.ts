@@ -1,18 +1,22 @@
+import { ADMIN_AUTH_KEY } from "@/constants";
 import { cookies } from "next/headers";
 
 export const getTags = async (query = "") => {
-  console.log("get action", query, cookies().get("auth"));
-  const auth = cookies().get("auth")?.value || "";
+  console.log("get action", query, cookies().get(ADMIN_AUTH_KEY));
+  const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
   try {
-    const response = await fetch(`${process.env.BASE_URL}/api/tag?${query}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authrization: auth,
-      },
-      next: { revalidate: 1 },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/tag?${query}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth}`,
+        },
+        next: { revalidate: 1 },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

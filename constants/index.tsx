@@ -1,5 +1,9 @@
 export const routesWithOutNaVbAR = ["/dashboard"];
 
+export const CLIENT_AUTH_KEY = "clientAuth";
+export const ADMIN_AUTH_KEY = "auth";
+
+
 export const toastColors = {
   SUCESS: "green",
   FAIL: "red",

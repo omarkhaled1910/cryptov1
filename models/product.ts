@@ -1,5 +1,15 @@
 import { model, models, Schema } from "mongoose";
 
+export interface IComment {
+  _id: string;
+  createdBy: string;
+  name: string;
+  lastModifiedBy: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface IProduct {
   price: number;
   name: string;
@@ -12,8 +22,19 @@ export interface IProduct {
   images?: string[];
   colors?: string[];
   oldPrice?: number;
-  tags?: string[]; // Added tags field
+  tags?: string[];
+  comments?: IComment[];
 }
+
+const CommentSchema = new Schema<IComment>({
+  _id: { type: String, required: true },
+  createdBy: { type: String, required: true },
+  name: { type: String, required: true },
+  lastModifiedBy: { type: String, required: true },
+  content: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
+});
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -28,7 +49,8 @@ const ProductSchema = new Schema<IProduct>(
     category: String,
     images: [{ type: String }],
     colors: [{ type: String }],
-    tags: [{ type: String }], // Added tags field
+    tags: [{ type: String }],
+    comments: [CommentSchema],
   },
   {
     timestamps: true,
