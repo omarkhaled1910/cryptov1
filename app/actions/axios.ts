@@ -8,7 +8,7 @@ const setupInterceptors = (instance: AxiosInstance) => {
   instance.interceptors.response.use(
     function (response) {
       // Handle responses here
-      console.log(response, "Response");
+      // console.log(response, "Response");
       return response;
     },
     function (error) {
@@ -26,15 +26,15 @@ const setupInterceptors = (instance: AxiosInstance) => {
 
 // Initialize interceptors for the default `api` instance
 export const api = axios.create({
-  baseURL: `${process.env.BASE_URL}`,
+  baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}`,
 });
 setupInterceptors(api);
 
 // export const createAuthorizedAxiosInstance = (token = "") => {
 //   const newApi = axios.create({
-//     baseURL: `${process.env.BASE_URL}`,
+//     baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}`,
 //     headers: {
-//       Authorization: `Bearer ${cookies().get("auth")?.value || token || ""}`,
+//       Authorization: `Bearer ${cookies().get(ADMIN_AUTH_KEY)?.value || token || ""}`,
 //     },
 //   });
 
@@ -47,7 +47,7 @@ setupInterceptors(api);
 // Add a request interceptor
 // api.interceptors.request.use(
 //   function (config) {
-//     const auth = cookies().get("auth")?.value || "";
+//     const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 //     config.headers.Authorization = `Bearer ${auth}`;
 //     console.log(config, "config ", auth, "interceptor config");
 

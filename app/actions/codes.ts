@@ -2,12 +2,13 @@
 import { getFormData } from "@/lib/utils";
 import { api } from "./axios";
 import { cookies } from "next/headers";
+import { ADMIN_AUTH_KEY } from "@/constants";
 
 // Add a new discount code
 export const addDiscountCode = async (data: any) => {
   try {
     const formData = getFormData(data);
-    const auth = cookies().get("auth")?.value || "";
+    const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
     const response = await api.post(
       `/api/codes`,
@@ -31,7 +32,7 @@ export const addDiscountCode = async (data: any) => {
 export const editDiscountCode = async (id: string, data: any) => {
   try {
     const formData = getFormData(data);
-    const auth = cookies().get("auth")?.value || "";
+    const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
     const response = await api.put(
       `/api/codes/${id}`,
@@ -54,7 +55,7 @@ export const editDiscountCode = async (id: string, data: any) => {
 // Verify a discount code
 export const verifyDiscountCode = async (code: string) => {
   try {
-    const auth = cookies().get("auth")?.value || "";
+    const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
     const response = await api.get(`/api/codes/verify/${code}`, {
       headers: {
@@ -72,7 +73,7 @@ export const verifyDiscountCode = async (code: string) => {
 // Delete a discount code
 export const deleteDiscountCode = async (id: string) => {
   try {
-    const auth = cookies().get("auth")?.value || "";
+    const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
     const response = await api.delete(`/api/codes/${id}`, {
       headers: {
@@ -90,7 +91,7 @@ export const deleteDiscountCode = async (id: string) => {
 // Get all discount codes
 export const getAllDiscountCodes = async (query = "") => {
   try {
-    const auth = cookies().get("auth")?.value || "";
+    const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
     const response = await api.get(`/api/codes?${query}`, {
       headers: {
@@ -107,7 +108,7 @@ export const getAllDiscountCodes = async (query = "") => {
 
 export const getSingleDiscountCode = async (id = "") => {
   try {
-    const auth = cookies().get("auth")?.value || "";
+    const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
     const response = await api.get(`/api/codes/${id}`, {
       headers: {

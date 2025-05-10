@@ -1,12 +1,14 @@
 import { getProduct } from "@/app/actions/product";
-import { Button } from "@/components/ui/button";
-import React from "react";
 import ProductDetailsWrapper from "../ProductDetailsWrapper";
+import ProductNotExist from "../ProductNotExist";
 
 const ProductDeatilsPage = async ({ params }: { params: { id: string } }) => {
-  const { product } = await getProduct(params.id);
-
-  return <ProductDetailsWrapper product={product} />;
+  try {
+    const { product } = await getProduct(params.id);
+    return <ProductDetailsWrapper product={product} />;
+  } catch (error) {
+    return <ProductNotExist />;
+  }
 };
 
 export default ProductDeatilsPage;

@@ -1,20 +1,24 @@
 "use server";
 
+import { ADMIN_AUTH_KEY, CLIENT_AUTH_KEY } from "@/constants";
 import { generateUniqueId, getFormData } from "@/lib/utils";
 import { cookies } from "next/headers";
 
 export const getUsers = async (query = "") => {
-  const auth = cookies().get("auth")?.value || "";
+  const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
   try {
-    const response = await fetch(`${process.env.BASE_URL}/api/user?${query}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        authrization: auth,
-      },
-      next: { revalidate: 1 },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/user?${query}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authrization: auth,
+        },
+        next: { revalidate: 1 },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -35,7 +39,7 @@ export const saveShippedDetail = async (
   shippingDetail: any,
   previousShippingDetails = []
 ) => {
-  const auth = cookies().get("clientAuth")?.value || "";
+  const auth = cookies().get(CLIENT_AUTH_KEY)?.value || "";
   const formData = getFormData(shippingDetail);
   console.log(
     {
@@ -47,20 +51,23 @@ export const saveShippedDetail = async (
     "save shipping body"
   );
   try {
-    const response = await fetch(`${process.env.BASE_URL}/api/client/${id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        shipping_Details: [
-          ...previousShippingDetails,
-          { ...formData, id: generateUniqueId() },
-        ],
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth}`,
-      },
-      next: { revalidate: 1 },
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/client/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          shipping_Details: [
+            ...previousShippingDetails,
+            { ...formData, id: generateUniqueId() },
+          ],
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth}`,
+        },
+        next: { revalidate: 1 },
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -77,11 +84,11 @@ export const saveShippedDetail = async (
 };
 
 export const getClients = async (query = "") => {
-  const auth = cookies().get("auth")?.value || "";
+  const auth = cookies().get(ADMIN_AUTH_KEY)?.value || "";
 
   try {
     const response = await fetch(
-      `${process.env.BASE_URL}/api/client?${query}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/client?${query}`,
       {
         method: "GET",
         headers: {

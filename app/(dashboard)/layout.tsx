@@ -13,6 +13,8 @@ import { ModeToggle } from "@/components/ui/mood-switcher";
 import { AuthProvider } from "@/providers/auth-provider";
 import { GuardsProvider } from "@/providers/guards-provider";
 import UserAvatar from "@/components/UserAvatar";
+import { ADMIN_AUTH_KEY, CLIENT_AUTH_KEY } from "@/constants";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +30,9 @@ export default function layout({
   children: ReactElement;
   params: { locale: string };
 }) {
+  const cookieToken = cookies().get(ADMIN_AUTH_KEY)?.value;
+  const clientCookieToken = cookies().get(CLIENT_AUTH_KEY)?.value;
+  console.log(cookieToken, "cookieToken");
   return (
     <section>
       {/* <CustomNavigationMenu /> */}
@@ -41,7 +46,7 @@ export default function layout({
       </div>
       <div className="px-8   md:px-20 ">
         {" "}
-        <GuardsProvider>
+        <GuardsProvider cookieToken={cookieToken || clientCookieToken}>
           <> {children} </>
         </GuardsProvider>
       </div>

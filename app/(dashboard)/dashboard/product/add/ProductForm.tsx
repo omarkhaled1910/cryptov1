@@ -110,9 +110,9 @@ const ProductForm = ({
               <SelectValue placeholder="Select a Category" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              <SelectItem value="plastic">Plastic</SelectItem>
+              <SelectItem value="glass">Glass</SelectItem>
+              <SelectItem value="metal">Metal</SelectItem>
             </SelectContent>
           </Select>
         </div>

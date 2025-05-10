@@ -21,6 +21,7 @@ export default function CustomPaginaton({
   console.log("pag", currentPage);
   return (
     <div
+      style={{}}
       className={cn(
         "flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6",
         classNames
@@ -44,7 +45,7 @@ export default function CustomPaginaton({
         </Button>
       </div>
       <div
-        style={{ maxWidth: "100%", overflowX: "auto" }}
+        style={{ maxWidth: "100%", overflowX: "auto", scrollbarWidth: "none" }}
         className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between gap-2"
       >
         <div>

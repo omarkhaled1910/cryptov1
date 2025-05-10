@@ -1,4 +1,5 @@
 "use server";
+import { ADMIN_AUTH_KEY, CLIENT_AUTH_KEY } from "@/constants";
 import { getFormData } from "@/lib/utils";
 import { cookies } from "next/headers";
 
@@ -12,15 +13,18 @@ export const register = async (data: any) => {
     console.log(
       { ...formData },
       " before register ",
-      `${process.env.BASE_URL}/api/auth/regitser`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/regitser`
     );
-    const response = await fetch(`${process.env.BASE_URL}/api/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...formData }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...formData }),
+      }
+    );
 
     // if (!response.ok) {
     //   throw new Error("Network response was not ok");
@@ -28,7 +32,7 @@ export const register = async (data: any) => {
     const res = await response.json();
     console.log(res, " after register ");
     // Do something with the response data
-    cookieStore.set("auth", res.access_token);
+    cookieStore.set(ADMIN_AUTH_KEY, res.access_token);
     return res;
   } catch (error) {
     console.error("Register Error", error);
@@ -46,21 +50,24 @@ export const login = async (data: any) => {
     console.log(
       { ...formData },
       " before register ",
-      `${process.env.BASE_URL}/api/auth/login`
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`
     );
-    const response = await fetch(`${process.env.BASE_URL}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ...formData }),
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...formData }),
+      }
+    );
 
     // if (!response.ok) {
     //   throw new Error("Network response was not ok");
     // }
     const res = await response.json();
-    cookieStore.set("auth", res.access_token);
+    cookieStore.set(ADMIN_AUTH_KEY, res.access_token);
     console.log(res, " after login ");
 
     // Do something with the response data
@@ -74,11 +81,11 @@ export const login = async (data: any) => {
 export const logout = async () => {
   const cookieStore = cookies();
 
-  cookieStore.delete("auth");
+  cookieStore.delete(ADMIN_AUTH_KEY);
 };
 
 export const clientLogout = async () => {
   const cookieStore = cookies();
 
-  cookieStore.delete("clientAuth");
+  cookieStore.delete(CLIENT_AUTH_KEY);
 };

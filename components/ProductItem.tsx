@@ -5,39 +5,77 @@ import { Product } from "@/constants/productTable";
 import { useCartContext } from "@/providers/cart-provider";
 import { CircleMinus, PlusCircle } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import { useToast } from "@/components/ui/use-toast";
 
 const ProductItem = ({ product }: { product: Product }) => {
   const { state, dispatch } = useCartContext();
+  const { toast } = useToast();
   const isInCart = state?.cart?.find((item: any) => item.id === product?.id);
+  const productCount = product.count ?? 0;
 
   const handleRemoveFromCart = () => {
     dispatch({ type: "REMOVE_ITEM", payload: product });
   };
+
   const handleAddToCart = () => {
+    if (productCount === 0) {
+      toast({
+        title: "Out of Stock",
+        description: "This product is currently out of stock.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (productCount < 5) {
+      toast({
+        title: "Low Stock Warning",
+        description: "Limited stock available!",
+        variant: "default",
+      });
+    }
+
     dispatch({ type: "ADD_ITEM", payload: product });
   };
 
   return (
-    <article className="max-w-sm  relative   w-full  bg-primary-foreground rounded-lg shadow-lg overflow-hidden  ">
+    <article className="max-w-sm relative w-full  bg-primary-foreground rounded-lg shadow-lg overflow-hidden h-full flex flex-col justify-between">
       <Link href={`/product/${product.id}`}>
         <div>
-          <img
+          <Image
             className="object-cover h-64 w-full"
-            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw1fHxzbmVha2Vyc3xlbnwwfDB8fHwxNzEyMjIzNDAyfDA&ixlib=rb-4.0.3&q=80&w=1080"
+            src={
+              product?.images?.[0] ||
+              "https://images.unsplash.com/photo-1542291026-7eec264c27ff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NzEyNjZ8MHwxfHNlYXJjaHw1fHxzbmVha2Vyc3xlbnwwfDB8fHwxNzEyMjIzNDAyfDA&ixlib=rb-4.0.3&q=80&w=1080"
+            }
             alt="Converse sneakers"
+            width={100}
+            height={100}
           />
         </div>
 
         <div className="flex flex-col h-full gap-1 mt-4 px-4">
-          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-50">
+          <h2 className="text-lg font-semibold text-foreground">
             {product.name}
           </h2>
-          <span className="font-normal text-gray-600 dark:text-gray-300">
-            High Top (Lemon Yellow)
+          <span className="font-normal text-muted-foreground">
+            {product.category}
           </span>
-          <span className="font-semibold text-gray-800 dark:text-gray-50">
-            {product.price} $
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-foreground">
+              {product.price} $
+            </span>
+            <span
+              className={`text-sm ${
+                productCount === 0
+                  ? "text-destructive"
+                  : "text-muted-foreground"
+              }`}
+            >
+              {productCount === 0 ? "Out of Stock" : "In Stock"}
+            </span>
+          </div>
         </div>
 
         <div className="flex gap-4 mt-4 px-4 h-full">
@@ -52,11 +90,11 @@ const ProductItem = ({ product }: { product: Product }) => {
         </div>
       </Link>
 
-      <div className=" flex items-center justify-between ">
+      <div className="flex items-center justify-between">
         {isInCart && (
           <>
             <Button
-              className="w-[100px] text-center relative bottom-0 h-16 mt-3  font-bold cursor-pointer hover:underline text-gray-800 dark:text-gray-50 hover:scale-105  duration-500 rounded-lg"
+              className="w-[100px] text-center relative bottom-0 h-16 mt-3 font-bold cursor-pointer hover:underline text-foreground hover:scale-105 duration-500 rounded-lg"
               onClick={(e) => {
                 e.stopPropagation();
                 handleRemoveFromCart();
@@ -65,7 +103,7 @@ const ProductItem = ({ product }: { product: Product }) => {
             >
               <CircleMinus className="w-8 h-8" />
             </Button>
-            <div className=" text-primary mt-1 mx-4">{isInCart?.count}</div>
+            <div className="text-primary mt-1 mx-4">{isInCart?.count}</div>
           </>
         )}
 
@@ -76,7 +114,8 @@ const ProductItem = ({ product }: { product: Product }) => {
           }}
           variant={"outline"}
           style={{ width: isInCart ? 100 : "100%" }}
-          className="  relative bottom-0 h-16 mt-3  font-bold cursor-pointer hover:underline text-gray-800 dark:text-gray-50 hover:scale-105  duration-500 rounded-lg"
+          className="relative bottom-0 h-16 mt-3 font-bold cursor-pointer hover:underline text-foreground hover:scale-105 duration-500 rounded-lg"
+          disabled={productCount === 0}
         >
           <PlusCircle className="w-8 h-8" />
         </Button>

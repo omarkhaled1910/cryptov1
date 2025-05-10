@@ -8,6 +8,7 @@ import { ROWS_PER_PAGE } from "@/constants";
 import SearchBar from "@/components/SearchBar";
 import ProductsWrpper from "./ProductsWrpper";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Products = async ({
   children,
@@ -23,11 +24,11 @@ const Products = async ({
     <main className="flex  flex-col py-4   ">
       <div className="flex justify-between w-full ">
         <h2 className=" text-xl text-center">Our Products</h2>
-        <a href="product/add">
+        <Link href="/dashboard/product/add">
           <Button variant={"outline"}>
             <Plus />
           </Button>
-        </a>
+        </Link>
       </div>
       <br />
       <ProductsWrpper initialData={data} />

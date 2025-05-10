@@ -41,7 +41,9 @@ export const uploadImageToStorage = async (
   file: any,
   cb: (url: string) => void
 ) => {
-  const storageRef = ref(storage, `Next14Coomerce/${file.path}`);
+  // const convertedFile = await convertHeicToJpeg(file);
+  // console.log(convertedFile, "converted file");
+  const storageRef = ref(storage, `Next14Coomerce/${file.name}`);
 
   const snapshot = await uploadBytes(storageRef, file);
   const downloadURL = await getDownloadURL(snapshot.ref);
@@ -109,3 +111,15 @@ export const getUserFromLocalStorage = () => {
 export const generateUniqueId = (length = 16) => {
   return crypto.randomBytes(length).toString("hex"); // Generates a hex string
 };
+
+// export async function convertHeicToJpeg(file: Blob): Promise<Blob> {
+//   if (file.type === "image/heic" || file.type?.endsWith(".heic")) {
+//     const jpegBlob = await heic2any({
+//       blob: file,
+//       toType: "image/jpeg",
+//       quality: 0.8, // Adjust quality (0-1)
+//     });
+//     return jpegBlob as Blob;
+//   }
+//   return file; // Return as-is if not HEIC
+// }

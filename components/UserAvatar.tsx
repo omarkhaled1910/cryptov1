@@ -1,12 +1,13 @@
 "use client";
 import { User2Icon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import useClickAway from "@/hooks/useClickAway";
 import Link from "next/link";
 import { useAuthContext } from "@/providers/auth-provider";
 import { useRouter } from "next/navigation";
 import { clientLogout, logout } from "@/app/actions/auth";
+import { setToken } from "@/lib/server-utils";
 
 const UserAvatar = () => {
   const [open, setOpen] = useState(false);
@@ -20,7 +21,18 @@ const UserAvatar = () => {
     dispatch({ type: "LOG_OUT" });
     push("/");
   };
+  console.log(state, "state");
   if (!state?.access_token && !state?.client_access_token) return <></>;
+  // useEffect(() => {
+  //   if (state?.access_token) {
+  //     setToken(state?.access_token, "admin");
+  //     return;
+  //   }
+  //   if (state?.client_access_token) {
+  //     setToken(state?.client_access_token, "client");
+  //     return;
+  //   }
+  // }, []);
 
   return (
     <div ref={ref} className=" relative">

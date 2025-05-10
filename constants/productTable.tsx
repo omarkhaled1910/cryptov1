@@ -1,26 +1,3 @@
-// type Payment = {
-//   id: string;
-//   amount: number;
-//   status: "pending" | "processing" | "success" | "failed";
-//   email: string;
-// };
-
-// export const payments: Payment[] = [
-//   {
-//     id: "728ed52f",
-//     amount: 100,
-//     status: "pending",
-//     email: "m@example.com",
-//   },
-//   {
-//     id: "489e1d42",
-//     amount: 125,
-//     status: "processing",
-//     email: "example@gmail.com",
-//   },
-//   // ...
-// ];
-
 "use client";
 
 export const products: Product[] = [
@@ -350,6 +327,7 @@ export const products: Product[] = [
   },
   // ...
 ];
+import { IComment } from "@/models/product";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 
@@ -367,6 +345,7 @@ export type Product = {
   colors?: string[];
   tags?: string[];
   images?: string[];
+  comments?: IComment[];
 };
 
 export const columns: ColumnDef<Product>[] = [
@@ -396,7 +375,7 @@ export const columns: ColumnDef<Product>[] = [
       if (count > 10) {
         color = "green";
       } else if (count > 0) {
-        color = "yellow";
+        color = "black";
       } else {
         color = "red";
       }
@@ -407,7 +386,7 @@ export const columns: ColumnDef<Product>[] = [
             color: color,
             padding: "4px",
             backgroundColor:
-              color === "red" ? "#fdd" : color === "yellow" ? "#ffdd" : "#ddf",
+              color === "red" ? "#fdd" : color === "black" ? "gray" : "#ddf",
           }}
           className=" rounded-lg w-max"
         >

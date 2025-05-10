@@ -36,7 +36,7 @@ const userReducer = (state: any, action: any) => {
         access_token: access_token,
         client_access_token: client_access_token,
 
-        phone_number: user?.phone_number || "",
+        phone_number: user?.phone_Number || "",
         email: user?.email || "",
         name: user?.name || "",
         is_Verfied: user?.is_Verfied || false,

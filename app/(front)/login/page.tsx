@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { toastColors } from "@/constants";
 import { login } from "@/app/actions/auth";
+import { Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const { toast } = useToast();
@@ -22,29 +23,35 @@ export default function LoginPage() {
   const { dispatch, state } = useAuthContext();
 
   const handleSubmit = async (e: FormData) => {
-    console.log("Form submitted", e);
-
-    const res = await login(e);
-    setLoading(false);
-    console.log(res, "handle submit res");
-    if (res?.access_token) {
-      dispatch({
-        type: "LOG_IN",
-        payload: { user: res?.user, access_token: res.access_token },
-      });
+    setLoading(true);
+    console.log(e, " e ");
+    try {
+      const res = await login(e);
+      if (res?.access_token) {
+        dispatch({
+          type: "LOG_IN",
+          payload: { user: res?.user, access_token: res.access_token },
+        });
+        toast({
+          title: "User Loged in Succesfully",
+          style: { backgroundColor: toastColors.SUCESS },
+        });
+        push("/dashboard/products");
+      } else {
+        toast({
+          title: "Invalid email or password",
+          style: { backgroundColor: toastColors.FAIL },
+        });
+      }
+    } catch (error) {
       toast({
-        title: "User Loged in Succesfully",
-        style: { backgroundColor: toastColors.SUCESS },
-      });
-      push("/dashboard/products");
-    } else {
-      toast({
-        title: "Invalid email or pass",
+        title: "An error occurred",
         style: { backgroundColor: toastColors.FAIL },
       });
+    } finally {
+      setLoading(false);
     }
   };
-
 
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-8 md:p-8 shadow-input bg-primary-foreground mt-4 shadow-2xl mb-20 ">
@@ -64,6 +71,7 @@ export default function LoginPage() {
             id="email"
             placeholder="projectmayhem@fc.com"
             type="email"
+            disabled={loading}
           />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
@@ -73,14 +81,26 @@ export default function LoginPage() {
             id="password"
             placeholder="••••••••"
             type="password"
+            disabled={loading}
           />
         </LabelInputContainer>
 
         <button
-          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] disabled:opacity-50 disabled:cursor-not-allowed"
           type="submit"
+          // disabled={loading}
+          // onClick={() => {
+          //   setLoading(true);
+          // }}
         >
-          Log In
+          {loading ? (
+            <div className="flex items-center justify-center">
+              <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              Logging in...
+            </div>
+          ) : (
+            "Log In"
+          )}
           <BottomGradient />
         </button>
 
@@ -88,8 +108,8 @@ export default function LoginPage() {
 
         <div className="flex flex-col space-y-4">
           <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
+            className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
           >
             <IconBrandGithub className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
             <span className="text-neutral-700 dark:text-neutral-300 text-sm">
@@ -98,8 +118,8 @@ export default function LoginPage() {
             <BottomGradient />
           </button>
           <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
+            className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
           >
             <IconBrandGoogle className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
             <span className="text-neutral-700 dark:text-neutral-300 text-sm">
@@ -108,8 +128,9 @@ export default function LoginPage() {
             <BottomGradient />
           </button>
           <button
-            className=" relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="submit"
+            className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)] disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
+            disabled={loading}
           >
             <IconBrandOnlyfans className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
             <span className="text-neutral-700 dark:text-neutral-300 text-sm">
