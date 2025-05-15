@@ -122,7 +122,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="relative h-64 rounded-lg overflow-hidden">
               <Image
-                src="/special-offer-1.jpg"
+                src="/s.webp"
                 alt="Special Offer 1"
                 fill
                 className="object-cover"
@@ -136,7 +136,7 @@ export default function Home() {
             </div>
             <div className="relative h-64 rounded-lg overflow-hidden">
               <Image
-                src="/special-offer-2.jpg"
+                src="/as.webp"
                 alt="Special Offer 2"
                 fill
                 className="object-cover"
