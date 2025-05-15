@@ -369,7 +369,11 @@ export const columns: ColumnDef<Product>[] = [
     header: "Status",
     cell: ({ getValue, row }: any) => {
       const count = row.original.count;
-      const status = count ? "In Stock" : "Out Of Stock";
+      const status = count
+        ? count < 10
+          ? "Low Stock"
+          : "In Stock"
+        : "Out Of Stock";
       let color: string;
 
       if (count > 10) {
@@ -396,16 +400,16 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "price",
-    header: "Price",
-  },
-  {
     accessorKey: "count",
     header: "Count",
     cell: ({ getValue, row }: any) => {
       const count = row.original.count;
       return <div className=" rounded-lg w-fit">{count || 0}</div>;
     },
+  },
+  {
+    accessorKey: "price",
+    header: "Price",
   },
 
   {

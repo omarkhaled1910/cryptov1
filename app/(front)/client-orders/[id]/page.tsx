@@ -35,7 +35,7 @@ interface Order {
 
 const OrderDetails = ({ order }: { order: Order }) => {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 ">
       {/* Order Status */}
       <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
         <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
@@ -187,7 +187,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 ">
       <div className="flex items-center justify-between">
         <h1 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
           Order Details

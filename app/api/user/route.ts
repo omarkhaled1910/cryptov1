@@ -6,7 +6,7 @@ import { decodeToken } from "@/lib/server-utils";
 
 export async function GET(req: NextRequest) {
   try {
-    const token = req.headers.get("authrization") || "";
+    const token = req.headers.get("Authorization") || "";
     console.log(token, "auth headers");
     const { isValid } = decodeToken(token);
     if (!isValid) {
@@ -55,6 +55,7 @@ export async function GET(req: NextRequest) {
       { status: HttpStatusCode.NotFound }
     );
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: error },
       { status: HttpStatusCode.BadRequest }

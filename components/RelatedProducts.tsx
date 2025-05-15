@@ -8,10 +8,12 @@ import Image from "next/image";
 import RatingStars from "./RatingStars";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import ProductItem from "./ProductItem";
 
 interface RelatedProductsProps {
   tags: string[];
-  currentProductId: string;
+  currentProductId?: string;
+  header?: string;
 }
 
 const ITEMS_PER_PAGE = 4;
@@ -19,6 +21,7 @@ const ITEMS_PER_PAGE = 4;
 const RelatedProducts: React.FC<RelatedProductsProps> = ({
   tags,
   currentProductId,
+  header,
 }) => {
   const [start, setStart] = useState(0);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
@@ -82,43 +85,52 @@ const RelatedProducts: React.FC<RelatedProductsProps> = ({
 
   return (
     <div className="mt-12">
-      <h2 className="text-2xl font-bold mb-6">Related Products</h2>
+      <h2 className="text-2xl font-bold mb-6">
+        {header || "Related Products"}
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {displayedProducts.map((product: Product) => (
-          <Link
-            key={product.id}
-            href={`/product/${product.id}`}
-            className="group"
+          // <Link
+          //   key={product.id}
+          //   href={`/product/${product.id}`}
+          //   className="group"
+          // >
+          //   <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:scale-105">
+          //     <div className="relative h-48">
+          //       <Image
+          //         src={product.images?.[0] || "/placeholder.jpg"}
+          //         alt={product.name}
+          //         fill
+          //         className="object-cover"
+          //       />
+          //     </div>
+          //     <div className="p-4">
+          //       <h3 className="text-lg font-semibold mb-2 line-clamp-2">
+          //         {product.name}
+          //       </h3>
+          //       <div className="flex items-center justify-between">
+          //         <span className="text-xl font-bold">
+          //           ${product.price.toFixed(2)}
+          //         </span>
+          //         {product.oldPrice && (
+          //           <span className="text-gray-500 line-through">
+          //             ${product.oldPrice.toFixed(2)}
+          //           </span>
+          //         )}
+          //       </div>
+          //       <div className="mt-2">
+          //         <RatingStars rating={Math.random() * 2 + 3} />
+          //       </div>
+          //     </div>
+          //   </div>
+          // </Link>
+          <div
+            // href={`/product/${item.id}`}
+            key={product?.id}
+            className="relative group  block p-2 h-full w-full"
           >
-            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 group-hover:scale-105">
-              <div className="relative h-48">
-                <Image
-                  src={product.images?.[0] || "/placeholder.jpg"}
-                  alt={product.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 line-clamp-2">
-                  {product.name}
-                </h3>
-                <div className="flex items-center justify-between">
-                  <span className="text-xl font-bold">
-                    ${product.price.toFixed(2)}
-                  </span>
-                  {product.oldPrice && (
-                    <span className="text-gray-500 line-through">
-                      ${product.oldPrice.toFixed(2)}
-                    </span>
-                  )}
-                </div>
-                <div className="mt-2">
-                  <RatingStars rating={Math.random() * 2 + 3} />
-                </div>
-              </div>
-            </div>
-          </Link>
+            <ProductItem product={product} />
+          </div>
         ))}
       </div>
       {products.length === ITEMS_PER_PAGE && (

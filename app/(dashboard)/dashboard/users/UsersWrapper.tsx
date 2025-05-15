@@ -38,7 +38,7 @@ const UsersWrapper = ({ initialData }: { initialData: any }) => {
         <DataTable
           count={users?.usersCount}
           columns={columns}
-          data={users?.user}
+          data={users}
           searchQuery={searchQuery}
           classNames="dark:bg-[#000012]  rounded-lg"
           fetcher={getUsers}

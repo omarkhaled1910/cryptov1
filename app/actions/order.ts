@@ -76,7 +76,10 @@ export const getOrdersByUser = async (userId: string) => {
 };
 
 export const getOrderById = async (orderId: string) => {
-  const auth = cookies().get(CLIENT_AUTH_KEY)?.value || "";
+  const auth =
+    cookies().get(CLIENT_AUTH_KEY)?.value ||
+    cookies().get(ADMIN_AUTH_KEY)?.value ||
+    "";
   console.log(auth, " AUTHHHHHH");
   try {
     const { data } = await api.get(`/api/orders/${orderId}`, {

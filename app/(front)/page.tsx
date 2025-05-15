@@ -5,54 +5,55 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import ProductItem from "@/components/ProductItem";
 import { Product } from "@/constants/productTable";
+import RelatedProducts from "@/components/RelatedProducts";
 
 // Dummy data for demonstration
 const categories = [
-  { id: "glass", name: "Glass", image: "/glass-category.jpg" },
-  { id: "plastic", name: "Plastic", image: "/plastic-category.jpg" },
-  { id: "wood", name: "Wood", image: "/wood-category.jpg" },
+  { id: "glass", name: "Glass", image: "/flow23.webp" },
+  { id: "plastic", name: "Plastic", image: "/flow3.webp" },
+  { id: "wood", name: "Wood", image: "/flow33.webp" },
 ];
 
-const featuredProducts: Product[] = [
-  {
-    id: "1",
-    name: "Premium Glass Vase",
-    price: 49.99,
-    category: "Glass",
-    count: 10,
-    images: ["/glass-vase.jpg"],
-    colors: ["#ffffff", "#000000"],
-    tags: ["glass", "home", "decor"],
-    status: "inStock",
-    description:
-      "A beautiful handcrafted glass vase perfect for home decoration",
-  },
-  {
-    id: "2",
-    name: "Eco-Friendly Plastic Chair",
-    price: 89.99,
-    category: "Plastic",
-    count: 5,
-    images: ["/plastic-chair.jpg"],
-    colors: ["#ffffff", "#000000"],
-    tags: ["plastic", "furniture"],
-    status: "inStock",
-    description: "Modern and sustainable plastic chair for your home or office",
-  },
-  {
-    id: "3",
-    name: "Handcrafted Wood Table",
-    price: 199.99,
-    category: "Wood",
-    count: 3,
-    images: ["/wood-table.jpg"],
-    colors: ["#8B4513", "#000000"],
-    tags: ["wood", "furniture"],
-    status: "inStock",
-    description: "Elegant wooden table made from premium quality materials",
-  },
-  // Add more products as needed
-];
+// const featuredProducts: Product[] = [
+//   {
+//     id: "1",
+//     name: "Premium Glass Vase",
+//     price: 49.99,
+//     category: "Glass",
+//     count: 10,
+//     images: ["/glass-vase.jpg"],
+//     colors: ["#ffffff", "#000000"],
+//     tags: ["glass", "home", "decor"],
+//     status: "inStock",
+//     description:
+//       "A beautiful handcrafted glass vase perfect for home decoration",
+//   },
+//   {
+//     id: "2",
+//     name: "Eco-Friendly Plastic Chair",
+//     price: 89.99,
+//     category: "Plastic",
+//     count: 5,
+//     images: ["/plastic-chair.jpg"],
+//     colors: ["#ffffff", "#000000"],
+//     tags: ["plastic", "furniture"],
+//     status: "inStock",
+//     description: "Modern and sustainable plastic chair for your home or office",
+//   },
+//   {
+//     id: "3",
+//     name: "Handcrafted Wood Table",
+//     price: 199.99,
+//     category: "Wood",
+//     count: 3,
+//     images: ["/wood-table.jpg"],
+//     colors: ["#8B4513", "#000000"],
+//     tags: ["wood", "furniture"],
+//     status: "inStock",
+//     description: "Elegant wooden table made from premium quality materials",
+//   },
+//   // Add more products as needed
+// ];
 
 export default function Home() {
   return (
@@ -60,7 +61,7 @@ export default function Home() {
       {/* Hero Section */}
       <div className="relative h-[500px] w-full">
         <Image
-          src="/hero-banner.jpg"
+          src="/flow1.webp"
           alt="Hero Banner"
           fill
           className="object-cover"
@@ -72,7 +73,7 @@ export default function Home() {
             <p className="text-xl mb-8">
               Discover amazing products for your home
             </p>
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
+            <Button size="lg" variant="secondary">
               Shop Now
             </Button>
           </div>
@@ -110,12 +111,7 @@ export default function Home() {
       {/* Featured Products */}
       <section className="py-12 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold mb-8">Featured Products</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductItem key={product.id} product={product} />
-            ))}
-          </div>
+          <RelatedProducts tags={["featured"]} header={"Featured Products"} />
         </div>
       </section>
 

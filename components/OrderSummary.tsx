@@ -5,6 +5,7 @@ import { useAuthContext } from "@/providers/auth-provider";
 import { Button } from "./ui/button";
 import { useCartContext } from "@/providers/cart-provider";
 import Image from "next/image";
+import DiscountCodeHandler from "./DiscountCodeHandler";
 
 interface OrderSummaryProps {
   shippingDetails: any;
@@ -20,7 +21,7 @@ const OrderSummary = ({
   isLoading,
 }: OrderSummaryProps) => {
   const { state } = useCartContext();
-  const cartItems = state.cart || [];
+  const cartItems = state?.cart || [];
 
   const subtotal = cartItems.reduce(
     (sum: number, item: any) => sum + item.price * item.count,
@@ -104,6 +105,8 @@ const OrderSummary = ({
           </span>
         </div>
       </div>
+
+      <DiscountCodeHandler />
 
       <Button
         isLoading={isLoading}

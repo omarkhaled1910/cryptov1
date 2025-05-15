@@ -15,7 +15,7 @@ export default async function OrderDetailsPage({
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-2xl font-bold mb-6">Order Details</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-secondary p-2 rounded-lg">
         <div className="space-y-4">
           <div>
             <h2 className="text-lg font-semibold mb-2">Order Information</h2>

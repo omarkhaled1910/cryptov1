@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactElement }) {
     routesWithOutNaVbAR.some((route: string) => route.includes(headerUrl))
   );
   return (
-    <html lang={"en"}>
+    <html style={{ overflowY: "auto" }} lang={"en"}>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"

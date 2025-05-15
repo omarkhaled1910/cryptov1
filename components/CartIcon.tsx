@@ -54,11 +54,12 @@ const CartIcon = () => {
             </span>
           )}
         </SheetTrigger>
-        <SheetContent>
+        <SheetContent className=" p-0 pt-4 ">
           <SheetHeader>
             <SheetTitle className="text-center">Your Items So Far</SheetTitle>
+            <br />
           </SheetHeader>
-          <div className=" flex flex-col items-center  gap-8 max-h-[50vh] overflow-auto ">
+          <div className=" relative flex flex-col items-center  gap-8 max-h-[100%] overflow-auto pb-48 ">
             {isEmpty ? (
               <></>
             ) : (
@@ -140,24 +141,13 @@ const CartIcon = () => {
           </div>
           {!isEmpty ? (
             <>
-              <div className="flex flex-col items-center justify-center">
+              <div className="flex gap-2 flex-col items-center justify-center pt-10 bg-primary-foreground w-full  h-48 absolute bottom-0 ">
                 <h2 className="text-lg font-bold text-gray-800 ">
                   Total: {state?.total}$
                 </h2>
                 <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
                   TotalItems: {state?.totalCount}
                 </p>
-              </div>
-              <br />
-
-              <SheetFooter className=" flex !flex-col items-center justify-center gap-3">
-                {/* {state?.cart.length && (
-              <Link onClick={() => setOpen(false)} href={"/cart"}>
-                <Button className=" w-80 max-w-80" variant="default">
-                  View Full cart
-                </Button>
-              </Link>
-            )} */}
                 <Link onClick={() => setOpen(false)} href={"/checkout"}>
                   <Button className=" w-80 max-w-80" variant="secondary">
                     Checkout
@@ -172,6 +162,17 @@ const CartIcon = () => {
                     Cancel
                   </Button>
                 </SheetClose>
+                <br />
+              </div>
+
+              <SheetFooter className=" flex !flex-col items-center justify-center gap-3">
+                {/* {state?.cart.length && (
+              <Link onClick={() => setOpen(false)} href={"/cart"}>
+                <Button className=" w-80 max-w-80" variant="default">
+                  View Full cart
+                </Button>
+              </Link>
+            )} */}
               </SheetFooter>
             </>
           ) : (
@@ -184,6 +185,7 @@ const CartIcon = () => {
                         router.push("/products");
                         setOpen(false);
                       }}
+                      variant="outline"
                     >
                       Continue Shopping
                     </Button>
@@ -191,7 +193,6 @@ const CartIcon = () => {
                     <Button
                       onClick={() => setOpen(false)}
                       className="  w-80   max-w-96 "
-                      variant="outline"
                     >
                       Cancel
                     </Button>
