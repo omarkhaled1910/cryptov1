@@ -63,7 +63,7 @@ const CartIcon = () => {
         >
           <ShoppingCart className=" text-slate-600  dark:text-slate-200 " />
           {!!state?.totalCount && (
-            <span className="absolute dark:bg-red-950 bg-rose-300  w-5 p-1 text-center rounded-full text-xs  bottom-[-12px] left-0 flex flex-col">
+            <span className="absolute dark:bg-red-950 bg-rose-300  w-6 p-1 text-center rounded-full text-xs  bottom-[-14px] left-[-6px]  opacity-60 flex flex-col">
               {state?.totalCount}
             </span>
           )}
@@ -76,7 +76,7 @@ const CartIcon = () => {
           <div
             className={`${
               !isEmpty ? "pb-72" : "pb-0"
-            } relative flex flex-col items-center  gap-8 max-h-[100%] overflow-auto `}
+            } relative flex flex-col items-center px-2  gap-8 max-h-[100%] overflow-auto `}
           >
             {isEmpty ? (
               <></>
@@ -166,15 +166,19 @@ const CartIcon = () => {
                 <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
                   TotalItems: {state?.totalCount}
                 </p>
-                <Link onClick={() => setOpen(false)} href={"/checkout"}>
-                  <Button className=" w-80 max-w-80" variant="secondary">
+                <Link
+                  className="w-full max-w-80"
+                  onClick={() => setOpen(false)}
+                  href={"/checkout"}
+                >
+                  <Button className="w-full max-w-80" variant="secondary">
                     Checkout
                   </Button>
                 </Link>
-                <SheetClose>
+                <SheetClose className="w-full max-w-80">
                   <Button
                     onClick={() => setOpen(false)}
-                    className="  w-80   max-w-96 "
+                    className=" w-full   max-w-96 "
                     variant="outline"
                   >
                     Cancel

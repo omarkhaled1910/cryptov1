@@ -13,14 +13,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { priceRanges, categories, size, sortBy } from "@/constants";
 const ProductSearchWrapper = ({ data }: any) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [slug, setSlug] = useState("");
   const [currentItems, setcurrentItems] = useState(data);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
-  const [selectedSortBy, setSelectedSortBy] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    searchParams.get("category") || "all"
+  );
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
+  const [selectedSortBy, setSelectedSortBy] = useState<string>("all");
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [debouncedPriceRange, setDebouncedPriceRange] = useState<
     [number, number]
@@ -33,22 +36,6 @@ const ProductSearchWrapper = ({ data }: any) => {
     } else {
       // setCurrentProducts(products);
     }
-  };
-
-  const handlePriceSort = async (e: FormData) => {
-    //   if (slug) {
-    //     setCurrentProducts(
-    //       sortProductsByPrice(
-    //         currentProducts,
-    //         e.get("priceFilter") as "asc" | "desc"
-    //       )
-    //     );
-    //     return;
-    //   }
-    //   const soretedProducts = await getProductsByPrice(
-    //     e.get("priceFilter") as "asc" | "desc"
-    //   );
-    //   setCurrentProducts(soretedProducts);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -83,39 +70,8 @@ const ProductSearchWrapper = ({ data }: any) => {
       params.delete("category");
     }
 
-    // params.set("minPrice", priceRange[0].toString());
-    // params.set("maxPrice", priceRange[1].toString());
-
     router.push(`/products?${params.toString()}`);
   };
-
-  const priceRanges = [
-    { value: "0", label: "Any Price" },
-    { value: "50", label: "Under $50" },
-    { value: "100", label: "Under $100" },
-    { value: "200", label: "Under $200" },
-    { value: "500", label: "Under $500" },
-    { value: "1000", label: "Under $1000" },
-  ];
-
-  const categories = [
-    { value: "DEFAULT", label: "All Categories" },
-    { value: "wooden", label: "Wooden" },
-    { value: "plastic", label: "Plastic" },
-    { value: "glass", label: "Glass" },
-  ];
-
-  const sortBy = [
-    { value: "DEFAULT", label: "Default" },
-    { value: "price", label: "Price" },
-    { value: "name", label: "Name" },
-  ];
-
-  const size = [
-    { value: "sm", label: "Small" },
-    { value: "md", label: "Medium" },
-    { value: "lg", label: "Large" },
-  ];
 
   const handleSortByChange = (value: string) => {
     setSelectedSortBy(value);
@@ -142,7 +98,7 @@ const ProductSearchWrapper = ({ data }: any) => {
                     value={selectedCategory || "DEFAULT"}
                     onValueChange={handleCategoryChange}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full text-start">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
@@ -186,19 +142,19 @@ const ProductSearchWrapper = ({ data }: any) => {
                     Sort By
                   </label>
                   <Select
-                    value={selectedCategory || "DEFAULT"}
+                    value={selectedSortBy || "DEFAULT"}
                     onValueChange={handleSortByChange}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
-                      {sortBy.map((category) => (
+                      {sortBy.map((sortBy) => (
                         <SelectItem
-                          key={category.value}
-                          value={category.value || "DEFAULT"}
+                          key={sortBy.value}
+                          value={sortBy.value || "DEFAULT"}
                         >
-                          {category.label}
+                          {sortBy.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -208,20 +164,17 @@ const ProductSearchWrapper = ({ data }: any) => {
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Size
                   </label>
-                  <Select
-                    value={selectedCategory || "DEFAULT"}
-                    onValueChange={handleSizeChange}
-                  >
+                  <Select value={selectedSize} onValueChange={handleSizeChange}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select category" />
+                      <SelectValue placeholder="Select Size" />
                     </SelectTrigger>
                     <SelectContent>
-                      {size.map((category) => (
+                      {size.map((sizeOpt) => (
                         <SelectItem
-                          key={category.value}
-                          value={category.value || "DEFAULT"}
+                          key={sizeOpt.value}
+                          value={sizeOpt.value || "DEFAULT"}
                         >
-                          {category.label}
+                          {sizeOpt.label}
                         </SelectItem>
                       ))}
                     </SelectContent>

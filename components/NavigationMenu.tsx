@@ -43,23 +43,23 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
+  // {
+  //   title: "Scroll-area",
+  //   href: "/docs/primitives/scroll-area",
+  //   description: "Visually or semantically separates content.",
+  // },
+  // {
+  //   title: "Tabs",
+  //   href: "/docs/primitives/tabs",
+  //   description:
+  //     "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+  // },
+  // {
+  //   title: "Tooltip",
+  //   href: "/docs/primitives/tooltip",
+  //   description:
+  //     "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
+  // },
 ];
 
 export function CustomNavigationMenu() {
@@ -220,7 +220,7 @@ const MobileOverLay = ({
       style={{ height: show ? "100%" : 0 }}
       className="overlay overflow-hidden "
     >
-      <div className="flex sm:justify-center justify-start items-center mb-8  mt-16  p-8">
+      <div className="flex sm:justify-center justify-start items-center mb-8  mt-16  p-4">
         {/* <NavToolBar showCart={false} /> */}
       </div>
       <div>
@@ -232,7 +232,7 @@ const MobileOverLay = ({
               href={component.href}
               onClick={() => setShowOverlay(false)}
             >
-              <div className="flex sm:justify-center justify-start items-center gap-1  p-8">
+              <div className="flex sm:justify-center justify-start items-center gap-1  p-4">
                 {component.title}
 
                 <ArrowRight />

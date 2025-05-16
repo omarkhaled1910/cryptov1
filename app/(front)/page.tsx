@@ -9,9 +9,19 @@ import RelatedProducts from "@/components/RelatedProducts";
 
 // Dummy data for demonstration
 const categories = [
-  { id: "glass", name: "Glass", image: "/flow23.webp" },
-  { id: "plastic", name: "Plastic", image: "/flow3.webp" },
-  { id: "wood", name: "Wood", image: "/flow33.webp" },
+  {
+    id: "glass",
+    name: "Glass",
+    image: "/flow23.webp",
+    link: "?category=glass",
+  },
+  {
+    id: "plastic",
+    name: "Plastic",
+    image: "/flow3.webp",
+    link: "?category=plastic",
+  },
+  { id: "wood", name: "Wood", image: "/flow33.webp", link: "?category=wood" },
 ];
 
 // const featuredProducts: Product[] = [
@@ -89,7 +99,7 @@ export default function Home() {
           {categories.map((category) => (
             <Link
               key={category.id}
-              href={`/category/${category.id}`}
+              href={`/products${category.link}`}
               className="group relative h-64 rounded-lg overflow-hidden"
             >
               <Image

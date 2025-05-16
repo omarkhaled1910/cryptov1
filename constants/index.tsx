@@ -9,7 +9,7 @@ export const toastColors = {
   INFO: "white",
 };
 
-export const ROWS_PER_PAGE = 4;
+export const ROWS_PER_PAGE = 8;
 export const majorColors: string[] = [
   "#FF0000", // Red
   "#00FF00", // Green
@@ -65,3 +65,30 @@ export const emptyUser = {
 export const cartLocalStorageAcessKey = "cartDetails";
 
 export const userStorageAcessKey = "userDetails";
+
+export const priceRanges = [
+  { value: "0", label: "Any Price" },
+  { value: "500", label: "Under 500" },
+  { value: "1000", label: "Under 1000" },
+  { value: "5000", label: "Under 5000" },
+  { value: "10000", label: "Under 10000" },
+];
+
+export const categories = [
+  { value: "all", label: "All" },
+  { value: "wood", label: "Wooden" },
+  { value: "plastic", label: "Plastic" },
+  { value: "glass", label: "Glass" },
+];
+
+export const sortBy = [
+  { value: "all", label: "Default" },
+  { value: "desc", label: "Price Low To High" },
+  { value: "asc", label: "Price High To lIGH" },
+];
+
+export const size = [
+  { value: "sm", label: "Small" },
+  { value: "md", label: "Medium" },
+  { value: "lg", label: "Large" },
+];

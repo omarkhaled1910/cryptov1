@@ -6,6 +6,7 @@ import React from "react";
 import Comments from "@/components/Comments";
 import RatingStars from "@/components/RatingStars";
 import RelatedProducts from "@/components/RelatedProducts";
+import { categories } from "@/constants";
 
 const ProductDetailsWrapper = ({ product }: { product: Product }) => {
   const generateRandomRating = () => {
@@ -19,7 +20,11 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
 
         <div className="w-full md:w-1/2 px-4">
           <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
-          <p className="text-gray-600 mb-4">Category: {product.category}</p>
+          <p className="text-gray-600 mb-4">
+            Category:{" "}
+            {categories.find((category) => category.value === product.category)
+              ?.label || "NA"}
+          </p>
           <div className="mb-4">
             <span className="text-2xl font-bold mr-2">
               {product.price || "$39.99"} EGPs
