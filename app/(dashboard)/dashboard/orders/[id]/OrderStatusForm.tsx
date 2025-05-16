@@ -41,7 +41,10 @@ export function OrderStatusForm({ order }: OrderStatusFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 flex items-end gap-2 ">
+      <Button className="text-sm" type="submit" disabled={isLoading}>
+        {isLoading ? "Updating..." : "Update Status"}
+      </Button>
       <Select
         value={status}
         onValueChange={(value) => setStatus(value as IOrder["status"])}
@@ -57,10 +60,6 @@ export function OrderStatusForm({ order }: OrderStatusFormProps) {
           <SelectItem value="cancelled">Cancelled</SelectItem>
         </SelectContent>
       </Select>
-
-      <Button type="submit" disabled={isLoading}>
-        {isLoading ? "Updating..." : "Update Status"}
-      </Button>
     </form>
   );
 }

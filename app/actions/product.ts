@@ -4,6 +4,11 @@ import { api } from "./axios";
 import { cookies } from "next/headers";
 import { ADMIN_AUTH_KEY, CLIENT_AUTH_KEY } from "@/constants";
 import { revalidatePath } from "next/cache";
+import db from "../api/db";
+import connectMongo from "../api/db";
+import Product from "@/models/product";
+import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 
 export const addProduct = async (data: any, images: string[] = []) => {
   try {
@@ -153,3 +158,35 @@ export const getProductsByTags = async (
     return [];
   }
 };
+
+export async function getItemStockCount(idArray: string[]): Promise<any[]> {
+  try {
+    // Validate if idArray is provided and is an array
+    if (!Array.isArray(idArray) || idArray.length === 0) {
+      throw new Error("Invalid or empty ID array provided");
+    }
+
+    // Convert string IDs to ObjectId if needed
+    const objectIds = idArray.map((id) => new mongoose.Types.ObjectId(id));
+
+    // Find all products with IDs in the array
+    const res = await Product.find({
+      _id: { $in: objectIds },
+    });
+    const products = res.map((p) => ({
+      ...p.toObject(), // Converts the mongoose document to a plain object
+      id: p._id.toString(), // Convert the _id to a string
+      _id: undefined, // Optionally remove the _id field if not needed
+    }));
+    // Get the count of found products
+    console.log("getItemStockCount", products);
+    return products || [];
+    // return new Promise((resolve) => {
+    //   resolve(products);
+    // });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw error;
+  }
+}
+

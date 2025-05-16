@@ -21,7 +21,7 @@ const Logo = ({ className }: { className?: string }) => {
         </g>
       </svg>
       <span className="text-sm italic font-bold dark:text-white">
-        Assil Flowers
+        SOL Flowers
       </span>
     </Link>
   );

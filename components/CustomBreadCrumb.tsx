@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Breadcrumb,
@@ -30,19 +31,59 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const items = [
-  { href: "#", label: "Home" },
-  { href: "#", label: "Documentation" },
-  { href: "#", label: "Building Your Application" },
-  { href: "#", label: "Data Fetching" },
-  { label: "Caching and Revalidating" },
-];
-
 const ITEMS_TO_DISPLAY = 3;
+
+interface BreadcrumbItem {
+  href?: string;
+  label: string;
+}
+
+// Function to format path segment into readable text
+const formatPathSegment = (segment: string): string => {
+  // Remove any query parameters
+  segment = segment.split("?")[0];
+  // Replace hyphens and underscores with spaces
+  segment = segment.replace(/[-_]/g, " ");
+  // Capitalize first letter of each word
+  return segment
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
+
+// Function to build breadcrumb items from pathname
+const buildBreadcrumbItems = (pathname: string): BreadcrumbItem[] => {
+  // Remove trailing slash and split path into segments
+  const segments = pathname.replace(/\/$/, "").split("/").filter(Boolean);
+
+  // Start with home
+  const items: BreadcrumbItem[] = [{ href: "/", label: "Home" }];
+
+  // Build up the path and create items
+  let currentPath = "";
+  segments.forEach((segment, index) => {
+    currentPath += `/${segment}`;
+    items.push({
+      href: currentPath,
+      label: formatPathSegment(segment),
+    });
+  });
+
+  // Make the last item non-clickable
+  if (items.length > 0) {
+    const lastItem = items[items.length - 1];
+    items[items.length - 1] = { ...lastItem, href: undefined };
+  }
+
+  return items;
+};
 
 export function BreadcrumbResponsive() {
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
+  const items = buildBreadcrumbItems(pathname);
   const isDesktop = true;
+
   return (
     <Breadcrumb className="w-max">
       <BreadcrumbList>
@@ -107,10 +148,10 @@ export function BreadcrumbResponsive() {
           </>
         ) : null}
         {items.slice(-ITEMS_TO_DISPLAY + 1).map((item, index) => (
-          <>
+          <React.Fragment key={index}>
             {item.href ? (
               <>
-                <BreadcrumbItem key={index}>
+                <BreadcrumbItem>
                   <BreadcrumbLink
                     asChild
                     className="max-w-20 truncate md:max-w-none"
@@ -121,13 +162,13 @@ export function BreadcrumbResponsive() {
                 <BreadcrumbSeparator />
               </>
             ) : (
-              <BreadcrumbItem key={index}>
+              <BreadcrumbItem>
                 <BreadcrumbPage className="max-w-20 truncate md:max-w-none">
                   {item.label}
                 </BreadcrumbPage>
               </BreadcrumbItem>
             )}
-          </>
+          </React.Fragment>
         ))}
       </BreadcrumbList>
     </Breadcrumb>
