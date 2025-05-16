@@ -7,6 +7,8 @@ import Comments from "@/components/Comments";
 import RatingStars from "@/components/RatingStars";
 import RelatedProducts from "@/components/RelatedProducts";
 import { categories } from "@/constants";
+import Link from "next/link";
+import { ArrowBigRightDash } from "lucide-react";
 
 const ProductDetailsWrapper = ({ product }: { product: Product }) => {
   const generateRandomRating = () => {
@@ -14,7 +16,14 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
   };
   console.log(product, "product");
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 relative">
+      <Link
+        href="/products"
+        className="fixed bottom-6 flex text-xs items-center right-6 bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md shadow-lg transition-all duration-200 z-50"
+      >
+        Continue Shopping
+        <ArrowBigRightDash />
+      </Link>
       <div className="flex flex-wrap -mx-4">
         <ProducImagesViewer images={product?.images || []} />
 

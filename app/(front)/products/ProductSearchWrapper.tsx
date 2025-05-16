@@ -85,7 +85,7 @@ const ProductSearchWrapper = ({ data }: any) => {
 
   return (
     <>
-      <div className="mx-auto max-w-7xl container">
+      <div className="mx-auto max-w-7xl sm:container">
         <div className="relative isolate overflow-hidden dark:bg-slate-900 bg-white text-center sm:shadow-sm rounded-md">
           <div className="p-4 space-y-6 flex flex-col w-full">
             <div className="space-y-4 w-full">
