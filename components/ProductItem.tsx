@@ -34,45 +34,44 @@ const ProductItem = ({ product }: { product: Product }) => {
       return;
     }
 
-    // if (productCount < 5) {
-    //   toast({
-    //     title: "Low Stock Warning",
-    //     description: "Limited stock available!",
-    //     variant: "default",
-    //   });
-    // }
+    const currentCartCount = isInCart?.count || 0;
+    if (currentCartCount + 1 > productCount) {
+      toast({
+        title: "Stock Limit Reached",
+        description: `You can only add up to ${productCount} items of this product.`,
+        variant: "destructive",
+      });
+      return;
+    }
 
     dispatch({ type: "ADD_ITEM", payload: product });
   };
   console.log(percentSale, product);
 
   return (
-    <div className="relative m-4 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
+    <div className=" hover:shadow-lg hover:scale-105 transition-all duration-400 relative m-4 flex w-full max-w-md flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 group">
       <Link
         href={`/product/${product.id}`}
         className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
       >
         <Image
           className="object-cover"
-          src={
-            product?.images?.[0] ||
-            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=60"
-          }
+          src={product?.images?.[0] || "/s.webp"}
           alt={product.name}
           fill
         />
         <div className="absolute top-0 flex gap-1 left-0 m-2 rounded-full text-sm font-medium text-white">
-          {percentSale && (
+          {!!percentSale && (
             <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70 dark:bg-gray-900">
               {percentSale}% OFF
             </span>
           )}
-          {isLowOnStock && productCount && (
+          {!!isLowOnStock && !!productCount && (
             <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70 dark:bg-gray-900">
               Only {productCount} left
             </span>
           )}
-          {isOutOfStock && (
+          {!!isOutOfStock && (
             <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70 dark:bg-gray-900">
               Sold Out
             </span>
@@ -80,33 +79,36 @@ const ProductItem = ({ product }: { product: Product }) => {
         </div>
       </Link>
 
-      <div className="mt-4 px-5 pb-5 flex flex-col justify-between h-full">
+      <div className="mt-4 gap-2 px-2 pb-1 flex flex-col justify-between h-full">
         <div>
           <h5 className="text-xl tracking-tight text-slate-900 dark:text-white">
             {product.name}
           </h5>
-          <div className="mt-2 mb-5 flex items-center justify-between">
+          <div className="mt-1 2 flex items-center justify-between">
             <p>
               <span className="text-3xl font-bold text-slate-900 dark:text-white">
-                ${product.price}
+                {product.price || 100} <span className="text-xs"> EGP</span>
               </span>
-              <span className="text-sm text-slate-900 line-through ml-2 dark:text-gray-400">
-                ${Math.round(product.price * 1.6)}
-              </span>
+              {product.oldPrice && (
+                <span className="text-sm text-slate-900 line-through ml-2 dark:text-gray-400">
+                  {Math.round(product.oldPrice || 0)}
+                  <span className="text-xs"> EGP</span>
+                </span>
+              )}
             </p>
-            <div className="flex items-center">
-              {Array(5)
-                .fill(0)
-                .map((_, i) => (
-                  <Star
-                    key={i}
-                    className="h-5 w-5 text-yellow-400 fill-yellow-400"
-                  />
-                ))}
-              <span className="ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold dark:bg-yellow-900 dark:text-yellow-200">
-                5.0
-              </span>
-            </div>
+          </div>
+          <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-900">
+            {Array(5)
+              .fill(0)
+              .map((_, i) => (
+                <Star
+                  key={i}
+                  className="h-5 w-5 text-yellow-400 fill-yellow-400"
+                />
+              ))}
+            <span className="ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold dark:bg-yellow-900 dark:text-yellow-200">
+              5.0
+            </span>
           </div>
         </div>
 

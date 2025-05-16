@@ -1,18 +1,15 @@
 import Link from "next/link";
 import React from "react";
+import Logo from "./Logo";
 
 const Footer = () => {
   return (
     <>
-      <footer className="w-full py-14 bg-primary-foreground">
+      <footer className="w-full py-4 bg-primary-foreground">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
-            <Link
-              href="https://pagedone.io/"
-              className="flex justify-center text-secondary-foreground "
-            >
-              CRYPTO WORLD
-            </Link>
+            <Logo className=" text-center justify-center" />
+
             <ul className="text-lg flex items-center justify-center flex-col gap-7 md:flex-row md:gap-12 transition-all duration-500 py-16 mb-10 border-b border-gray-200">
               <li>
                 <Link
@@ -58,7 +55,7 @@ const Footer = () => {
             <div className="flex space-x-10 justify-center items-center mb-14">
               <Link
                 href="#"
-                className="block  text-gray-900 transition-all duration-500 hover:text-indigo-600 "
+                className="block   transition-all duration-500 hover:text-indigo-600 "
               >
                 <svg
                   className="w-[1.688rem] h-[1.688rem]"
@@ -74,7 +71,7 @@ const Footer = () => {
               </Link>
               <Link
                 href="#"
-                className="block  text-gray-900 transition-all duration-500 hover:text-indigo-600 "
+                className="block  transition-all duration-500 hover:text-indigo-600 "
               >
                 <svg
                   className="w-[1.688rem] h-[1.688rem] "
@@ -90,7 +87,7 @@ const Footer = () => {
               </Link>
               <Link
                 href="#"
-                className="block  text-gray-900 transition-all duration-500 hover:text-indigo-600 "
+                className="block   transition-all duration-500 hover:text-indigo-600 "
               >
                 <svg
                   className="w-[0.938rem] h-[1.625rem]"
@@ -104,7 +101,7 @@ const Footer = () => {
                   />
                 </svg>
               </Link>
-              <Link
+              {/* <Link
                 href="#"
                 className="block  text-gray-900 transition-all duration-500 hover:text-indigo-600 "
               >
@@ -120,10 +117,10 @@ const Footer = () => {
                     fill="currentColor"
                   />
                 </svg>
-              </Link>
+              </Link> */}
             </div>
             <span className="text-lg text-gray-500 text-center block">
-              ©<Link href="/">CRYPTO WORLD</Link> 2024, All rights reserved.
+              ©<Link href="/">Assil Flowers</Link> 2025, All rights reserved.
             </span>
           </div>
         </div>

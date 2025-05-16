@@ -26,14 +26,28 @@ import {
 } from "@/components/ui/sheet";
 import EmptyCart from "./EmptyCart";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { toast } from "./ui/use-toast";
 const CartIcon = () => {
   const [open, setOpen] = useState(false);
   const { state, dispatch } = useCartContext();
   const handleRemoveItem = (item: any) =>
     dispatch({ type: "REMOVE_All_SINGLE_ITEM", payload: item });
 
-  const handleIncrement = (item: any) =>
+  const handleIncrement = (item: any) => {
+    const isInCart = state?.cart?.find((item: any) => item.id === item?.id);
+    const productCount = item.count ?? 0;
+    const currentCartCount = isInCart?.count || 0;
+    if (currentCartCount + 1 > productCount) {
+      toast({
+        title: "Stock Limit Reached",
+        description: `You can only add up to ${productCount} items of this product.`,
+        variant: "destructive",
+      });
+      return;
+    }
     dispatch({ type: "ADD_ITEM", payload: item });
+  };
   const handleDecrement = (item: any) =>
     dispatch({ type: "REMOVE_ITEM", payload: item });
 
@@ -59,37 +73,41 @@ const CartIcon = () => {
             <SheetTitle className="text-center">Your Items So Far</SheetTitle>
             <br />
           </SheetHeader>
-          <div className=" relative flex flex-col items-center  gap-8 max-h-[100%] overflow-auto pb-48 ">
+          <div
+            className={`${
+              !isEmpty ? "pb-72" : "pb-0"
+            } relative flex flex-col items-center  gap-8 max-h-[100%] overflow-auto `}
+          >
             {isEmpty ? (
               <></>
             ) : (
               state?.cart.map((item: any) => (
                 <div
                   key={item?.id}
-                  className="flex gap-4 bg-secondary  px-4 py-6 rounded-md w-full max-w-80  shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)]"
+                  className="flex gap-4 bg-secondary  px-4 py-6  rounded-md w-full max-w-80  shadow-[0_2px_12px_-3px_rgba(6,81,237,0.3)]"
                 >
                   <div className="flex gap-4 items-center">
                     <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0">
-                      <img
-                        src={
-                          item.images[0] ||
-                          "https://readymadeui.com/images/watch1.webp"
-                        }
+                      <Image
+                        src={item.images[0] || "/s.webp"}
+                        alt={item.name}
+                        width={100}
+                        height={100}
                         className="w-full h-full object-contain"
                       />
                     </div>
                     <div className="flex flex-col gap-4">
                       <div>
-                        <h3 className="text-base font-bold text-gray-800">
+                        <h3 className="text-base font-bold text-secondary-foreground">
                           {item.name}
                         </h3>
-                        <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
+                        {/* <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
                           Color:{" "}
                           <span
                             style={{ backgroundColor: item?.colors?.[0] }}
                             className="inline-block w-5 h-5 rounded-md bg-[#ac7f48]"
                           ></span>
-                        </p>
+                        </p> */}
                         <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
                           Price:{" "}
                           <span className="inline-block w-5 h-5 rounded-md ">

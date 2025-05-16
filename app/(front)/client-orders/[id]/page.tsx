@@ -12,7 +12,7 @@ interface OrderItem {
   productId: string;
   name: string;
   price: number;
-  quantity: number;
+  count: number;
   image: string;
 }
 
@@ -38,18 +38,10 @@ const OrderDetails = ({ order }: { order: Order }) => {
     <div className="space-y-8 ">
       {/* Order Status */}
       <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-        <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
-          Order Status
-        </h2>
         <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Order #{order.id.slice(0, 8)}
-            </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Placed on {new Date(order.createdAt).toLocaleDateString()}
-            </p>
-          </div>
+          <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+            Order Status
+          </h2>
           <span
             className={`rounded-full px-3 py-1 text-sm font-medium ${
               order.status === "pending"
@@ -66,6 +58,16 @@ const OrderDetails = ({ order }: { order: Order }) => {
             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
           </span>
         </div>
+        <div className="flex items-start  justify-between">
+          <div>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Order #{order.id.slice(0, 8)}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Placed on {new Date(order.createdAt).toLocaleDateString()}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Order Items */}
@@ -73,7 +75,7 @@ const OrderDetails = ({ order }: { order: Order }) => {
         <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
           Order Items
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-4 max-h-[50vh] overflow-auto">
           {order.items.map((item) => (
             <div
               key={item.productId}
@@ -94,12 +96,13 @@ const OrderDetails = ({ order }: { order: Order }) => {
                     {item.name}
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Qty: {item.quantity}
+                    Qty: {item.count}
                   </p>
                 </div>
               </div>
               <p className="text-sm font-medium text-gray-900 dark:text-white">
-                ${(item.price * item.quantity).toFixed(2)}
+                {(item.price * item.count).toFixed(2)}{" "}
+                <span className="text-xs">EGP</span>
               </p>
             </div>
           ))}
@@ -142,7 +145,7 @@ const OrderDetails = ({ order }: { order: Order }) => {
             Total
           </span>
           <span className="text-lg font-bold text-gray-900 dark:text-white">
-            ${order.total.toFixed(2)}
+            {order.total.toFixed(2)} <span className="text-xs"> EGP</span>
           </span>
         </div>
       </div>
@@ -188,7 +191,7 @@ const OrderDetailsPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 ">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <h1 className="mb-8 text-2xl font-bold text-gray-900 dark:text-white">
           Order Details
         </h1>

@@ -39,7 +39,7 @@ const OrderSummary = ({
         Order Summary
       </h3>
 
-      <div className="space-y-4">
+      <div className="space-y-4 max-h-[50vh] overflow-auto">
         {cartItems.map((item: any) => (
           <div key={item.id} className="flex items-center justify-between">
             <div className="flex items-center gap-4">

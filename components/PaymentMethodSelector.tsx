@@ -48,8 +48,8 @@ const PaymentMethodSelector: React.FC<PaymentMethodSelectorProps> = ({
                 aria-describedby="pay-on-delivery-text"
                 type="radio"
                 name="payment-method"
-                value="pay-on-delivery"
-                checked={paymentMethod === "pay-on-delivery"}
+                value="cod"
+                checked={paymentMethod === "cod"}
                 onChange={(e) => setPaymentMethod(e.target.value)}
                 className="h-4 w-4 border-gray-300 bg-white text-slate-900 focus:ring-2 focus:ring-slate-900 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-slate-900"
               />

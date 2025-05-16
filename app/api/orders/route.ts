@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
 import Order from "@/models/order";
+import Product from "@/models/product"; // Make sure this path is correct
 import connectMongo from "../db";
 import { decodeToken } from "@/lib/server-utils";
 import { HttpStatusCode } from "axios";
-import mongoose from "mongoose";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const token = req.headers.get("Authorization") || "";
-  console.log(token, "auth headers");
   try {
     const { isValid, user } = decodeToken(token);
     if (!isValid) {
@@ -17,8 +16,6 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { shippingDetails, paymentMethod, items, total } = body;
 
-    console.log(shippingDetails, paymentMethod, items, total, "body");
-    // Validate required fields
     if (!shippingDetails || !paymentMethod || !items || !total) {
       return NextResponse.json(
         { message: "Missing required fields" },
@@ -44,9 +41,19 @@ export async function POST(req: Request) {
       status: "pending",
     });
 
+    // Update product stock based on order items
+    for (const item of items) {
+      const res = await Product.findByIdAndUpdate(
+        item.id,
+        { $inc: { count: -item.count } }, // adjust "stock" to your actual field name
+        { new: true }
+      );
+      console.log(res, "res");
+    }
+
     return NextResponse.json(order, { status: 201 });
   } catch (error) {
-    console.error("Error creating order rote:", error);
+    console.error("Error creating order:", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 }

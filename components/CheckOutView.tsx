@@ -14,8 +14,8 @@ import PaymentMethodSelector from "./PaymentMethodSelector";
 
 const CheckOutView = ({ shippingDetails }: any) => {
   const [ddDetails, setDdDetails] = useState<any>(null);
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const { state } = useCartContext();
+  const [paymentMethod, setPaymentMethod] = useState("cod");
+  const { state, dispatch } = useCartContext();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useRouter();
 
@@ -35,14 +35,22 @@ const CheckOutView = ({ shippingDetails }: any) => {
         items: cartItems,
         total,
       });
+      dispatch({ type: "REMOVE_All_ITEMS" });
 
       toast({
         title: "Order created successfully",
-        description: `Order ${order.id} created successfully`,
+        description: `Order #${order.id} created successfully`,
+        variant: "default",
       });
+
       navigate.push(`/client-orders/${order.id}`);
     } catch (error) {
       console.error("Error creating order:", error);
+      toast({
+        title: "Error creating order",
+        description: "Please try again later  ",
+        variant: "destructive",
+      });
     } finally {
       setIsLoading(false);
     }

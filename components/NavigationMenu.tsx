@@ -21,6 +21,8 @@ import { Button } from "./ui/button";
 import CartIcon from "./CartIcon";
 import UserAvatar from "./UserAvatar";
 import { useAuthContext } from "@/providers/auth-provider";
+import PromoBanner from "./PromoBanner";
+import Logo from "./Logo";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -65,15 +67,18 @@ export function CustomNavigationMenu() {
 
   return (
     <>
-      <NavigationMenu className="w-full dark:bg justify-between px-5 py-3 border-b-[1px] border-b-slate-200 dark:border-b-slate-600">
+      <NavigationMenu
+        style={{ boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.4)" }}
+        className="w-full bg-[hsl(var(--background))]  fixed top-0 dark:bg justify-between px-5 py-3 border-b-[1px] border-b-slate-200 dark:border-b-slate-600"
+      >
         <NavigationMenuList>
           <NavigationMenuItem>
-            <a href="/">CRYPTO WORLD</a>
+            <Logo />
           </NavigationMenuItem>
         </NavigationMenuList>
 
         <NavigationMenuList className=" hidden md:flex">
-          <NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
             <NavigationMenuContent className=" z-auto ">
               <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -106,8 +111,8 @@ export function CustomNavigationMenu() {
                 </ListItem>
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
+          </NavigationMenuItem> */}
+          {/* <NavigationMenuItem>
             <NavigationMenuTrigger>Components</NavigationMenuTrigger>
             <NavigationMenuContent className=" z-auto  ">
               <ul
@@ -125,16 +130,24 @@ export function CustomNavigationMenu() {
                 ))}
               </ul>
             </NavigationMenuContent>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
           <NavigationMenuItem>
-            <Link href="/contact-us" legacyBehavior passHref>
+            <Link href="/products" passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Products
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <Link href="/contact-us" passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Contact Us
               </NavigationMenuLink>
             </Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <Link href="/about-us" legacyBehavior passHref>
+            <Link href="/about-us" passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 About Us
               </NavigationMenuLink>

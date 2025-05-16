@@ -73,9 +73,6 @@ export default function Home() {
             <p className="text-xl mb-8">
               Discover amazing products for your home
             </p>
-            {/* <Button size="lg" variant="secondary">
-              Shop Now
-            </Button> */}
             <button className="animate-pulse rounded bg-primary-foreground text-primary px-4 py-2 font-bold hover:bg-primary-foreground/80">
               <Link href="/products">Shop Now</Link>
             </button>{" "}

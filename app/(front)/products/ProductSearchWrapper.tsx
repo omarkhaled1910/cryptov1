@@ -83,8 +83,8 @@ const ProductSearchWrapper = ({ data }: any) => {
       params.delete("category");
     }
 
-    params.set("minPrice", priceRange[0].toString());
-    params.set("maxPrice", priceRange[1].toString());
+    // params.set("minPrice", priceRange[0].toString());
+    // params.set("maxPrice", priceRange[1].toString());
 
     router.push(`/products?${params.toString()}`);
   };
@@ -134,8 +134,8 @@ const ProductSearchWrapper = ({ data }: any) => {
           <div className="p-4 space-y-6 flex flex-col w-full">
             <div className="space-y-4 w-full">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <div className="space-y-2 text-start">
+                  <label className="text-sm text-start font-medium text-gray-700 dark:text-gray-300">
                     Category
                   </label>
                   <Select
@@ -158,7 +158,7 @@ const ProductSearchWrapper = ({ data }: any) => {
                   </Select>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 text-start">
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Price Range
                   </label>
@@ -181,7 +181,7 @@ const ProductSearchWrapper = ({ data }: any) => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 text-start">
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Sort By
                   </label>
@@ -204,7 +204,7 @@ const ProductSearchWrapper = ({ data }: any) => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 text-start">
                   <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Size
                   </label>

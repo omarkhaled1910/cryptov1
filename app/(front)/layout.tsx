@@ -15,6 +15,7 @@ import {
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/providers/cart-provider";
 import { GuardsProvider } from "@/providers/guards-provider";
+import PromoBanner from "@/components/PromoBanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,12 @@ export default function Layout({ children }: { children: ReactElement }) {
         <CartProvider>
           <>
             <CustomNavigationMenu />
+            <br />
+            <br />
+            <br />
+
+            <PromoBanner />
+
             {children}
             <Toaster />
             <Footer />

@@ -18,7 +18,9 @@ export async function GET(
 
   try {
     await connectMongo();
-    const orders = await Order.find({ userId: params.id });
+    const orders = await Order.find({ userId: params.id }, null, {
+      sort: { createdAt: -1 },
+    });
 
     if (orders) {
       return NextResponse.json({ orders });
