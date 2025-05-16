@@ -5,17 +5,23 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import React, { useState, useCallback, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Slider } from "@/components/ui/slider";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ProductSearchWrapper = ({ data }: any) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [slug, setSlug] = useState("");
   const [currentItems, setcurrentItems] = useState(data);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [selectedSortBy, setSelectedSortBy] = useState<string>("");
+  const [selectedSize, setSelectedSize] = useState<string>("");
   const [debouncedPriceRange, setDebouncedPriceRange] = useState<
     [number, number]
   >([0, 1000]);
@@ -46,39 +52,35 @@ const ProductSearchWrapper = ({ data }: any) => {
   };
 
   const handleCategoryChange = (category: string) => {
-    const newCategories = categories.includes(category)
-      ? categories.filter((c) => c !== category)
-      : [...categories, category];
-    setCategories(newCategories);
-    updateSearchParams(newCategories, debouncedPriceRange);
+    setSelectedCategory(category);
+    updateSearchParams(category, debouncedPriceRange);
   };
 
-  const handlePriceChange = (value: number[]) => {
-    const newRange = [value[0], value[1]] as [number, number];
+  const handlePriceChange = (value: string) => {
+    const newRange = [0, parseInt(value)] as [number, number];
     setPriceRange(newRange);
   };
 
   // Debounce the price range updates
   useEffect(() => {
     const timer = setTimeout(() => {
-      /// call ur api here
       setDebouncedPriceRange(priceRange);
-      updateSearchParams(categories, priceRange);
+      updateSearchParams(selectedCategory, priceRange);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [priceRange, categories]);
+  }, [priceRange, selectedCategory]);
 
   const updateSearchParams = (
-    selectedCategories: string[],
+    category: string,
     priceRange: [number, number]
   ) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (selectedCategories.length > 0) {
-      params.set("categories", selectedCategories.join(","));
+    if (category) {
+      params.set("category", category);
     } else {
-      params.delete("categories");
+      params.delete("category");
     }
 
     params.set("minPrice", priceRange[0].toString());
@@ -87,58 +89,143 @@ const ProductSearchWrapper = ({ data }: any) => {
     router.push(`/products?${params.toString()}`);
   };
 
+  const priceRanges = [
+    { value: "0", label: "Any Price" },
+    { value: "50", label: "Under $50" },
+    { value: "100", label: "Under $100" },
+    { value: "200", label: "Under $200" },
+    { value: "500", label: "Under $500" },
+    { value: "1000", label: "Under $1000" },
+  ];
+
+  const categories = [
+    { value: "DEFAULT", label: "All Categories" },
+    { value: "wooden", label: "Wooden" },
+    { value: "plastic", label: "Plastic" },
+    { value: "glass", label: "Glass" },
+  ];
+
+  const sortBy = [
+    { value: "DEFAULT", label: "Default" },
+    { value: "price", label: "Price" },
+    { value: "name", label: "Name" },
+  ];
+
+  const size = [
+    { value: "sm", label: "Small" },
+    { value: "md", label: "Medium" },
+    { value: "lg", label: "Large" },
+  ];
+
+  const handleSortByChange = (value: string) => {
+    setSelectedSortBy(value);
+    // updateSearchParams(selectedCategory, priceRange, value);
+  };
+
+  const handleSizeChange = (value: string) => {
+    setSelectedSize(value);
+    // updateSearchParams(selectedCategory, priceRange, value);
+  };
+
   return (
     <>
-      <div className="mx-auto max-w-7xl container ">
-        <div className="relative isolate overflow-hidden dark:bg-slate-900 bg-white  text-center sm:shadow-sm rounded-md">
-          {/* <form action={handleSearch}>
-            <label className="mx-auto mt-8 relative dark:bg-slate-500 bg-white min-w-sm max-w-2xl flex flex-col md:flex-row items-center justify-center border py-2 px-2 rounded-2xl gap-2 shadow-2xl focus-within:border-gray-300">
-              <input
-                id="search-bar"
-                placeholder="your keyword here"
-                name="q"
-                className="px-6 py-2 w-full rounded-md flex-1 outline-none dark:bg-slate-500 bg-white"
-                onChange={(e) => {
-                  e.target.form?.requestSubmit();
-                  setSlug(e.target.value);
-                }}
-              />
-            </label>
-          </form> */}
-          <div className="p-4 space-y-6 flex flex-col  w-full">
+      <div className="mx-auto max-w-7xl container">
+        <div className="relative isolate overflow-hidden dark:bg-slate-900 bg-white text-center sm:shadow-sm rounded-md">
+          <div className="p-4 space-y-6 flex flex-col w-full">
             <div className="space-y-4 w-full">
-              <h3 className="text-lg font-semibold">Categories</h3>
-              <div className="space-y-2 flex items-end gap-2 justify-center">
-                {["wooden", "plastic", "glass"].map((category) => (
-                  <div key={category} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={category}
-                      checked={categories.includes(category)}
-                      onCheckedChange={() => handleCategoryChange(category)}
-                    />
-                    <Label htmlFor={category} className="capitalize">
-                      {category}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Category
+                  </label>
+                  <Select
+                    value={selectedCategory || "DEFAULT"}
+                    onValueChange={handleCategoryChange}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem
+                          key={category.value}
+                          value={category.value || "DEFAULT"}
+                        >
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-            <div className="space-y-4 w-full">
-              <h3 className="text-lg font-semibold">Price Range</h3>
-              <div className="px-4">
-                <Slider
-                  defaultValue={[0, 1000]}
-                  min={0}
-                  max={1000}
-                  step={10}
-                  value={priceRange}
-                  onValueChange={handlePriceChange}
-                  className="w-full"
-                />
-                <div className="flex justify-between mt-2 text-sm text-gray-500">
-                  <span>${priceRange[0]}</span>
-                  <span>${priceRange[1]}</span>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Price Range
+                  </label>
+                  <Select
+                    value={priceRange[1].toString() || "DEFAULT"}
+                    onValueChange={handlePriceChange}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select price range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {priceRanges.map((range) => (
+                        <SelectItem
+                          key={range.value}
+                          value={range.value || "DEFAULT"}
+                        >
+                          {range.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Sort By
+                  </label>
+                  <Select
+                    value={selectedCategory || "DEFAULT"}
+                    onValueChange={handleSortByChange}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {sortBy.map((category) => (
+                        <SelectItem
+                          key={category.value}
+                          value={category.value || "DEFAULT"}
+                        >
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Size
+                  </label>
+                  <Select
+                    value={selectedCategory || "DEFAULT"}
+                    onValueChange={handleSizeChange}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {size.map((category) => (
+                        <SelectItem
+                          key={category.value}
+                          value={category.value || "DEFAULT"}
+                        >
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -171,7 +258,7 @@ const ProductSearchWrapper = ({ data }: any) => {
         loadMoreCount={10}
         totalCount={currentItems?.productsCount}
         searchSlug={slug}
-        categories={categories}
+        categories={selectedCategory ? [selectedCategory] : []}
         priceRange={priceRange}
       />
     </>

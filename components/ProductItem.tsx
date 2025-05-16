@@ -47,7 +47,7 @@ const ProductItem = ({ product }: { product: Product }) => {
   console.log(percentSale, product);
 
   return (
-    <div className="relative m-4 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white  shadow-md">
+    <div className="relative m-4 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800">
       <Link
         href={`/product/${product.id}`}
         className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
@@ -61,19 +61,19 @@ const ProductItem = ({ product }: { product: Product }) => {
           alt={product.name}
           fill
         />
-        <div className="absolute top-0 flex gap-1 left-0 m-2 rounded-full  text-sm font-medium text-white">
+        <div className="absolute top-0 flex gap-1 left-0 m-2 rounded-full text-sm font-medium text-white">
           {percentSale && (
-            <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70">
+            <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70 dark:bg-gray-900">
               {percentSale}% OFF
             </span>
           )}
           {isLowOnStock && productCount && (
-            <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70">
+            <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70 dark:bg-gray-900">
               Only {productCount} left
             </span>
           )}
           {isOutOfStock && (
-            <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70">
+            <span className="bg-black px-2 text-sm font-medium text-white rounded-full opacity-70 dark:bg-gray-900">
               Sold Out
             </span>
           )}
@@ -82,15 +82,15 @@ const ProductItem = ({ product }: { product: Product }) => {
 
       <div className="mt-4 px-5 pb-5 flex flex-col justify-between h-full">
         <div>
-          <h5 className="text-xl tracking-tight text-slate-900">
+          <h5 className="text-xl tracking-tight text-slate-900 dark:text-white">
             {product.name}
           </h5>
           <div className="mt-2 mb-5 flex items-center justify-between">
             <p>
-              <span className="text-3xl font-bold text-slate-900">
+              <span className="text-3xl font-bold text-slate-900 dark:text-white">
                 ${product.price}
               </span>
-              <span className="text-sm text-slate-900 line-through ml-2">
+              <span className="text-sm text-slate-900 line-through ml-2 dark:text-gray-400">
                 ${Math.round(product.price * 1.6)}
               </span>
             </p>
@@ -103,7 +103,7 @@ const ProductItem = ({ product }: { product: Product }) => {
                     className="h-5 w-5 text-yellow-400 fill-yellow-400"
                   />
                 ))}
-              <span className="ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
+              <span className="ml-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold dark:bg-yellow-900 dark:text-yellow-200">
                 5.0
               </span>
             </div>
@@ -119,11 +119,11 @@ const ProductItem = ({ product }: { product: Product }) => {
                   handleRemoveFromCart();
                 }}
                 variant="outline"
-                className="h-12 w-12 p-0"
+                className="h-12 w-12 p-0 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white"
               >
                 <CircleMinus className="w-6 h-6" />
               </Button>
-              <div className="mx-4 text-lg font-medium  text-black">
+              <div className="mx-4 text-lg font-medium text-slate-900 dark:text-white">
                 {isInCart.count}
               </div>
             </>
@@ -134,7 +134,7 @@ const ProductItem = ({ product }: { product: Product }) => {
               e.stopPropagation();
               handleAddToCart();
             }}
-            className="flex-1 h-12 font-medium text-white bg-slate-900 hover:bg-gray-700"
+            className="flex-1 h-12 font-medium text-white bg-slate-900 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
             disabled={productCount === 0}
           >
             {!!productCount && <PlusCircle className="w-5 h-5 mr-2" />}
