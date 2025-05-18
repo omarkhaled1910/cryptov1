@@ -62,7 +62,8 @@ const OrderSummary = ({
               </div>
             </div>
             <p className="text-sm font-medium text-gray-900 dark:text-white">
-              ${(item.price * item.count).toFixed(2)}
+              {(item.price * item.count).toFixed(2)}
+              <span className="text-xs"> EGP</span>
             </p>
           </div>
         ))}
@@ -74,7 +75,8 @@ const OrderSummary = ({
             Subtotal
           </span>
           <span className="text-base font-medium text-gray-900 dark:text-white">
-            ${subtotal.toFixed(2)}
+            {subtotal.toFixed(2)}
+            <span className="text-xs"> EGP</span>
           </span>
         </div>
 
@@ -83,7 +85,8 @@ const OrderSummary = ({
             Shipping
           </span>
           <span className="text-base font-medium text-gray-900 dark:text-white">
-            ${shippingCost.toFixed(2)}
+            {shippingCost.toFixed(2)}
+            <span className="text-xs"> EGP</span>
           </span>
         </div>
 

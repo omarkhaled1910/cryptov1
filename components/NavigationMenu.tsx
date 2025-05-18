@@ -68,7 +68,10 @@ export function CustomNavigationMenu() {
   return (
     <>
       <NavigationMenu
-        style={{ boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.4)" }}
+        style={{
+          boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.4)",
+          zIndex: 999999999,
+        }}
         className="w-full bg-[hsl(var(--background))]  fixed top-0 dark:bg justify-between px-5 py-3 border-b-[1px] border-b-slate-200 dark:border-b-slate-600"
       >
         <NavigationMenuList>

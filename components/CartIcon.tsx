@@ -111,7 +111,8 @@ const CartIcon = () => {
                         <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
                           Price:{" "}
                           <span className="inline-block w-5 h-5 rounded-md ">
-                            {item.price}$
+                            {item.price}
+                            <span className="text-xs"> EGP</span>
                           </span>
                         </p>
                       </div>
@@ -160,7 +161,10 @@ const CartIcon = () => {
           {!isEmpty ? (
             <>
               <div className="flex gap-2 flex-col items-center justify-center pt-10 bg-primary-foreground w-full  h-48 absolute bottom-0 ">
-                <h2 className="text-lg font-bold  ">Total: {state?.total}$</h2>
+                <h2 className="text-lg font-bold  ">
+                  Total: {state?.total}
+                  <span className="text-xs"> EGP</span>
+                </h2>
                 <p className="text-sm font-semibold text-secondary-foreground mt-2 flex items-center gap-2">
                   Total Items: {state?.totalCount}
                 </p>
