@@ -25,6 +25,8 @@ const ProductItem = ({ product }: { product: Product }) => {
   const isOutOfStock = productCount === 0;
 
   const handleAddToCart = () => {
+    if (!isInCart) {
+    }
     if (productCount === 0) {
       toast({
         title: "Out of Stock",
@@ -49,7 +51,7 @@ const ProductItem = ({ product }: { product: Product }) => {
   console.log(percentSale, product);
 
   return (
-    <div className=" hover:shadow-lg hover:scale-105 transition-all duration-400 relative flex w-full max-w-md flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 group">
+    <div className=" h-full justify-between hover:shadow-lg hover:scale-105 transition-all duration-400 relative flex w-full max-w-md flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 group">
       <Link
         href={`/product/${product.id}`}
         className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
@@ -79,7 +81,7 @@ const ProductItem = ({ product }: { product: Product }) => {
         </div>
       </Link>
 
-      <div className="mt-4 gap-2 px-2 pb-1 flex flex-col justify-between h-full">
+      <div className="mt-4 gap-2 px-2 pb-1 flex flex-col justify-end h-max">
         <div>
           <h5 className="text-xl tracking-tight text-slate-900 dark:text-white">
             {product.name}

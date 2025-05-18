@@ -50,7 +50,7 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
               " Experience premium sound quality and industry-leading noisecancellation with these wireless headphones. Perfect for musiclovers and frequent travelers."}
           </p>
 
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Colors:</h3>
             <div className="flex space-x-2">
               {product?.colors?.map((color) => (
@@ -61,7 +61,7 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
                 ></button>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* <div className="mb-6">
           <label for="quantity" className="block text-sm font-medium text-gray-700 mb-1">Quantity:</label>

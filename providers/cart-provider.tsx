@@ -19,9 +19,13 @@ export const emptyCart = {
 const CartContext = createContext<{
   state: any;
   dispatch: Dispatch<any>;
+  open: boolean;
+  setOpen: (open: boolean) => void;
 }>({
   state: {},
   dispatch: () => {},
+  open: false,
+  setOpen: () => {},
 });
 const cartReducer = (state: any, action: any) => {
   let addedItem = action.payload;
@@ -111,12 +115,16 @@ export const CartProvider = ({
 }) => {
   const previousCart = getUpdatedCartFromLocalStorage();
   const [state, dispatch] = useReducer(cartReducer, previousCart);
+  const [open, setOpen] = React.useState(false);
+
   const value = useMemo(
     () => ({
       state,
       dispatch,
+      open,
+      setOpen,
     }),
-    [state]
+    [state, open]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { IShippingDetails } from "@/models/client";
 
 interface OrderItem {
   productId: string;
@@ -16,20 +17,13 @@ interface OrderItem {
   image: string;
 }
 
-interface ShippingDetails {
-  country: string;
-  city: string;
-  street: string;
-  id: string;
-}
-
 interface Order {
   id: string;
   status: string;
   total: number;
   createdAt: string;
   items: OrderItem[];
-  shippingDetails: ShippingDetails;
+  shippingDetails: IShippingDetails;
   paymentMethod: string;
 }
 
@@ -119,7 +113,14 @@ const OrderDetails = ({ order }: { order: Order }) => {
             {order.shippingDetails.street}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {order.shippingDetails.city}, {order.shippingDetails.country}
+            Building {order.shippingDetails.buildingNumber}, Floor{" "}
+            {order.shippingDetails.floor}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Apartment {order.shippingDetails.apartment}
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            {order.shippingDetails.city}
           </p>
         </div>
       </div>

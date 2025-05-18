@@ -21,7 +21,7 @@ const VerifyNumber = ({ action, isVerfied }: any) => {
   const [changePrefix, setChangePrefix] = useState(countries[0]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [name, setName] = useState("");
-
+  const [email, setEmail] = useState("");
   const [recaptchaVerifier, setRecaptchaVerifier] =
     useState<RecaptchaVerifier>();
 
@@ -108,7 +108,18 @@ const VerifyNumber = ({ action, isVerfied }: any) => {
 
       <AnimatedModalDemo
         triggerClassName={"hidden"}
-        footer={!showOTP ? <Footer submit={handleSubmit} /> : <></>}
+        footer={
+          !showOTP ? (
+            <Footer
+              submit={handleSubmit}
+              name={name}
+              phoneNumber={phoneNumber}
+              // email={email}
+            />
+          ) : (
+            <></>
+          )
+        }
         showClose={false}
         trigger={<Trigger isVerfied={isVerfied} />}
       >
@@ -143,6 +154,10 @@ const VerifyNumber = ({ action, isVerfied }: any) => {
                 placeholder="Your Name"
                 onChange={(e) => setName(e.target.value)}
               />
+              {/* <Input
+                placeholder="Your Email"
+                onChange={(e) => setEmail(e.target.value)}
+              /> */}
               <PhoneNumberInput
                 onNumberChange={setPhoneNumber}
                 onChange={setChangePrefix}
@@ -165,10 +180,14 @@ const Trigger = ({ isVerfied }: any) => {
   return <></>;
 };
 
-const Footer = ({ submit }: any) => {
+const Footer = ({ submit, name, phoneNumber, email = "email" }: any) => {
   const { setOpen } = useModal();
 
-  return <Button onClick={submit}>Send OTP</Button>;
+  return (
+    <Button disabled={!name || !phoneNumber || !email} onClick={submit}>
+      Send OTP
+    </Button>
+  );
 };
 
 export default VerifyNumber;

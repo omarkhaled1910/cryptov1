@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
@@ -28,9 +28,9 @@ import EmptyCart from "./EmptyCart";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { toast } from "./ui/use-toast";
+
 const CartIcon = () => {
-  const [open, setOpen] = useState(false);
-  const { state, dispatch } = useCartContext();
+  const { state, dispatch, open, setOpen } = useCartContext();
   const handleRemoveItem = (item: any) =>
     dispatch({ type: "REMOVE_All_SINGLE_ITEM", payload: item });
 
@@ -160,20 +160,16 @@ const CartIcon = () => {
           {!isEmpty ? (
             <>
               <div className="flex gap-2 flex-col items-center justify-center pt-10 bg-primary-foreground w-full  h-48 absolute bottom-0 ">
-                <h2 className="text-lg font-bold text-gray-800 ">
-                  Total: {state?.total}$
-                </h2>
-                <p className="text-sm font-semibold text-gray-500 mt-2 flex items-center gap-2">
-                  TotalItems: {state?.totalCount}
+                <h2 className="text-lg font-bold  ">Total: {state?.total}$</h2>
+                <p className="text-sm font-semibold text-secondary-foreground mt-2 flex items-center gap-2">
+                  Total Items: {state?.totalCount}
                 </p>
                 <Link
                   className="w-full max-w-80"
                   onClick={() => setOpen(false)}
                   href={"/checkout"}
                 >
-                  <Button className="w-full max-w-80" variant="secondary">
-                    Checkout
-                  </Button>
+                  <Button className="w-full max-w-80">Checkout</Button>
                 </Link>
                 <SheetClose className="w-full max-w-80">
                   <Button

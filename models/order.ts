@@ -1,12 +1,7 @@
 import { model, models, Schema } from "mongoose";
+import { IShippingDetails } from "./client";
 
 // Define the shipping details interface
-interface IShippingDetails {
-  country: string;
-  city: string;
-  street: string;
-  id: string;
-}
 
 // Define the order item interface
 interface IOrderItem {
@@ -45,9 +40,11 @@ const OrderItemSchema = new Schema<IOrderItem>(
 // Define the schema for shipping details
 const ShippingDetailsSchema = new Schema<IShippingDetails>(
   {
-    country: { type: String, required: true },
     city: { type: String, required: true },
     street: { type: String, required: true },
+    floor: { type: String, required: true },
+    apartment: { type: String, required: true },
+    buildingNumber: { type: String, required: true },
     id: { type: String, required: true },
   },
   { _id: false }

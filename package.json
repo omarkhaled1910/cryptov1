@@ -34,7 +34,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "firebase": "^10.3.1",
-    "framer-motion": "^11.3.6",
+    "framer-motion": "^11.18.2",
     "heic2any": "^0.0.4",
     "input-otp": "^1.2.4",
     "intl-locale-textinfo-polyfill": "^2.1.1",

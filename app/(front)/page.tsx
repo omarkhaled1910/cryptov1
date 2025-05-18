@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import ProductItem from "@/components/ProductItem";
-import { Product } from "@/constants/productTable";
+
+import { motion } from "framer-motion";
 import RelatedProducts from "@/components/RelatedProducts";
 
 // Dummy data for demonstration
@@ -24,52 +23,30 @@ const categories = [
   { id: "wood", name: "Wood", image: "/flow33.webp", link: "?category=wood" },
 ];
 
-// const featuredProducts: Product[] = [
-//   {
-//     id: "1",
-//     name: "Premium Glass Vase",
-//     price: 49.99,
-//     category: "Glass",
-//     count: 10,
-//     images: ["/glass-vase.jpg"],
-//     colors: ["#ffffff", "#000000"],
-//     tags: ["glass", "home", "decor"],
-//     status: "inStock",
-//     description:
-//       "A beautiful handcrafted glass vase perfect for home decoration",
-//   },
-//   {
-//     id: "2",
-//     name: "Eco-Friendly Plastic Chair",
-//     price: 89.99,
-//     category: "Plastic",
-//     count: 5,
-//     images: ["/plastic-chair.jpg"],
-//     colors: ["#ffffff", "#000000"],
-//     tags: ["plastic", "furniture"],
-//     status: "inStock",
-//     description: "Modern and sustainable plastic chair for your home or office",
-//   },
-//   {
-//     id: "3",
-//     name: "Handcrafted Wood Table",
-//     price: 199.99,
-//     category: "Wood",
-//     count: 3,
-//     images: ["/wood-table.jpg"],
-//     colors: ["#8B4513", "#000000"],
-//     tags: ["wood", "furniture"],
-//     status: "inStock",
-//     description: "Elegant wooden table made from premium quality materials",
-//   },
-//   // Add more products as needed
-// ];
+const container = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.25,
+    },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 90 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.9 },
+  },
+};
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative h-[500px] w-full">
+      <div className="relative h-[600px] w-full">
         <Image
           src="/flow1.webp"
           alt="Hero Banner"
@@ -78,13 +55,18 @@ export default function Home() {
           priority
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <div className="text-center text-white">
-            <h1 className="text-4xl font-bold mb-4">Welcome to Our Store</h1>
-            <p className="text-xl mb-8">
-              Discover amazing products for your home
-            </p>
+          <div className="text-center text-white flex flex-col items-center">
+            <h1 className="text-5xl font-bold mb-4">
+              Bring Beauty to Every Space
+            </h1>
+            <div className=" max-w-[480px] text-center">
+              <p className="text-xl w-full  mb-8">
+                Explore our premium collection of artificial flowers — perfect
+                for home décor, events, weddings, offices, and more.
+              </p>
+            </div>
             <button className="animate-pulse rounded bg-primary-foreground text-primary px-4 py-2 font-bold hover:bg-primary-foreground/80">
-              <Link href="/products">Shop Now</Link>
+              <Link href="/products">Shop Our Latest Collection</Link>
             </button>{" "}
           </div>
         </div>
@@ -95,27 +77,34 @@ export default function Home() {
         <h2 className="text-2xl font-bold mb-8 text-center">
           Shop by Category
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="visible" // Triggers when scrolled into view
+          viewport={{ once: true, margin: "-50px" }} // Only animate once, and trigger 50px before fully visible
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
           {categories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/products${category.link}`}
-              className="group relative h-64 rounded-lg overflow-hidden"
-            >
-              <Image
-                src={category.image}
-                alt={category.name}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <h3 className="text-white text-2xl font-bold">
-                  {category.name}
-                </h3>
-              </div>
-            </Link>
+            <motion.div key={category.id} variants={item}>
+              <Link
+                href={`/products${category.link}`}
+                className="group relative h-64 rounded-lg overflow-hidden block"
+              >
+                <Image
+                  src={category.image}
+                  alt={category.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <h3 className="text-white text-2xl font-bold">
+                    {category.name}
+                  </h3>
+                </div>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Featured Products */}

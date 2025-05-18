@@ -14,6 +14,7 @@ import {
   deleteShippingAddress,
 } from "@/app/actions/client";
 import CircularProgress from "./ui/circular-progress";
+import { Button } from "./ui/button";
 
 const DeliveryDetails = ({
   currentShippingAdress,
@@ -25,13 +26,36 @@ const DeliveryDetails = ({
     null
   );
   const { dispatch, state } = useAuthContext();
+  const [formValues, setFormValues] = useState({
+    city: "",
+    buildingNumber: "",
+    floor: "",
+    apartment: "",
+    street: "",
+  });
+
+  const isFormValid = Object.values(formValues).every(
+    (value) => value.trim() !== ""
+  );
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e: FormData) => {
     try {
       setLoading(true);
       const address = {
-        country: e.get("country"),
         city: e.get("city"),
+        buildingNumber: e.get("buildingNumber"),
+        floor: e.get("floor"),
+        apartment: e.get("apartment"),
         street: e.get("street"),
       };
 
@@ -48,6 +72,13 @@ const DeliveryDetails = ({
       }
 
       formRef.current?.reset();
+      setFormValues({
+        city: "",
+        buildingNumber: "",
+        floor: "",
+        apartment: "",
+        street: "",
+      });
     } catch (error) {
       console.error("Error adding shipping address:", error);
     } finally {
@@ -81,74 +112,71 @@ const DeliveryDetails = ({
         Delivery Details
       </h2>
       <div className="my-8 flex flex-wrap gap-6">
-        {state?.shippingDetails?.map((shippingDetail: any) => (
-          <div
-            key={shippingDetail?.id}
-            className={cn(
-              "cursor-pointer relative block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700",
-              shippingDetail?.id === currentShippingAdress?.id
-                ? "border-primary dark:border-white"
-                : ""
-            )}
-          >
-            <div className="flex justify-between items-start">
-              <div onClick={() => handleChooseShippingAdress(shippingDetail)}>
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {shippingDetail.street}
-                </h5>
-                <p className="font-normal text-gray-700 dark:text-gray-400">
-                  {shippingDetail.country} * {shippingDetail.city}
-                </p>
-              </div>
-              <button
-                onClick={() => handleDeleteAddress(shippingDetail.id)}
-                className="text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={deletingAddressId === shippingDetail.id}
-              >
-                {deletingAddressId === shippingDetail.id ? (
-                  <CircularProgress />
-                ) : (
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
+        {state?.shippingDetails.length === 0 ? (
+          <div className="w-full flex flex-col items-center justify-center">
+            <p className="block">No Addresses Found</p>
+            <p>Add a new address</p>
           </div>
-        ))}
+        ) : (
+          state?.shippingDetails?.map((shippingDetail: any) => (
+            <div
+              key={shippingDetail?.id}
+              className={cn(
+                "cursor-pointer relative block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700",
+                shippingDetail?.id === currentShippingAdress?.id
+                  ? "border-primary dark:border-white"
+                  : ""
+              )}
+            >
+              <div className="flex justify-between items-start">
+                <div onClick={() => handleChooseShippingAdress(shippingDetail)}>
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {shippingDetail.street}
+                  </h5>
+                  <div className="space-y-1">
+                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                      Building {shippingDetail.buildingNumber}, Floor{" "}
+                      {shippingDetail.floor}
+                    </p>
+                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                      Apartment {shippingDetail.apartment}
+                    </p>
+                    <p className="font-normal text-gray-700 dark:text-gray-400">
+                      {shippingDetail.city}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleDeleteAddress(shippingDetail.id)}
+                  className="text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={deletingAddressId === shippingDetail.id}
+                >
+                  {deletingAddressId === shippingDetail.id ? (
+                    <CircularProgress />
+                  ) : (
+                    <svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  )}
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
       <form ref={formRef} action={handleSubmit}>
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <div className="mb-2 flex items-center gap-2">
-                <label
-                  aria-label="select-country-input-3"
-                  className="block text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Country*
-                </label>
-              </div>
-              <Select name="country">
-                <SelectTrigger className={cn("py-7")}>
-                  <SelectValue placeholder="Select a Country" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Egypt">Egypt</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
             <div>
               <div className="mb-2 flex items-center gap-2">
                 <label
@@ -159,7 +187,12 @@ const DeliveryDetails = ({
                 </label>
               </div>
 
-              <Select name="city">
+              <Select
+                name="city"
+                onValueChange={(value) =>
+                  handleInputChange({ target: { name: "city", value } } as any)
+                }
+              >
                 <SelectTrigger className={cn("py-7")}>
                   <SelectValue placeholder="Select a City" />
                 </SelectTrigger>
@@ -168,23 +201,80 @@ const DeliveryDetails = ({
                 </SelectContent>
               </Select>
             </div>
+
+            <div>
+              <div className="mb-2 flex items-center gap-2">
+                <label
+                  aria-label="building-number-input"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Building Number*
+                </label>
+              </div>
+              <Input
+                className="w-full"
+                name="buildingNumber"
+                value={formValues.buildingNumber}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div>
+              <div className="mb-2 flex items-center gap-2">
+                <label
+                  aria-label="floor-input"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Floor*
+                </label>
+              </div>
+              <Input
+                className="w-full"
+                name="floor"
+                value={formValues.floor}
+                onChange={handleInputChange}
+              />
+            </div>
+
+            <div>
+              <div className="mb-2 flex items-center gap-2">
+                <label
+                  aria-label="apartment-input"
+                  className="block text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Apartment*
+                </label>
+              </div>
+              <Input
+                className="w-full"
+                name="apartment"
+                value={formValues.apartment}
+                onChange={handleInputChange}
+              />
+            </div>
+
             <div className="sm:col-span-2">
               <div className="mb-2 flex items-center gap-2">
                 <label
-                  aria-label="select-city-input-3"
+                  aria-label="street-input"
                   className="block text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Street*
                 </label>
               </div>
-              <Input className="w-full" name="street" />
+              <Input
+                className="w-full"
+                name="street"
+                value={formValues.street}
+                onChange={handleInputChange}
+              />
             </div>
 
             <div className="sm:col-span-2">
-              <button
+              <Button
                 type="submit"
-                disabled={loading}
-                className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={loading || !isFormValid}
+                className="w-full"
               >
                 {loading ? (
                   <CircularProgress />
@@ -207,8 +297,8 @@ const DeliveryDetails = ({
                     />
                   </svg>
                 )}
-                Add new address
-              </button>
+                Save Address
+              </Button>
             </div>
           </div>
         </div>

@@ -35,15 +35,17 @@ const CheckOutView = ({ shippingDetails }: any) => {
         items: cartItems,
         total,
       });
-      dispatch({ type: "REMOVE_All_ITEMS" });
+      if (order) {
+        dispatch({ type: "REMOVE_All_ITEMS" });
+        toast({
+          title: "Order created successfully",
+          description: `Order #${order?.id} created successfully`,
+          variant: "default",
+        });
 
-      toast({
-        title: "Order created successfully",
-        description: `Order #${order.id} created successfully`,
-        variant: "default",
-      });
+        navigate.push(`/client-orders/${order.id}`);
+      }
 
-      navigate.push(`/client-orders/${order.id}`);
     } catch (error) {
       console.error("Error creating order:", error);
       toast({
