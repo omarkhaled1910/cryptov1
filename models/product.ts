@@ -24,6 +24,11 @@ export interface IProduct {
   oldPrice?: number;
   tags?: string[];
   comments?: IComment[];
+  length: number;
+  quantitySold: number;
+  noOfOrders: number;
+  manfPrice: number;
+  id: string;
 }
 
 const CommentSchema = new Schema<IComment>({
@@ -51,6 +56,10 @@ const ProductSchema = new Schema<IProduct>(
     colors: [{ type: String }],
     tags: [{ type: String }],
     comments: [CommentSchema],
+    length: { type: Number, default: 0 },
+    quantitySold: { type: Number, default: 0 },
+    noOfOrders: { type: Number, default: 0 },
+    manfPrice: { type: Number, required: true },
   },
   {
     timestamps: true,

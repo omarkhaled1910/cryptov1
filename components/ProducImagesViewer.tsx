@@ -22,10 +22,10 @@ const ProducImagesViewer = ({ images }: { images?: string[] }) => {
       <Image
         src={currentImage}
         alt="Product"
-        className="w-full h-auto rounded-lg shadow-md mb-4"
+        className="  max-h-[400px] w-max m-auto object-contain rounded-lg shadow-md mb-4"
         id="mainImage"
-        width={100}
-        height={100}
+        width={300}
+        height={200}
       />
       <div className="flex gap-4 py-4 justify-center overflow-x-auto">
         {currentImages.map((url) => (

@@ -1,15 +1,18 @@
 "use client";
 
 import React from "react";
-import { Product } from "@/constants/productTable";
 import { useCartContext } from "@/providers/cart-provider";
 import { CircleMinus, PlusCircle, Star } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
+import { IProduct } from "@/models/product";
+import { Meow_Script } from "next/font/google";
 
-const ProductItem = ({ product }: { product: Product }) => {
+const meow = Meow_Script({ weight: "400", subsets: ["latin-ext"] });
+
+const ProductItem = ({ product }: { product: IProduct }) => {
   const { state, dispatch } = useCartContext();
   const { toast } = useToast();
   const isInCart = state?.cart?.find((item: any) => item.id === product?.id);
@@ -83,7 +86,9 @@ const ProductItem = ({ product }: { product: Product }) => {
 
       <div className="mt-4 gap-2 px-2 pb-1 flex flex-col justify-end h-max">
         <div>
-          <h5 className="text-xl tracking-tight text-slate-900 dark:text-white">
+          <h5
+            className={`text-3xl tracking-tight text-slate-900 dark:text-white ${meow.className}`}
+          >
             {product.name}
           </h5>
           <div className="mt-1 2 flex items-center justify-between">

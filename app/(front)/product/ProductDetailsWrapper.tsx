@@ -1,7 +1,6 @@
 import AddToCartUserButtons from "@/components/AddToCartUserButtons";
 import ProducImagesViewer from "@/components/ProducImagesViewer";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/constants/productTable";
 import React from "react";
 import Comments from "@/components/Comments";
 import RatingStars from "@/components/RatingStars";
@@ -9,12 +8,19 @@ import RelatedProducts from "@/components/RelatedProducts";
 import { categories } from "@/constants";
 import Link from "next/link";
 import { ArrowBigRightDash } from "lucide-react";
+import { IProduct } from "@/models/product";
+import { Inter, Meow_Script } from "next/font/google";
 
-const ProductDetailsWrapper = ({ product }: { product: Product }) => {
+const meow = Meow_Script({ weight: "400", subsets: ["latin-ext"] });
+
+const ProductDetailsWrapper = ({ product }: { product: IProduct }) => {
   const generateRandomRating = () => {
     return Math.floor(Math.random() * 4) + 3;
   };
   console.log(product, "product");
+  const percentSale =
+    product?.oldPrice &&
+    Math.round(((product?.oldPrice - product.price) / product?.oldPrice) * 100);
   return (
     <div className="container mx-auto px-4 py-8 relative">
       <Link
@@ -24,23 +30,30 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
         Continue Shopping
         <ArrowBigRightDash />
       </Link>
-      <div className="flex flex-wrap -mx-4">
+      <div className="flex flex-wrap items-center -mx-4">
         <ProducImagesViewer images={product?.images || []} />
 
         <div className="w-full md:w-1/2 px-4">
-          <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
-          <p className="text-gray-600 mb-4">
-            Category:{" "}
-            {categories.find((category) => category.value === product.category)
-              ?.label || "NA"}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-accent bg-accent-foreground  w-max  px-6 py-1 rounded-full mb-4 bg-se">
+              {categories.find(
+                (category) => category.value === product.category
+              )?.label || "NA"}
+            </p>
+            <p className="text-destructive bg-destructive-foreground  w-max  px-6 py-1 rounded-full mb-4 bg-se">
+              - {percentSale}%
+            </p>
+          </div>
+
+          <h2 className={`text-4xl  mb-2 ${meow.className}`}>{product.name}</h2>
+
           <div className="mb-4">
             <span className="text-2xl font-bold mr-2">
-              {product.price || "$39.99"} EGPs
+              {product.price || "$39.99"} <span className="text-xs"> EGP</span>
             </span>
-            <span className="text-gray-500 line-through">
-              {product.oldPrice || "$399.99"} EGP
-            </span>
+            {/* <span className="text-gray-500 line-through">
+              {product.oldPrice || "$399.99"}{" "}
+            </span> */}
           </div>
           <div className="mb-4">
             <RatingStars rating={generateRandomRating()} />
@@ -49,6 +62,9 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
             {product.description ||
               " Experience premium sound quality and industry-leading noisecancellation with these wireless headphones. Perfect for musiclovers and frequent travelers."}
           </p>
+          <p>Length is {product.length} CM</p>
+
+          <br />
 
           {/* <div className="mb-6">
             <h3 className="text-lg font-semibold mb-2">Colors:</h3>
@@ -70,7 +86,7 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
         </div> */}
 
           <AddToCartUserButtons product={product} />
-          <div>
+          {/* <div>
             <h3 className="text-lg font-semibold mb-2">Key Tags:</h3>
             <ul className="list-disc list-inside text-gray-700">
               {product?.tags?.map((tag) => (
@@ -79,7 +95,7 @@ const ProductDetailsWrapper = ({ product }: { product: Product }) => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
       <RelatedProducts

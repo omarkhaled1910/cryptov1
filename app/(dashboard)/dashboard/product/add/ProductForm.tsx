@@ -22,10 +22,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { majorColors } from "@/constants";
-import { Product } from "@/constants/productTable";
 import { UseUploadImagesResult } from "@/hooks/useUploadImages";
 import { mapStringToValue } from "@/lib/react-select-utils";
 import { cn } from "@/lib/utils";
+import { IProduct } from "@/models/product";
 
 import React from "react";
 const className =
@@ -35,7 +35,7 @@ const ProductForm = ({
   initialVlaues,
   tags,
 }: {
-  initialVlaues?: Product;
+  initialVlaues?: IProduct;
   imageUploadUtilities: UseUploadImagesResult;
   tags: string[];
 }) => {
@@ -146,6 +146,36 @@ const ProductForm = ({
         <div className="mb-4 md:flex md:justify-between">
           <div className="mb-4 md:mr-2 md:mb-0">
             <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
+              Manufacturing Price*
+            </label>
+            <input
+              className={className}
+              id="manfPrice"
+              placeholder="150"
+              name="manfPrice"
+              type="number"
+              required
+              defaultValue={initialVlaues?.manfPrice}
+            />
+          </div>
+          <div className="mb-4 md:mr-2 md:mb-0">
+            <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
+              Length (cm)
+            </label>
+            <input
+              className={className}
+              id="length"
+              placeholder="0"
+              name="length"
+              type="number"
+              defaultValue={initialVlaues?.length}
+            />
+          </div>
+        </div>
+
+        <div className="mb-4 md:flex md:justify-between">
+          <div className="mb-4 md:mr-2 md:mb-0">
+            <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
               Price Before
             </label>
             <input
@@ -153,11 +183,9 @@ const ProductForm = ({
               id="oldPrice"
               placeholder="250"
               name="oldPrice"
+              type="number"
               defaultValue={initialVlaues?.oldPrice}
             />
-            {/* <p className="text-xs italic text-red-700  dark:text-red-400">
-            Please choose a price.
-          </p> */}
           </div>
           <div className="md:ml-2">
             <label className="block mb-2 text-sm font-bold text-gray-700 dark:text-white">
@@ -168,6 +196,7 @@ const ProductForm = ({
               id="price_after"
               placeholder="180"
               name="price"
+              type="number"
               defaultValue={initialVlaues?.price}
             />
           </div>
@@ -180,6 +209,7 @@ const ProductForm = ({
               id="count"
               placeholder="0"
               name="count"
+              type="number"
               defaultValue={initialVlaues?.count}
             />
           </div>
