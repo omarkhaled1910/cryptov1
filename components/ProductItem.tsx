@@ -59,7 +59,7 @@ const ProductItem = ({ product }: { product: IProduct }) => {
         className="relative  flex h-80 overflow-hidden rounded-xl"
       >
         <Image
-          className="object-contain"
+          className="object-cover"
           src={product?.images?.[0] || "/s.webp"}
           alt={product.name}
           fill
