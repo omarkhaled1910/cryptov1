@@ -33,7 +33,11 @@ const ProducImagesViewer = ({ images }: { images?: string[] }) => {
             key={url}
             src={url}
             alt={url}
-            className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
+            className={`size-16 sm:size-20 object-cover rounded-md opacity-60 hover:opacity-100 transition duration-300 ${
+              currentImage === url
+                ? "opacity-100"
+                : "opacity-60 cursor-pointer "
+            }`}
             onClick={() => setcurrentImage(url)}
             width={100}
             height={100}

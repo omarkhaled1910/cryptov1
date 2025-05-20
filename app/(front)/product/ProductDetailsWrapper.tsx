@@ -18,6 +18,8 @@ const ProductDetailsWrapper = ({ product }: { product: IProduct }) => {
     return Math.floor(Math.random() * 4) + 3;
   };
   console.log(product, "product");
+  const productCount = product.count ?? 0;
+
   const percentSale =
     product?.oldPrice &&
     Math.round(((product?.oldPrice - product.price) / product?.oldPrice) * 100);
@@ -43,6 +45,11 @@ const ProductDetailsWrapper = ({ product }: { product: IProduct }) => {
             <p className="text-destructive bg-destructive-foreground  w-max  px-6 py-1 rounded-full mb-4 bg-se">
               - {percentSale}%
             </p>
+            {productCount < 5 && (
+              <p className="text-destructive bg-destructive-foreground  w-max  px-6 py-1 rounded-full mb-4 bg-se">
+                Only {productCount} left
+              </p>
+            )}
           </div>
 
           <h2 className={`text-4xl  mb-2 ${meow.className}`}>{product.name}</h2>
@@ -58,7 +65,7 @@ const ProductDetailsWrapper = ({ product }: { product: IProduct }) => {
           <div className="mb-4">
             <RatingStars rating={generateRandomRating()} />
           </div>
-          <p className="text-gray-700 mb-6">
+          <p className=" text-destructive-foreground mb-6">
             {product.description ||
               " Experience premium sound quality and industry-leading noisecancellation with these wireless headphones. Perfect for musiclovers and frequent travelers."}
           </p>

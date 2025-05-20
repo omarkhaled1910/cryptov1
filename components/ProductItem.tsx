@@ -51,16 +51,15 @@ const ProductItem = ({ product }: { product: IProduct }) => {
 
     dispatch({ type: "ADD_ITEM", payload: product });
   };
-  console.log(percentSale, product);
 
   return (
     <div className=" h-full justify-between hover:shadow-lg hover:scale-105 transition-all duration-400 relative flex w-full max-w-md flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 group">
       <Link
         href={`/product/${product.id}`}
-        className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
+        className="relative  flex h-80 overflow-hidden rounded-xl"
       >
         <Image
-          className="object-cover"
+          className="object-contain"
           src={product?.images?.[0] || "/s.webp"}
           alt={product.name}
           fill
